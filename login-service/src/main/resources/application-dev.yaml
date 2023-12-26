@@ -1,0 +1,19 @@
+mysql:
+  jdbc:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hosp_mgmt
+    username: root
+    password: dudkrish1A
+
+jwt:
+  app:
+    secret: AvHGRK8C0ia4uOuxxqPD5DTbWC9F9TWvPStp3pb7ARo0oK2mJ3pd3YG4lxA9i8bj6OTbadweheufHNyG
+    expirationMs: 86400000
+
+eureka:
+  client:
+    #register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+login:
+  url: http://localhost:8085
