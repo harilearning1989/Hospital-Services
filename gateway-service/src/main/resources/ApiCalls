@@ -1,0 +1,12 @@
+curl --location --request GET 'http://localhost:8080/cars'
+
+curl --location --request POST 'http://localhost:8080/auth/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "a@a.com",
+    "password": "password",
+    "name": "name"
+}'
+
+curl --location --request GET 'http://localhost:8080/cars' \
+--header 'Authorization: <TOKEN>'
