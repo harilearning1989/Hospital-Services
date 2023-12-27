@@ -8,10 +8,10 @@
 		<version>3.2.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.hosp.patient</groupId>
-	<artifactId>patient-service</artifactId>
+	<groupId>com.web.report</groupId>
+	<artifactId>report-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Patient</name>
+	<name>Report</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>20</java.version>
@@ -67,10 +67,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
 		</dependency>
 		
 		<!--

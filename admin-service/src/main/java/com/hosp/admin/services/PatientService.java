@@ -1,20 +1,18 @@
 package com.hosp.admin.services;
 
-import com.hosp.admin.dtos.PatientDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import com.hosp.admin.records.Patient;
 
 import java.util.Date;
 import java.util.List;
 
 public interface PatientService {
 
-    PatientDTO registerPatient(PatientDTO patientDTO);
+    Patient registerPatient(Patient patientDTO);
 
-    List<PatientDTO> listAllPatientDetails();
-    PatientDTO getPatientById(int id);
+    List<Patient> listAllPatientDetails();
+    Patient getPatientById(int id);
 
-    PatientDTO updatePatient(int id,PatientDTO dto);
+    Patient updatePatient(int id,Patient dto);
 
     String deleteById(int id);
 

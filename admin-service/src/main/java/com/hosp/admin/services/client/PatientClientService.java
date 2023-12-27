@@ -1,6 +1,7 @@
 package com.hosp.admin.services.client;
 
-import com.hosp.admin.dtos.PatientDTO;
+import com.hosp.admin.records.Patient;
+import com.hosp.admin.records.PatientResponse;
 import com.web.demo.response.EmpResponseRec;
 import com.web.demo.response.EmpSingleResponseRec;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +12,13 @@ import org.springframework.web.service.annotation.HttpExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @HttpExchange(url = "", accept = "application/json", contentType = "application/json")
 public interface PatientClientService {
+
+    @GetExchange("patient/list")
+    PatientResponse listAllPatientDetails();
+    @GetExchange("/patient/{id}")
+    Patient getPatientById(@PathVariable("id") int id);
 
     @GetExchange("/employees")
     Flux<EmpResponseRec> getAll();
@@ -30,11 +34,6 @@ public interface PatientClientService {
 
     @DeleteExchange("/{id}")
     Mono<ResponseEntity<Void>> delete(@PathVariable Long id);
-
-    @GetExchange("patients")
-    List<PatientDTO> listAllPatientDetails();
-    @GetExchange("/patient/{id}")
-    PatientDTO getPatientById(@PathVariable("id") int id);
 
    /* Http Exchange annotations
     @HttpExchange annotation is given at the interface level and it applies to all the methods. We can also attach an endpoint to this annotation as seen in the url property.

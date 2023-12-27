@@ -1,6 +1,7 @@
 package com.hosp.admin.services;
 
-import com.hosp.admin.dtos.PatientDTO;
+import com.hosp.admin.records.Patient;
+import com.hosp.admin.records.PatientResponse;
 import com.hosp.admin.services.client.PatientClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,22 +21,23 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public PatientDTO registerPatient(PatientDTO patientDTO) {
+    public Patient registerPatient(Patient patientDTO) {
         return null;
     }
 
     @Override
-    public PatientDTO getPatientById(int id) {
+    public Patient getPatientById(int id) {
         return patientClientService.getPatientById(id);
     }
 
     @Override
-    public List<PatientDTO> listAllPatientDetails() {
-        return patientClientService.listAllPatientDetails();
+    public List<Patient> listAllPatientDetails() {
+        PatientResponse response=patientClientService.listAllPatientDetails();
+        return response.data();
     }
 
     @Override
-    public PatientDTO updatePatient(int id, PatientDTO dto) {
+    public Patient updatePatient(int id, Patient dto) {
         return null;
     }
 

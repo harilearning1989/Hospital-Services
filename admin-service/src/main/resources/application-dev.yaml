@@ -6,7 +6,25 @@ mysql:
     password: dudkrish1A
 
 eureka:
+  instance:
+    instanceId: ${spring.application.name}
+    hostname: ${spring.application.name}
+    preferIpAddress: false
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
   client:
-    #register-with-eureka: false
-    service-url:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      #register-with-eureka: false
       defaultZone: http://localhost:8761/eureka/
+
+login:
+  url: http://localhost:8083
+
+patient:
+  header:
+    key: DevKey
+    value: DevValue
+  rest:
+    url: http://PATIENT-SERVICE/

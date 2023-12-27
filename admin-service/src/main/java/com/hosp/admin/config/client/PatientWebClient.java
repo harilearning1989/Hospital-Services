@@ -17,9 +17,9 @@ public class PatientWebClient {
 
     @Value("${patient.rest.url}")
     private String patientUrl;
-    @Value("${patient.rest.header.key}")
+    @Value("${patient.header.key}")
     private String headerKey;
-    @Value("${patient.rest.header.value}")
+    @Value("${patient.header.value}")
     private String headerValue;
 
     @Bean

@@ -1,0 +1,19 @@
+Working fine
+colima start --memory 4 --arch x86_64
+
+docker pull gvenzl/oracle-xe:21
+
+docker run \
+--name oracle_db \
+-e ORACLE_PASSWORD=dudkrish1A \
+-p 1521:1521 \
+-p 5500:5500 \
+gvenzl/oracle-xe:21
+
+localhost
+1521
+XE service name
+sys SYSDBA
+dudkrish1A
+
+docker exec -it 5615eeddc0ab bash

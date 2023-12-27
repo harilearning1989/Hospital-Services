@@ -65,7 +65,19 @@ public class PatientRestController {
     }
 
     @GetMapping("list")
-    public ResponseEntity<GlobalResponse> listAllPatientDetails(){
+    public GlobalResponse listAllPatientDetails(){
+        List<PatientDTO> patientList = patientService.listAllPatientDetails();
+        GlobalResponse globalResponse = GlobalResponse.builder()
+                .message("Successfully fetched Patient Data")
+                .status(HttpStatus.OK.value())
+                .size(patientList.size())
+                .data(patientList)
+                .build();
+        return globalResponse;
+    }
+
+    @GetMapping("listTmp")
+    public ResponseEntity<GlobalResponse> listAllPatientDetailsTmp(){
         List<PatientDTO> patientList = patientService.listAllPatientDetails();
         return ResponseHandler.generateResponseList(null,HttpStatus.OK, patientList);
     }
