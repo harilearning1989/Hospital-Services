@@ -6,6 +6,8 @@ mysql:
     password: dudkrish1A
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     #register-with-eureka: false
     service-url:

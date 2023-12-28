@@ -28,6 +28,7 @@ patient:
     value: DevValue
   rest:
     url: http://PATIENT-SERVICE/
+    urlLocal: http://localhost:8084/
 
 emp:
   rest:
