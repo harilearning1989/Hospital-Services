@@ -29,6 +29,9 @@ public class SpringCloudGatewayRouting {
         return builder.routes()
                 .route("login", r -> r.path("/auth/**").uri("lb://LOGIN-SERVICE"))
                 .route("patient", r -> r.path("/patient/**").uri("lb://PATIENT-SERVICE"))
+                .route("doctor", r -> r.path("/doctor/**").uri("lb://DOCTOR-SERVICE"))
+                .route("report", r -> r.path("/report/**").uri("lb://REPORT-SERVICE"))
+                .route("admin", r -> r.path("/admin/**").uri("lb://ADMIN-SERVICE"))
                 .route("dental", r -> r.path("/dental/**").uri("lb://DENTAL-SERVICE"))
                 .route("general", r -> r.path("/general/**").uri("lb://GENERAL-SERVICE"))
                 .route("billing",
