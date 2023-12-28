@@ -2,8 +2,6 @@ package com.hosp.admin.controls;
 
 import com.hosp.admin.records.Patient;
 import com.hosp.admin.records.PatientResponse;
-import com.hosp.admin.response.GlobalResponse;
-import com.hosp.admin.response.ResponseHandler;
 import com.hosp.admin.services.PatientService;
 import com.hosp.admin.services.client.PatientClientService;
 import com.web.demo.constants.CommonConstants;
@@ -12,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -26,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("admin")
+@RequestMapping("admin/patient")
 @CrossOrigin(origins = "*")
 public class PatientRestController {
 
@@ -54,21 +51,19 @@ public class PatientRestController {
     }
 
     @GetMapping("list")
-    public ResponseEntity<GlobalResponse> listAllPatientDetails() {
+    public PatientResponse listAllPatientDetails() {
         LOGGER.info("Inside listAllPatientDetails");
-        List<Patient> patientList = patientService.listAllPatientDetails();
-        return ResponseHandler.generateResponseList(null, HttpStatus.OK, patientList);
+        return patientService.listAllPatientDetails();
     }
 
     @GetMapping("listTemp")
-    public ResponseEntity<GlobalResponse> listAllPatientDetailsTemp() {
+    public PatientResponse listAllPatientDetailsTemp() {
         LOGGER.info("Inside listAllPatientDetailsTemp");
-        PatientResponse response = patientClientService.listAllPatientDetails();
-        return ResponseHandler.generateResponseList(null, HttpStatus.OK, response.data());
+        return patientClientService.listAllPatientDetails();
     }
 
     @GetMapping("listWebClient")
-    public ResponseEntity<GlobalResponse> listAllPatientDetailsWebClient() {
+    public PatientResponse listAllPatientDetailsWebClient() {
         LOGGER.info("Inside listAllPatientDetailsWebClient");
         Mono<PatientResponse> result = webClientBuilder.baseUrl(patientBaseUrl)
                 .build()
@@ -81,16 +76,17 @@ public class PatientRestController {
         PatientResponse response = result.block();
         List<Patient> patientList = response.data();
 
-        return ResponseHandler.generateResponseList(null, HttpStatus.OK, patientList);
+        return response;
     }
 
     @GetMapping("listRestTemplate")
-    public ResponseEntity<GlobalResponse> listAllPatientDetailsRestTemplate() {
+    public PatientResponse listAllPatientDetailsRestTemplate() {
         LOGGER.info("Inside listAllPatientDetailsRestTemplate");
         ResponseEntity<PatientResponse> response =
                 restTemplate.getForEntity(patientBaseUrl+"patient/list", PatientResponse.class);
         List<Patient> patientList = response.getBody().data();
-        return ResponseHandler.generateResponseList(null, HttpStatus.OK, patientList);
+        PatientResponse patientResponse=  response.getBody();
+        return patientResponse;
     }
 
     /*@GetMapping("list1")
@@ -103,16 +99,12 @@ public class PatientRestController {
     }*/
 
     @PostMapping("/create")
-    public ResponseEntity<GlobalResponse> registerPatient(@Valid @RequestBody Patient patient) {
-        patient = patientService.registerPatient(patient);
-        return ResponseHandler.generateResponse(
-                String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT,
-                        patient.firstName() + " " + patient.lastName()), HttpStatus.CREATED, patient);
+    public Patient registerPatient(@Valid @RequestBody Patient patient) {
+        return patientService.registerPatient(patient);
     }
 
     @PostMapping("register")
-    public ResponseEntity<GlobalResponse> registerPatientTemp(
+    public Patient registerPatientTemp(
             @Valid @RequestBody Patient patient, BindingResult bindingResult) {
 
         /*if (bindingResult.hasErrors()){
@@ -125,11 +117,7 @@ public class PatientRestController {
             globalResponse.setErrors(allErrors);
             return new ResponseEntity<>(globalResponse);
         }*/
-        patient = patientService.registerPatient(patient);
-        return ResponseHandler.generateResponse(
-                String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT, patient.firstName() + " " +
-                                patient.lastName()), HttpStatus.OK, patient);
+        return patientService.registerPatient(patient);
     }
 
 
@@ -140,18 +128,14 @@ public class PatientRestController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<GlobalResponse> updatePatient(@PathVariable("id") int id, @RequestBody Patient dto) {
-        dto = patientService.updatePatient(id, dto);
-        return ResponseHandler.generateResponse(
-                String.format(CommonConstants.UPDATED_SUCCESS, CommonConstants.PATIENT,
-                        dto.firstName() + CommonConstants.SINGLE_SPACE + dto.lastName()), HttpStatus.OK, dto);
+    public Patient updatePatient(@PathVariable("id") int id, @RequestBody Patient dto) {
+        return patientService.updatePatient(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<GlobalResponse> deleteTutorial(@PathVariable("id") int id) {
+    public String deleteTutorial(@PathVariable("id") int id) {
         String patientName = patientService.deleteById(id);
-        return ResponseHandler.generateResponse(
-                String.format(CommonConstants.DELETED_SUCCESS, CommonConstants.PATIENT, patientName), HttpStatus.OK, null);
+        return String.format(CommonConstants.DELETED_SUCCESS, CommonConstants.PATIENT, patientName);
     }
 
     @GetMapping("count")

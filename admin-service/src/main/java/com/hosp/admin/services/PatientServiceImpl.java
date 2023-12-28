@@ -31,9 +31,8 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public List<Patient> listAllPatientDetails() {
-        PatientResponse response=patientClientService.listAllPatientDetails();
-        return response.data();
+    public PatientResponse listAllPatientDetails() {
+        return patientClientService.listAllPatientDetails();
     }
 
     @Override

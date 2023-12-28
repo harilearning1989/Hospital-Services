@@ -1,4 +1,4 @@
-package com.hosp.admin.response;
+package com.hosp.doctor.response;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ResponseHandler {
-    public static ResponseEntity<GlobalResponse> generateResponse(String message, HttpStatus status, Object data) {
+    public static GlobalResponse generateResponse(String message, HttpStatus status, Object data) {
         GlobalResponse globalResponse = GlobalResponse.builder()
                 .message(message)
                 .status(status.value())
@@ -19,10 +19,10 @@ public class ResponseHandler {
             globalResponse.setData(Arrays.asList(data));
             globalResponse.setSize(globalResponse.getData().size());
         }
-        return new ResponseEntity<>(globalResponse, status);
+        return globalResponse;
     }
 
-    public static ResponseEntity<GlobalResponse> generateResponseList(String message, HttpStatus status, List<?> data) {
+    public static GlobalResponse generateResponseList(String message, HttpStatus status, List<?> data) {
         GlobalResponse globalResponse = GlobalResponse.builder()
                 .message(message)
                 .status(status.value())
@@ -30,7 +30,7 @@ public class ResponseHandler {
                 .data(data)
                 .build();
 
-        return new ResponseEntity<>(globalResponse, status);
+        return globalResponse;
     }
 
     public static ResponseEntity<GlobalResponse> generateErrorResponse(

@@ -1,5 +1,6 @@
 package com.hosp.admin.config.client;
 
+import com.hosp.admin.services.client.DoctorClientService;
 import com.hosp.admin.services.client.EmployeeClientService;
 import com.hosp.admin.services.client.PatientClientService;
 import com.web.demo.config.client.HospitalWebClient;
@@ -29,12 +30,25 @@ public class WebClientConfig {
     private String patientUrl;
     @Value("${patient.rest.urlLocal}")
     private String patientUrlLocal;
+    @Value("${doctor.rest.url}")
+    private String doctorUrl;
+    @Value("${doctor.rest.urlLocal}")
+    private String doctorUrlLocal;
     @Value("${patient.header.key}")
     private String headerKey;
     @Value("${patient.header.value}")
     private String headerValue;
     @Value("${emp.rest.url}")
     private String empUrl;
+
+    @Bean
+    @LoadBalanced
+    public DoctorClientService doctorClientService(){
+        Map<String,String> headersMap = new HashMap<>();
+        headersMap.put(headerKey,headerValue);
+        return new HospitalWebClient()
+                .createClient(DoctorClientService.class,doctorUrlLocal,headersMap);
+    }
 
     @Bean
     @LoadBalanced

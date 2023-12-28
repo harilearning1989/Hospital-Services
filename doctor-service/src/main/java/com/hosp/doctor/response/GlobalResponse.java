@@ -1,4 +1,4 @@
-package com.hosp.admin.response;
+package com.hosp.doctor.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

@@ -1,15 +1,15 @@
 package com.hosp.admin.services;
 
 import com.hosp.admin.records.Patient;
+import com.hosp.admin.records.PatientResponse;
 
 import java.util.Date;
-import java.util.List;
 
 public interface PatientService {
 
     Patient registerPatient(Patient patientDTO);
 
-    List<Patient> listAllPatientDetails();
+    PatientResponse listAllPatientDetails();
     Patient getPatientById(int id);
 
     Patient updatePatient(int id,Patient dto);

@@ -30,6 +30,14 @@ patient:
     url: http://PATIENT-SERVICE/
     urlLocal: http://localhost:8084/
 
+doctor:
+  header:
+    key: DevKey
+    value: DevValue
+  rest:
+    url: http://DOCTOR-SERVICE/
+    urlLocal: http://localhost:8085/
+
 emp:
   rest:
     url: https://dummy.restapiexample.com/api/v1/
