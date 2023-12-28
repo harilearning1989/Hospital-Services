@@ -5,16 +5,22 @@ import com.hosp.admin.records.PatientResponse;
 import com.hosp.admin.response.GlobalResponse;
 import com.hosp.admin.response.ResponseHandler;
 import com.hosp.admin.services.PatientService;
+import com.hosp.admin.services.client.PatientClientService;
 import com.web.demo.constants.CommonConstants;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +30,16 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PatientRestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientRestController.class);
+
+    @Value("${patient.rest.url}")
+    private String patientBaseUrl;
+    @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
+    private WebClient.Builder webClientBuilder;
     private PatientService patientService;
+    private PatientClientService patientClientService;
 
     @Autowired
     public PatientRestController setPatientService(PatientService patientService) {
@@ -33,19 +48,49 @@ public class PatientRestController {
     }
 
     @Autowired
-    private RestTemplate restTemplate;
+    public PatientRestController setPatientClientService(PatientClientService patientClientService) {
+        this.patientClientService = patientClientService;
+        return this;
+    }
 
     @GetMapping("list")
-    public ResponseEntity<GlobalResponse> listAllPatientDetails() throws URISyntaxException {
+    public ResponseEntity<GlobalResponse> listAllPatientDetails() {
+        LOGGER.info("Inside listAllPatientDetails");
         List<Patient> patientList = patientService.listAllPatientDetails();
-        return ResponseHandler.generateResponseList(null,HttpStatus.OK, patientList);
+        return ResponseHandler.generateResponseList(null, HttpStatus.OK, patientList);
     }
+
+    @GetMapping("listTemp")
+    public ResponseEntity<GlobalResponse> listAllPatientDetailsTemp() {
+        LOGGER.info("Inside listAllPatientDetailsTemp");
+        PatientResponse response = patientClientService.listAllPatientDetails();
+        return ResponseHandler.generateResponseList(null, HttpStatus.OK, response.data());
+    }
+
+    @GetMapping("listWebClient")
+    public ResponseEntity<GlobalResponse> listAllPatientDetailsWebClient() {
+        LOGGER.info("Inside listAllPatientDetailsWebClient");
+        Mono<PatientResponse> result = webClientBuilder.baseUrl(patientBaseUrl)
+                .build()
+                .get()
+                .uri("patient/list")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(PatientResponse.class);
+
+        PatientResponse response = result.block();
+        List<Patient> patientList = response.data();
+
+        return ResponseHandler.generateResponseList(null, HttpStatus.OK, patientList);
+    }
+
     @GetMapping("listRestTemplate")
-    public ResponseEntity<GlobalResponse> listAllPatientDetailsRestTemplate() throws URISyntaxException {
+    public ResponseEntity<GlobalResponse> listAllPatientDetailsRestTemplate() {
+        LOGGER.info("Inside listAllPatientDetailsRestTemplate");
         ResponseEntity<PatientResponse> response =
-                restTemplate.getForEntity("http://PATIENT-SERVICE/patient/list", PatientResponse.class);
+                restTemplate.getForEntity(patientBaseUrl+"patient/list", PatientResponse.class);
         List<Patient> patientList = response.getBody().data();
-        return ResponseHandler.generateResponseList(null,HttpStatus.OK, patientList);
+        return ResponseHandler.generateResponseList(null, HttpStatus.OK, patientList);
     }
 
     /*@GetMapping("list1")
@@ -63,11 +108,12 @@ public class PatientRestController {
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
                         CommonConstants.PATIENT,
-                        patient.firstName()+" "+patient.lastName()), HttpStatus.CREATED, patient);
+                        patient.firstName() + " " + patient.lastName()), HttpStatus.CREATED, patient);
     }
+
     @PostMapping("register")
     public ResponseEntity<GlobalResponse> registerPatientTemp(
-            @Valid @RequestBody Patient patient, BindingResult bindingResult){
+            @Valid @RequestBody Patient patient, BindingResult bindingResult) {
 
         /*if (bindingResult.hasErrors()){
             System.out.println("errors");
@@ -82,24 +128,23 @@ public class PatientRestController {
         patient = patientService.registerPatient(patient);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT,patient.firstName()+" "+
+                        CommonConstants.PATIENT, patient.firstName() + " " +
                                 patient.lastName()), HttpStatus.OK, patient);
     }
 
 
-
     @GetMapping("byId")
-    public Patient getPatientById(@RequestParam("id") int id){
+    public Patient getPatientById(@RequestParam("id") int id) {
         Patient patient = patientService.getPatientById(id);
         return patient;
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<GlobalResponse> updatePatient(@PathVariable("id") int id, @RequestBody Patient dto) {
-        dto = patientService.updatePatient(id,dto);
+        dto = patientService.updatePatient(id, dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.UPDATED_SUCCESS, CommonConstants.PATIENT,
-                        dto.firstName()+CommonConstants.SINGLE_SPACE+dto.lastName()), HttpStatus.OK, dto);
+                        dto.firstName() + CommonConstants.SINGLE_SPACE + dto.lastName()), HttpStatus.OK, dto);
     }
 
     @DeleteMapping("/delete/{id}")

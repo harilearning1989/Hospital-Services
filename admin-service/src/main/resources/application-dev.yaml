@@ -28,3 +28,10 @@ patient:
     value: DevValue
   rest:
     url: http://PATIENT-SERVICE/
+
+emp:
+  rest:
+    url: https://dummy.restapiexample.com/api/v1/
+    header:
+      key: DevKey
+      value: DevValue

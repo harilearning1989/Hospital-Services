@@ -18,12 +18,6 @@ import org.springframework.web.client.RestTemplate;
 @PropertySource("classpath:common-service-${spring.profiles.active}.properties")
 public class AdminApplication {
 
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(AdminApplication.class, args);
 	}

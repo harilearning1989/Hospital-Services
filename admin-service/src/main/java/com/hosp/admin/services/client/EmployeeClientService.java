@@ -1,4 +1,4 @@
-package com.web.demo.services;
+package com.hosp.admin.services.client;
 
 import com.web.demo.response.EmpResponseRec;
 import com.web.demo.response.EmpSingleResponseRec;
