@@ -1,10 +1,3 @@
-mysql:
-  jdbc:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hosp_mgmt
-    username: root
-    password: dudkrish1A
-
 eureka:
   client:
     register-with-eureka: true
