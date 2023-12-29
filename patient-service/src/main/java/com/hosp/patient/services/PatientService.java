@@ -1,7 +1,7 @@
 package com.hosp.patient.services;
 
-import com.hosp.patient.dtos.PatientDTO;
 import com.hosp.patient.models.Patient;
+import com.hosp.patient.records.PatientRec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -9,11 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 public interface PatientService {
-    PatientDTO registerPatient(PatientDTO patientDTO);
+    PatientRec registerPatient(PatientRec patientDTO);
 
-    List<PatientDTO> listAllPatientDetails();
+    List<PatientRec> listAllPatientDetails();
 
-    PatientDTO updatePatient(int id,PatientDTO dto);
+    PatientRec updatePatient(int id,PatientRec dto);
 
     String deleteById(int id);
 

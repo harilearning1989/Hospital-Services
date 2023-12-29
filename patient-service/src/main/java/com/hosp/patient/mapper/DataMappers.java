@@ -1,13 +1,13 @@
 package com.hosp.patient.mapper;
 
-import com.hosp.patient.dtos.PatientDTO;
 import com.hosp.patient.models.Patient;
+import com.hosp.patient.records.PatientRec;
 
 public interface DataMappers {
-    Patient patientDtoToEntity(PatientDTO dto);
+    Patient patientDtoToEntity(PatientRec dto);
 
-    PatientDTO patientEntityToDto(Patient patient);
+    PatientRec patientEntityToDto(Patient patient);
 
-    void updatePatientDetails(Patient patient, PatientDTO dto);
+    void updatePatientDetails(Patient patient, PatientRec dto);
 
 }

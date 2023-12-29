@@ -31,7 +31,7 @@ public class Patient {
     @Column(name = "PASSWORD")
     private String password;
     @Column(name = "CONTACT")
-    private int contact;
+    private long contact;
     @Column(name = "AGE")
     private int age;
     @Column(name = "EMAIL")

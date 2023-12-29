@@ -1,0 +1,480 @@
+{
+	"info": {
+		"_postman_id": "fc31865d-31df-4344-9410-85505bf929b8",
+		"name": "Hosp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29947988"
+	},
+	"item": [
+		{
+			"name": "auth/signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"Rohan\",\n    \"password\":\"123456\",\n    \"email\":\"rohan.duddukunta@gmail.com\",\n    \"phone\":\"9494968081\",\n    \"role\": [\"user\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth/signing",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"Mouni\",\n    \"password\":\"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/auth/signing",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"auth",
+						"signing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gateway/auth/signing",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"Mouni\",\n    \"password\":\"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8086/auth/signing",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"auth",
+						"signing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gateway/auth/signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"Vinod\",\n    \"password\":\"123456\",\n    \"email\":\"vinod@gmail.com\",\n    \"phone\":\"9494968081\",\n    \"role\": [\"doctor\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8086/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patient/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"HARI\",\n    \"lastName\":\"DUDDU\",\n    \"username\":\"HARI123\",\n    \"password\":\"123\",\n    \"contact\":\"9494\",\n    \"age\":35,\n    \"email\":\"hari.dudd@gmail.com\",\n    \"gender\":\"male\",\n    \"bloodGroup\":\"B+\",\n    \"address\":\"ATP\",\n    \"city\":\"PTP\",\n    \"pincode\":56087\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/patient/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"patient",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patient/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8084/patient/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"patient",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gateway/patient/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/patient/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"patient",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gateway/patient/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"HARI\",\n    \"lastName\":\"DUDDU\",\n    \"username\":\"HARI123\",\n    \"password\":\"123\",\n    \"contact\":\"9494\",\n    \"age\":35,\n    \"email\":\"hari.dudd@gmail.com\",\n    \"gender\":\"male\",\n    \"bloodGroup\":\"B+\",\n    \"address\":\"ATP\",\n    \"city\":\"PTP\",\n    \"pincode\":56087\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/patient/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"patient",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin/patient/listRestTemplate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/admin/patient/listRestTemplate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"admin",
+						"patient",
+						"listRestTemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin/patient/listWebClient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/admin/patient/listWebClient",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"admin",
+						"patient",
+						"listWebClient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8083/admin/emp/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/admin/emp/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"admin",
+						"emp",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "doctor/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"HARI\",\n    \"lastName\":\"DUDDU\",\n    \"username\":\"HARI123\",\n    \"password\":\"123\",\n    \"contact\":\"9494\",\n    \"specialist\":\"Dentist\",\n    \"experience\":\"2 years\",\n    \"age\":35,\n    \"email\":\"hari.dudd@gmail.com\",\n    \"gender\":\"male\",\n    \"bloodGroup\":\"B+\",\n    \"address\":\"ATP\",\n    \"city\":\"PTP\",\n    \"pincode\":56087\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/doctor/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"doctor",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "doctor/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/doctor/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"doctor",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "doctor/update/2",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"HARI\",\n    \"lastName\":\"DUDDUK\",\n    \"username\":\"HARI123\",\n    \"password\":\"1234\",\n    \"contact\":\"949496\",\n    \"specialist\":\"ENT\",\n    \"experience\":\"3 years\",\n    \"age\":35,\n    \"email\":\"hari.duddukunta@gmail.com\",\n    \"gender\":\"male\",\n    \"bloodGroup\":\"B+\",\n    \"address\":\"PTP\",\n    \"city\":\"PTP\",\n    \"pincode\":56087\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8085/doctor/update/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"doctor",
+						"update",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "doctor/delete/2",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/doctor/delete/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"doctor",
+						"delete",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin/patient/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/admin/patient/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"admin",
+						"patient",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin/doctor/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/admin/doctor/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"admin",
+						"doctor",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patient/update/2",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"HARI\",\n    \"lastName\":\"reddy\",\n    \"username\":\"HARI123\",\n    \"password\":\"1234\",\n    \"contact\":\"9494968081\",\n    \"age\":35,\n    \"email\":\"hari.duddukunta@gmail.com\",\n    \"gender\":\"male\",\n    \"bloodGroup\":\"B+\",\n    \"address\":\"PTP\",\n    \"city\":\"PTP\",\n    \"pincode\":56087\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/patient/update/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"patient",
+						"update",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patient/delete/6",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8084/patient/delete/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"patient",
+						"delete",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

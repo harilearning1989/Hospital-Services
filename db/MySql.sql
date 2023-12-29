@@ -9,7 +9,7 @@ CREATE TABLE HOSP_MGMT.PATIENT_DETAILS(
     last_Name VARCHAR(20),
     username VARCHAR(20) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    contact int,
+    contact bigint,
     age int,
     email VARCHAR(40),
     gender VARCHAR(6),

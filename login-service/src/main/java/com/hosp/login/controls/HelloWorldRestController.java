@@ -1,8 +1,8 @@
 package com.hosp.login.controls;
 
+import com.hosp.login.services.client.EmployeeClientService;
 import com.web.demo.response.EmpResponseRec;
 import com.web.demo.response.EmpSingleResponseRec;
-import com.web.demo.services.EmployeeClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

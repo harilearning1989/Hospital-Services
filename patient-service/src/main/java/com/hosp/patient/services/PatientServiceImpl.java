@@ -1,8 +1,8 @@
 package com.hosp.patient.services;
 
-import com.hosp.patient.dtos.PatientDTO;
 import com.hosp.patient.mapper.DataMappers;
 import com.hosp.patient.models.Patient;
+import com.hosp.patient.records.PatientRec;
 import com.hosp.patient.repos.PatientRepository;
 import com.web.demo.constants.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +33,14 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public PatientDTO registerPatient(PatientDTO dto) {
+    public PatientRec registerPatient(PatientRec dto) {
         Patient patient = dataMappers.patientDtoToEntity(dto);
         patient = patientRepository.save(patient);
         return dataMappers.patientEntityToDto(patient);
     }
 
     @Override
-    public List<PatientDTO> listAllPatientDetails() {
+    public List<PatientRec> listAllPatientDetails() {
         List<Patient> patientList = patientRepository.findAll();
         return Optional.ofNullable(patientList)
                 .orElseGet(Collections::emptyList)
@@ -51,7 +51,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public PatientDTO updatePatient(int id,PatientDTO dto) {
+    public PatientRec updatePatient(int id,PatientRec dto) {
         Optional<Patient> patientOpt = patientRepository.findById(id);
         if (patientOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,

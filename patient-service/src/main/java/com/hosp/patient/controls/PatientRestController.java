@@ -1,7 +1,7 @@
 package com.hosp.patient.controls;
 
-import com.hosp.patient.dtos.PatientDTO;
 import com.hosp.patient.models.Patient;
+import com.hosp.patient.records.PatientRec;
 import com.hosp.patient.repos.PatientRepository;
 import com.hosp.patient.response.GlobalResponse;
 import com.hosp.patient.response.ResponseHandler;
@@ -38,15 +38,15 @@ public class PatientRestController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<GlobalResponse> registerPatient(@Valid @RequestBody PatientDTO dto) {
+    public ResponseEntity<GlobalResponse> registerPatient(@Valid @RequestBody PatientRec dto) {
         dto = patientService.registerPatient(dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT,dto.getFirstName()+" "+dto.getLastName()), HttpStatus.CREATED, dto);
+                        CommonConstants.PATIENT,dto.firstName()+" "+dto.lastName()), HttpStatus.CREATED, dto);
     }
     @PostMapping("register")
     public ResponseEntity<GlobalResponse> registerPatientTemp(
-            @Valid @RequestBody PatientDTO dto, BindingResult bindingResult){
+            @Valid @RequestBody PatientRec dto, BindingResult bindingResult){
 
         /*if (bindingResult.hasErrors()){
             System.out.println("errors");
@@ -61,12 +61,12 @@ public class PatientRestController {
         dto = patientService.registerPatient(dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT,dto.getFirstName()+" "+dto.getLastName()), HttpStatus.OK, dto);
+                        CommonConstants.PATIENT,dto.firstName()+" "+dto.lastName()), HttpStatus.OK, dto);
     }
 
     @GetMapping("list")
     public GlobalResponse listAllPatientDetails(){
-        List<PatientDTO> patientList = patientService.listAllPatientDetails();
+        List<PatientRec> patientList = patientService.listAllPatientDetails();
         GlobalResponse globalResponse = GlobalResponse.builder()
                 .message("Successfully fetched Patient Data")
                 .status(HttpStatus.OK.value())
@@ -78,22 +78,25 @@ public class PatientRestController {
 
     @GetMapping("listTmp")
     public ResponseEntity<GlobalResponse> listAllPatientDetailsTmp(){
-        List<PatientDTO> patientList = patientService.listAllPatientDetails();
+        List<PatientRec> patientList = patientService.listAllPatientDetails();
         return ResponseHandler.generateResponseList(null,HttpStatus.OK, patientList);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<GlobalResponse> updatePatient(@PathVariable("id") int id, @RequestBody PatientDTO dto) {
+    public ResponseEntity<GlobalResponse> updatePatient(@PathVariable("id") int id, @RequestBody PatientRec dto) {
         dto = patientService.updatePatient(id,dto);
         return ResponseHandler.generateResponse(
-                String.format(CommonConstants.UPDATED_SUCCESS, CommonConstants.PATIENT,dto.getFirstName()+CommonConstants.SINGLE_SPACE+dto.getLastName()), HttpStatus.OK, dto);
+                String.format(CommonConstants.UPDATED_SUCCESS,
+                        CommonConstants.PATIENT,dto.firstName()+CommonConstants.SINGLE_SPACE
+                                +dto.lastName()), HttpStatus.OK, dto);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<GlobalResponse> deleteTutorial(@PathVariable("id") int id) {
         String patientName = patientService.deleteById(id);
         return ResponseHandler.generateResponse(
-                String.format(CommonConstants.DELETED_SUCCESS, CommonConstants.PATIENT, patientName), HttpStatus.OK, null);
+                String.format(CommonConstants.DELETED_SUCCESS,
+                        CommonConstants.PATIENT, patientName), HttpStatus.OK, null);
     }
 
     @GetMapping("count")
