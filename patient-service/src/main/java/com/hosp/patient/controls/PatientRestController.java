@@ -8,6 +8,8 @@ import com.hosp.patient.response.ResponseHandler;
 import com.hosp.patient.services.PatientService;
 import com.web.demo.constants.CommonConstants;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PatientRestController {
 
+    private static final Logger LOGGER= LoggerFactory.getLogger(PatientRestController.class);
     private PatientService patientService;
 
     @Autowired
@@ -38,16 +41,17 @@ public class PatientRestController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<GlobalResponse> registerPatient(@Valid @RequestBody PatientRec dto) {
+    public GlobalResponse registerPatient(@Valid @RequestBody PatientRec dto) {
+        LOGGER.info("registerPatient");
         dto = patientService.registerPatient(dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
                         CommonConstants.PATIENT,dto.firstName()+" "+dto.lastName()), HttpStatus.CREATED, dto);
     }
     @PostMapping("register")
-    public ResponseEntity<GlobalResponse> registerPatientTemp(
+    public GlobalResponse registerPatientTemp(
             @Valid @RequestBody PatientRec dto, BindingResult bindingResult){
-
+        LOGGER.info("registerPatientTemp");
         /*if (bindingResult.hasErrors()){
             System.out.println("errors");
             List<ObjectError> allErrors = bindingResult.getAllErrors();
@@ -65,8 +69,9 @@ public class PatientRestController {
     }
 
     @GetMapping("list")
-    public GlobalResponse listAllPatientDetails(){
-        List<PatientRec> patientList = patientService.listAllPatientDetails();
+    public GlobalResponse listAllPatients(){
+        LOGGER.info("listAllPatientDetails");
+        List<PatientRec> patientList = patientService.listAllPatients();
         GlobalResponse globalResponse = GlobalResponse.builder()
                 .message("Successfully fetched Patient Data")
                 .status(HttpStatus.OK.value())
@@ -77,13 +82,15 @@ public class PatientRestController {
     }
 
     @GetMapping("listTmp")
-    public ResponseEntity<GlobalResponse> listAllPatientDetailsTmp(){
-        List<PatientRec> patientList = patientService.listAllPatientDetails();
+    public GlobalResponse listAllPatientDetailsTmp(){
+        LOGGER.info("listAllPatientDetailsTmp");
+        List<PatientRec> patientList = patientService.listAllPatients();
         return ResponseHandler.generateResponseList(null,HttpStatus.OK, patientList);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<GlobalResponse> updatePatient(@PathVariable("id") int id, @RequestBody PatientRec dto) {
+    public GlobalResponse updatePatient(@PathVariable("id") int id, @RequestBody PatientRec dto) {
+        LOGGER.info("updatePatient");
         dto = patientService.updatePatient(id,dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.UPDATED_SUCCESS,
@@ -92,7 +99,8 @@ public class PatientRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<GlobalResponse> deleteTutorial(@PathVariable("id") int id) {
+    public GlobalResponse deleteTutorial(@PathVariable("id") int id) {
+        LOGGER.info("deleteTutorial");
         String patientName = patientService.deleteById(id);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.DELETED_SUCCESS,
@@ -101,6 +109,7 @@ public class PatientRestController {
 
     @GetMapping("count")
     public int findByExpiryDateBetween() throws Exception {
+        LOGGER.info("findByExpiryDateBetween");
         Date sellDate = new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-01");
         Date expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse("2024-06-01");
         int count = patientService.countByCreatedDateBetween(sellDate, expiryDate);
@@ -110,6 +119,7 @@ public class PatientRestController {
 
     @GetMapping("paging")
     private List<Patient> findAll() {
+        LOGGER.info("findAll");
         List<Patient> allEmployees = new ArrayList<>();
 
         // First page of employees -- 5000 results per page
@@ -137,7 +147,6 @@ public class PatientRestController {
 
         return allEmployees;
     }
-
 
    /* @DeleteMapping("/tutorials")
     public ResponseEntity<HttpStatus> deleteAllTutorials() {

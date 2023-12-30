@@ -2,7 +2,10 @@ package com.web.demo.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class HospitalUtils {
 
@@ -42,5 +45,34 @@ public class HospitalUtils {
         //return false if any of the input matches is not found
         else
             return false;
+    }
+
+    public static ArrayList<String> getTimeSet(boolean isCurrentDay) {
+        ArrayList results = new ArrayList<String>();
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        for (int i = 0; i < 9; i++) {
+            int n=15;
+            Calendar calendar = new GregorianCalendar();
+            if(!isCurrentDay)
+                calendar.set(Calendar.HOUR_OF_DAY, 9);
+            calendar.add(Calendar.HOUR_OF_DAY, -i );
+
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.add(Calendar.MINUTE, n);
+
+            calendar.set(Calendar.SECOND, 0);
+
+            String  day1 = sdf.format(calendar.getTime());
+            calendar.add(Calendar.HOUR, 0);
+            calendar.add(Calendar.MINUTE, n);
+
+            String day2 = sdf.format(calendar.getTime());
+
+            String day = day1 + " - " + day2;
+            results.add(i, day);
+            System.out.println(results);
+            n+=15;
+        }
+        return results;
     }
 }

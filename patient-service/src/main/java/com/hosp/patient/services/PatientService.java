@@ -11,7 +11,7 @@ import java.util.List;
 public interface PatientService {
     PatientRec registerPatient(PatientRec patientDTO);
 
-    List<PatientRec> listAllPatientDetails();
+    List<PatientRec> listAllPatients();
 
     PatientRec updatePatient(int id,PatientRec dto);
 

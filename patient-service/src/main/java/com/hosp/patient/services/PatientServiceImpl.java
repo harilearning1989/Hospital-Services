@@ -34,19 +34,19 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientRec registerPatient(PatientRec dto) {
-        Patient patient = dataMappers.patientDtoToEntity(dto);
+        Patient patient = dataMappers.recordToEntity(dto);
         patient = patientRepository.save(patient);
-        return dataMappers.patientEntityToDto(patient);
+        return dataMappers.entityToRecord(patient);
     }
 
     @Override
-    public List<PatientRec> listAllPatientDetails() {
+    public List<PatientRec> listAllPatients() {
         List<Patient> patientList = patientRepository.findAll();
         return Optional.ofNullable(patientList)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .filter(Objects::nonNull)
-                .map(m -> dataMappers.patientEntityToDto(m) )
+                .map(m -> dataMappers.entityToRecord(m) )
                 .toList();
     }
 
@@ -60,7 +60,7 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientOpt.get();
         dataMappers.updatePatientDetails(patient,dto);
         patient = patientRepository.save(patient);
-        return dataMappers.patientEntityToDto(patient);
+        return dataMappers.entityToRecord(patient);
     }
 
     @Override

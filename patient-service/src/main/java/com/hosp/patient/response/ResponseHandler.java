@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ResponseHandler {
-    public static ResponseEntity<GlobalResponse> generateResponse(String message, HttpStatus status, Object data) {
+    public static ResponseEntity<GlobalResponse> generateResponseTmp(String message, HttpStatus status, Object data) {
         GlobalResponse globalResponse = GlobalResponse.builder()
                 .message(message)
                 .status(status.value())
@@ -22,7 +22,20 @@ public class ResponseHandler {
         return new ResponseEntity<>(globalResponse, status);
     }
 
-    public static ResponseEntity<GlobalResponse> generateResponseList(String message, HttpStatus status, List<?> data) {
+    public static GlobalResponse generateResponse(String message, HttpStatus status, Object data) {
+        GlobalResponse globalResponse = GlobalResponse.builder()
+                .message(message)
+                .status(status.value())
+                .build();
+
+        if (data != null) {
+            globalResponse.setData(Arrays.asList(data));
+            globalResponse.setSize(globalResponse.getData().size());
+        }
+        return globalResponse;
+    }
+
+    public static ResponseEntity<GlobalResponse> generateResponseListTmp(String message, HttpStatus status, List<?> data) {
         GlobalResponse globalResponse = GlobalResponse.builder()
                 .message(message)
                 .status(status.value())
@@ -31,6 +44,17 @@ public class ResponseHandler {
                 .build();
 
         return new ResponseEntity<>(globalResponse, status);
+    }
+
+    public static GlobalResponse generateResponseList(String message, HttpStatus status, List<?> data) {
+        GlobalResponse globalResponse = GlobalResponse.builder()
+                .message(message)
+                .status(status.value())
+                .size(data.size())
+                .data(data)
+                .build();
+
+        return globalResponse;
     }
 
     public static ResponseEntity<GlobalResponse> generateErrorResponse(
