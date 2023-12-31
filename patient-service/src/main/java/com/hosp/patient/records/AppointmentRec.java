@@ -1,7 +1,5 @@
 package com.hosp.patient.records;
 
-import java.util.Date;
-
 public record AppointmentRec(
         int appId,
         int patientId,

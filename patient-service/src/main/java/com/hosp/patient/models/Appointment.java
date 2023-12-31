@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "APPOINTMENT")
+@Table(name = "APPOINTMENT_DETAILS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,10 +27,10 @@ public class Appointment {
     @Column(name = "DOCTOR_ID")
     private int doctorId;
     @Column(name = "CONSULTATION")
-    private int consultation;
+    private int consultationFees;
     @Column(name = "DESCRIPTION")
     private String description;
-    @Column(name = "CREATED _DATE")
+    @Column(name = "CREATED_DATE")
     private Date createdDate;
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;

@@ -21,6 +21,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     private DataMappers dataMappers;
 
     @Autowired
+    public AppointmentServiceImpl setDataMappers(DataMappers dataMappers) {
+        this.dataMappers = dataMappers;
+        return this;
+    }
+
+    @Autowired
     public AppointmentServiceImpl setAppointmentRepository(AppointmentRepository appointmentRepository) {
         this.appointmentRepository = appointmentRepository;
         return this;
@@ -30,6 +36,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentRec takeAppointment(AppointmentRec dto) {
         Appointment appointment = dataMappers.recordToEntity(dto);
         appointment = appointmentRepository.save(appointment);
+
         return dataMappers.entityToRecord(appointment);
     }
 

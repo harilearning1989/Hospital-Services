@@ -99,6 +99,8 @@ public class DataMappersImpl implements DataMappers {
         Appointment appointment = Appointment.builder()
                 .patientId(record.patientId())
                 .doctorId(record.doctorId())
+                .consultationFees(record.consultantFees())
+                .description(record.description())
                 .createdDate(new Date())
                 .updatedDate(new Date())
                 .appointmentDate(new Date())
@@ -122,7 +124,7 @@ public class DataMappersImpl implements DataMappers {
                 null,
                 null,
                 appointment.getDescription(),
-                appointment.getConsultation(),
+                appointment.getConsultationFees(),
                 createdDateTmp,
                 updatedDateTmp,
                 appointmentDateTmp);
@@ -134,7 +136,7 @@ public class DataMappersImpl implements DataMappers {
         appointment.setPatientId(record.patientId());
         appointment.setDoctorId(record.doctorId());
         appointment.setDescription(record.description());
-        appointment.setConsultation(record.consultantFees());
+        appointment.setConsultationFees(record.consultantFees());
     }
 
 }

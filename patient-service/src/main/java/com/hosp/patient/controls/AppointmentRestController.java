@@ -1,7 +1,6 @@
 package com.hosp.patient.controls;
 
 import com.hosp.patient.records.AppointmentRec;
-import com.hosp.patient.records.PatientRec;
 import com.hosp.patient.response.GlobalResponse;
 import com.hosp.patient.response.ResponseHandler;
 import com.hosp.patient.services.AppointmentService;
@@ -33,9 +32,7 @@ public class AppointmentRestController {
     public GlobalResponse registerPatient(@Valid @RequestBody AppointmentRec appointmentRec) {
         LOGGER.info("registerPatient");
         appointmentRec = appointmentService.takeAppointment(appointmentRec);
-        return ResponseHandler.generateResponse(
-                String.format(CommonConstants.REGISTER_SUCCESS,
-                        appointmentRec.doctorName()), HttpStatus.CREATED, appointmentRec);
+        return ResponseHandler.generateResponse("Appointment has taken successfully", HttpStatus.CREATED, appointmentRec);
     }
 
     @GetMapping("list")
