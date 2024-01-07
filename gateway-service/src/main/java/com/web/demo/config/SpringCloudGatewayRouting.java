@@ -1,34 +1,41 @@
 package com.web.demo.config;
 
 import com.web.demo.filter.AuthenticationFilter;
+import com.web.demo.filter.AuthenticationFilterBKP;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import reactor.core.publisher.Mono;
 
 @Configuration
 public class SpringCloudGatewayRouting {
 
+    private AuthenticationFilter authenticationFilter;
+
     @Autowired
-    private AuthenticationFilter filter;
+    public SpringCloudGatewayRouting setAuthenticationFilter(AuthenticationFilter authenticationFilter) {
+        this.authenticationFilter = authenticationFilter;
+        return this;
+    }
 
     /*@Bean
-    public GlobalFilter globalFilter() {
-        return (exchange, chain) -> {
-            System.out.println("First Global filter");
-            return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                System.out.println("Second Global filter");
-            }));
-        };
-    }*/
+        public GlobalFilter globalFilter() {
+            return (exchange, chain) -> {
+                System.out.println("First Global filter");
+                return chain.filter(exchange).then(Mono.fromRunnable(() -> {
+                    System.out.println("Second Global filter");
+                }));
+            };
+        }*/
     @Bean
     public RouteLocator configureRoute(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("login", r -> r.path("/auth/**").uri("lb://LOGIN-SERVICE"))
-                .route("patient", r -> r.path("/patient/**").uri("lb://PATIENT-SERVICE"))
+                .route("patient",
+                        r -> r.path("/patient/**")
+                                .filters(f -> f.filter(authenticationFilter))
+                                .uri("lb://PATIENT-SERVICE"))
                 .route("doctor", r -> r.path("/doctor/**").uri("lb://DOCTOR-SERVICE"))
                 .route("report", r -> r.path("/report/**").uri("lb://REPORT-SERVICE"))
                 .route("admin", r -> r.path("/admin/**").uri("lb://ADMIN-SERVICE"))
@@ -36,7 +43,7 @@ public class SpringCloudGatewayRouting {
                 .route("general", r -> r.path("/general/**").uri("lb://GENERAL-SERVICE"))
                 .route("billing",
                         r -> r.path("/billing/**")
-                                .filters(f -> f.filter(filter))
+                                .filters(f -> f.filter(authenticationFilter))
                                 .uri("lb://BILLING-SERVICE"))
                 .route("paymentId", r -> r.path("/payment/**").uri("http://localhost:9009")) //static routing
                 .build();

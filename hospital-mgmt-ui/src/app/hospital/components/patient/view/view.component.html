@@ -1,1 +1,91 @@
-<p>view works!</p>
+<br/>
+
+<table class="table table-striped table-bordered table-sm row-border hover"
+       id="patientDataTable">
+  <thead>
+  <tr>
+    <th>Patient Name</th>
+    <th>Patient Email</th>
+    <th>Gender</th>
+    <th>Age</th>
+    <th>BloodGroup</th>
+    <th>Contact</th>
+    <th>Address</th>
+    <th>City</th>
+    <th>Pincode</th>
+    <th>Created Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let p of patientList" (click)="showPatientHistoryOpenPopUp(p)">
+    <td>{{ p.firstName }}</td>
+    <td>{{ p.email }}</td>
+    <td>{{ p.gender }}</td>
+    <td>{{ p.age }}</td>
+    <td>{{ p.bloodGroup }}</td>
+    <td>{{ p.contact }}</td>
+    <td> {{ p.address }}</td>
+    <td>{{ p.city }}</td>
+    <td> {{ p.pincode}}</td>
+    <td> {{ p.createdDate }} </td>
+    <!--<button class="btn btn-primary" type="button" (click)="openPopup(p)">Update</button>-->
+  </tr>
+  </tbody>
+</table>
+
+<!--<table class="table table-striped table-bordered table-sm row-border hover"
+       id="patientDataTable">
+  <thead>
+  <tr>
+    <th>Patient Name</th>
+    <th>Patient Contact</th>
+    <th>Problem</th>
+    <th>Doctor Name</th>
+    <th>Prescription</th>
+    <th>Appointment Take Date</th>
+    <th>Appointment Date</th>
+    <th>Appointment Status</th>
+    <th>Appointment Price</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let p of patientList" (click)="showPatientHistoryOpenPopUp(p)">
+    <td>{{ p.firstName }}</td>
+    <td>{{ p.contact }}</td>
+    <td>{{ p.pname }}</td>
+    <td>{{ p.email }}</td>
+    <td>{{ p.phone }}</td>
+    <td>{{ p.address.street }}</td>
+    <td> {{ p.address.city }}</td>
+    <td>{{ p.address.street }}</td>
+    <td> {{ p.address.city }}</td>
+    <td> {{ p.address.city }}
+    </td>
+  </tr>
+  </tbody>
+</table>-->
+
+
+<div class="modal" tabindex="-1" role="dialog"
+     [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" style="max-width: 80%;" role="document">
+    <div class="modal-content">
+      <div class="modal-header align-content-center" style="height: 35px">
+        <h6 class="modal-title text-danger" style="padding-left: 500px">Patient History Recent To Old</h6>
+        <button type="button" class="close btn btn-danger" (click)="showPatientHistoryClosePopup()"
+                data-dismiss="modal">
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-history></app-history>
+      </div>
+      <div class="modal-footer align-content-center" style="height: 40px">
+        <button type="button" class="btn btn-danger" (click)="showPatientHistoryClosePopup()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
