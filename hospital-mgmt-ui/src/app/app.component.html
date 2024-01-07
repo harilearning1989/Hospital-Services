@@ -1,12 +1,104 @@
-<h1>Hospital Examples</h1>
-<button type="button" class="btn btn-primary">Primary</button>
-<button type="button" class="btn btn-secondary">Secondary</button>
-<button type="button" class="btn btn-success">Success</button>
-<button type="button" class="btn btn-danger">Danger</button>
-<button type="button" class="btn btn-warning">Warning</button>
-<button type="button" class="btn btn-info">Info</button>
-<button type="button" class="btn btn-light">Light</button>
-<button type="button" class="btn btn-dark">Dark</button>
+<div class="container-fluid border border-primary">
+  <br/>
+  <nav class="navbar navbar-expand-xl bg-light fixed-top">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link text-danger navbar-brand"
+           style="padding-left: 20px"
+           routerLink="./home" href="#" style="font-style: italic"><b>Hospital Management System</b></a>
+      </li>
+      <div *ngIf="userName == null">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-danger" routerLink="./createPatient" href="#"
+               style="font-style: italic"><b>Register Patient</b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" routerLink="./login" href="#"
+               style="font-style: italic"><b>Login</b></a>
+          </li>
+        </ul>
+      </div>
+    </ul>
+    <div *ngIf="user_role == 'ROLE_PATIENT'">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./viewAppointment" href="#"
+             style="font-style: italic"><b>View Appointments</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./takeAppointment" href="#"
+             style="font-style: italic"><b>Take Appointment</b></a>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="user_role == 'ROLE_DOCTOR'">
+      <a class="nav-link text-danger" routerLink="./viewMyAppointments" href="#"
+         style="font-style: italic"><b>My Appointments</b></a>
+    </div>
+    <div *ngIf="user_role == 'ROLE_ADMIN'">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./createPatient" href="#"
+             style="font-style: italic"><b>Register Patient</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./viewAppointment" href="#"
+             style="font-style: italic"><b>Appointments</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./takeAppointment" href="#"
+             style="font-style: italic"><b>Take Appointment</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./checkAllAppointments" href="#"
+             style="font-style: italic"><b>All Appointments</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./viewPatient" href="#"
+             style="font-style: italic"><b>Patients</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./viewDoctor" href="#"
+             style="font-style: italic"><b>Doctors</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./createDoctor" href="#"
+             style="font-style: italic"><b>Register Doctor</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./viewAdmin" href="#"
+             style="font-style: italic"><b>Admins</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./createAdmin" href="#"
+             style="font-style: italic"><b>Register Admin</b></a>
+        </li>
+        <!--<li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./updateAppointment" href="#">Update Appointment</a>
+        </li>-->
+        <!--<li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./about" href="#">About</a>
+        </li>-->
+      </ul>
+    </div>
+    <div>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link text-danger" routerLink="./contact" href="#"
+             style="font-style: italic"><b>Contact</b></a>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="userName != null">
+      <button class="btn-primary" (click)="logout()"
+              style="font-style: italic">Logout
+      </button>
+    </div>
 
-<button type="button" class="btn btn-link">Link</button>
-<router-outlet></router-outlet>
+  </nav>
+  <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

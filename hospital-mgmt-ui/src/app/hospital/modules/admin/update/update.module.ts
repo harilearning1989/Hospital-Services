@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UpdateComponent } from '../../../components/admin/update/update.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    UpdateComponent
+  ],
   imports: [
     CommonModule
   ]
