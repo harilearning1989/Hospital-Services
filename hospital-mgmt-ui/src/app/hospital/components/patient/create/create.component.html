@@ -1,1 +1,200 @@
-<p>create works!</p>
+<div class="card registerDiv">
+  <h6 class="card-header text-danger text-center" style="font-style: italic">Register New Patient</h6>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <table class="table table-responsive-sm">
+        <tr>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">First Name</label>
+              <input type="text" formControlName="firstName" class="form-control"
+                     style="width: 300px"
+                     placeholder="Enter First Name"
+                     (keypress)="omitSpecialChars($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"/>
+              <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                <div *ngIf="f.firstName.errors.cannotContainSpace">First Name cannot contain spaces</div>
+                <div *ngIf="f.firstName.errors.minlength">First Name must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Last Name</label>
+              <input type="text" formControlName="lastName" class="form-control"
+                     style="width: 300px"
+                     placeholder="Enter Last Name"
+                     (keypress)="omitSpecialChars($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
+              <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                <div *ngIf="f.lastName.errors.cannotContainSpace">Last Name cannot contain spaces</div>
+                <div *ngIf="f.lastName.errors.minlength">Last Name must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="text" formControlName="email" class="form-control"
+                     placeholder="Enter Email"
+                     style="width: 300px"
+                     (keypress)="omitSpecialChars($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.cannotContainSpace">Email cannot contain spaces</div>
+                <div *ngIf="f.email.errors.minlength">Email must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input type="text" formControlName="username" class="form-control"
+                     placeholder="Enter User Name"
+                     (keypress)="omitSpecialChars($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.username.errors }"/>
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">User Name is required</div>
+                <div *ngIf="f.username.errors.cannotContainSpace">User Name cannot contain spaces</div>
+                <div *ngIf="f.username.errors.minlength">User Name must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="text" formControlName="password" class="form-control"
+                     placeholder="Enter Password"
+                     (keypress)="omitSpecialChars($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.cannotContainSpace">Password cannot contain spaces</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Patient Gender</label>
+              <select class="form-control" (change)="changeGender($event)" formControlName="gender">
+                <option value="">Choose Gender</option>
+                <option *ngFor="let gender of genderList" >{{gender}}</option>
+              </select>
+              <!--<div class="invalid-feedback" *ngIf="f.gender.errors?.required">
+                <sup>*</sup>Please Select Gender
+              </div>-->
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Patient Age</label>
+              <input type="text" formControlName="age" class="form-control"
+                     placeholder="Enter Age"
+                     (keypress)="omitSpecialChars($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.age.errors }"/>
+              <div *ngIf="submitted && f.age.errors" class="invalid-feedback">
+                <div *ngIf="f.age.errors.required">Age is required</div>
+                <div *ngIf="f.age.errors.cannotContainSpace">Age cannot contain spaces</div>
+                <div *ngIf="f.age.errors.minlength">Age must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Blood Group</label>
+              <select class="form-control" (change)="changeBloodGrp($event)" formControlName="bloodGroup">
+                <option value="">Choose Blood Group</option>
+                <option *ngFor="let bloodGrp of bloodGroupList" >{{bloodGrp}}</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="f.bloodGroup.errors?.required">
+                <sup>*</sup>Please Select Blood Group
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Contact</label>
+              <input type="text" formControlName="contact" class="form-control"
+                     placeholder="Enter Contact"
+                     (keypress)="omitSpecialChars($event)"
+                     (keypress)="allowOnlyNumbers($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.contact.errors }"/>
+              <div *ngIf="submitted && f.contact.errors" class="invalid-feedback">
+                <div *ngIf="f.contact.errors.required">Contact is required</div>
+                <div *ngIf="f.contact.errors.cannotContainSpace">Contact cannot contain spaces</div>
+                <div *ngIf="f.contact.errors.minlength">Contact must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <input type="text" formControlName="address" class="form-control"
+                     placeholder="Enter Address"
+                     (keypress)="omitSpecialChars($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.address.errors }"/>
+              <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                <div *ngIf="f.address.errors.required">Address is required</div>
+                <div *ngIf="f.address.errors.cannotContainSpace">Address cannot contain spaces</div>
+                <div *ngIf="f.address.errors.minlength">Address must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">City</label>
+              <input type="text" formControlName="city" class="form-control"
+                     placeholder="Enter City"
+                     (keypress)="omitSpecialChars($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.city.errors }"/>
+              <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                <div *ngIf="f.city.errors.required">City is required</div>
+                <div *ngIf="f.city.errors.cannotContainSpace">City cannot contain spaces</div>
+                <div *ngIf="f.city.errors.minlength">City must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mb-3">
+              <label class="form-label">PinCode</label>
+              <input type="text" formControlName="pincode" class="form-control"
+                     placeholder="Enter Pincode"
+                     (keypress)="omitSpecialChars($event)"
+                     (keypress)="allowOnlyNumbers($event)"
+                     [ngClass]="{ 'is-invalid': submitted && f.pincode.errors }"/>
+              <div *ngIf="submitted && f.pincode.errors" class="invalid-feedback">
+                <div *ngIf="f.pincode.errors.required">Pincode is required</div>
+                <div *ngIf="f.pincode.errors.cannotContainSpace">Pincode cannot contain spaces</div>
+                <div *ngIf="f.pincode.errors.minlength">Pincode must be at least 4 characters</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div style="padding-left: 50px">
+              <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Register
+              </button>
+              <a routerLink="../login" class="btn btn-link">Cancel</a>&nbsp;&nbsp;
+              <span class="text-danger" style="padding-left: 10px">{{errorMessage}}</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>

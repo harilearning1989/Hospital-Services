@@ -1,1 +1,39 @@
-<p>login works!</p>
+
+<div class="card loginDiv">
+  <h6 class="card-header bg-light text-danger text-center" style="font-style: italic"><b>Hospital Management Login</b></h6>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label text-danger"><i>Username</i></label>
+        <input type="text" formControlName="username" class="form-control"
+               placeholder="Enter User Name"
+               (keypress)="omitSpecialChars($event)"
+               [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+          <div *ngIf="f.username.errors.required">Username is required</div>
+          <div *ngIf="f.username.errors.cannotContainSpace">User Name cannot contain spaces</div>
+          <div *ngIf="f.username.errors.minlength">User Name must be at least 4 characters</div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label text-danger"><i>Password</i></label>
+        <input type="password" formControlName="password" class="form-control"
+               placeholder="Enter Password"
+               (keypress)="omitSpecialChars($event)"
+               [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+          <div *ngIf="f.password.errors.cannotContainSpace">Password cannot contain spaces</div>
+          <div *ngIf="f.password.errors.minlength">Password must be at least 4 characters</div>
+        </div>
+      </div>
+      <div>
+        <button [disabled]="loading" class="btn btn-light text-danger">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+          <i>Login</i>
+        </button>
+        <span class="text-danger" style="padding-left: 20px">{{errorMessage}}</span>
+      </div>
+    </form>
+  </div>
+</div>
