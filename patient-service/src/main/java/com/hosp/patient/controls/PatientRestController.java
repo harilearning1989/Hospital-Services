@@ -28,7 +28,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PatientRestController {
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(PatientRestController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientRestController.class);
     private PatientService patientService;
 
     @Autowired
@@ -41,16 +41,19 @@ public class PatientRestController {
     }
 
     @PostMapping("/create")
-    public GlobalResponse registerPatient(@Valid @RequestBody PatientRec dto) {
+    public GlobalResponse registerPatient(@Valid @RequestBody PatientRec dto,
+                                          @RequestHeader(value = "id") String userId,
+                                          @RequestHeader(value = "role") String role) {
         LOGGER.info("registerPatient");
         dto = patientService.registerPatient(dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT,dto.firstName()+" "+dto.lastName()), HttpStatus.CREATED, dto);
+                        CommonConstants.PATIENT, dto.firstName() + " " + dto.lastName()), HttpStatus.CREATED, dto);
     }
+
     @PostMapping("register")
     public GlobalResponse registerPatientTemp(
-            @Valid @RequestBody PatientRec dto, BindingResult bindingResult){
+            @Valid @RequestBody PatientRec dto, BindingResult bindingResult) {
         LOGGER.info("registerPatientTemp");
         /*if (bindingResult.hasErrors()){
             System.out.println("errors");
@@ -65,11 +68,11 @@ public class PatientRestController {
         dto = patientService.registerPatient(dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT,dto.firstName()+" "+dto.lastName()), HttpStatus.OK, dto);
+                        CommonConstants.PATIENT, dto.firstName() + " " + dto.lastName()), HttpStatus.OK, dto);
     }
 
     @GetMapping("list")
-    public GlobalResponse listAllPatients(){
+    public GlobalResponse listAllPatients() {
         LOGGER.info("listAllPatientDetails");
         List<PatientRec> patientList = patientService.listAllPatients();
         GlobalResponse globalResponse = GlobalResponse.builder()
@@ -82,20 +85,20 @@ public class PatientRestController {
     }
 
     @GetMapping("listTmp")
-    public GlobalResponse listAllPatientDetailsTmp(){
+    public GlobalResponse listAllPatientDetailsTmp() {
         LOGGER.info("listAllPatientDetailsTmp");
         List<PatientRec> patientList = patientService.listAllPatients();
-        return ResponseHandler.generateResponseList(null,HttpStatus.OK, patientList);
+        return ResponseHandler.generateResponseList(null, HttpStatus.OK, patientList);
     }
 
     @PutMapping("/update/{id}")
     public GlobalResponse updatePatient(@PathVariable("id") int id, @RequestBody PatientRec dto) {
         LOGGER.info("updatePatient");
-        dto = patientService.updatePatient(id,dto);
+        dto = patientService.updatePatient(id, dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.UPDATED_SUCCESS,
-                        CommonConstants.PATIENT,dto.firstName()+CommonConstants.SINGLE_SPACE
-                                +dto.lastName()), HttpStatus.OK, dto);
+                        CommonConstants.PATIENT, dto.firstName() + CommonConstants.SINGLE_SPACE
+                                + dto.lastName()), HttpStatus.OK, dto);
     }
 
     @DeleteMapping("/delete/{id}")

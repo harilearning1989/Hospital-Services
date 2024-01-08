@@ -33,13 +33,16 @@ public class AuthenticationFilter implements GatewayFilter {
 
         if (routerValidator.isSecured.test(request)) {
             if (this.isAuthMissing(request)) {
-                return this.onError(exchange, HttpStatus.UNAUTHORIZED);
+                //"Authorization header is missing in request",
+                return this.onError(exchange,  HttpStatus.UNAUTHORIZED);
             }
 
             final String token = this.getAuthHeader(request);
 
             if (!jwtUtil.validateJwtToken(token)) {
-                return this.onError(exchange, HttpStatus.FORBIDDEN);
+                //return this.onError(exchange, HttpStatus.FORBIDDEN);
+                //"Authorization header is invalid",
+                return this.onError(exchange,  HttpStatus.UNAUTHORIZED);
             }
 
             this.updateRequest(exchange, token);
@@ -66,6 +69,8 @@ public class AuthenticationFilter implements GatewayFilter {
         Claims claims = jwtUtil.getAllClaimsFromToken(token);
         exchange.getRequest().mutate()
                 .header("email", String.valueOf(claims.get("email")))
+                .header("id", String.valueOf(claims.get("id")))
+                .header("role", String.valueOf(claims.get("role")))
                 .build();
     }
     private String parseJwt(String authorization) {
