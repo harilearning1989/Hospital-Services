@@ -3,20 +3,32 @@ package com.hosp.admin.services;
 import com.hosp.admin.records.Patient;
 import com.hosp.admin.records.PatientResponse;
 import com.hosp.admin.services.client.PatientClientService;
+import com.web.demo.utils.HospitalUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
-public class PatientServiceImpl implements PatientService{
+public class PatientServiceImpl implements PatientService {
 
     private PatientClientService patientClientService;
 
     @Autowired
     public PatientServiceImpl setPatientClientService(PatientClientService patientClientService) {
         this.patientClientService = patientClientService;
+        return this;
+    }
+
+    private HttpServletRequest httpServletRequest;
+
+    @Autowired
+    public PatientServiceImpl setHttpServletRequest(HttpServletRequest httpServletRequest) {
+        this.httpServletRequest = httpServletRequest;
         return this;
     }
 
@@ -32,7 +44,14 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public PatientResponse listAllPatientDetails() {
-        return patientClientService.listAllPatientDetails();
+        /*Map<String, List<String>> headersMap = Collections.list(httpServletRequest.getHeaderNames())
+                .stream()
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        h -> Collections.list(httpServletRequest.getHeaders(h))
+                ));*/
+        Map<String, String> headersMap = HospitalUtils.getHttpHeaders(httpServletRequest);
+        return patientClientService.listAllPatientDetails(headersMap);
     }
 
     @Override

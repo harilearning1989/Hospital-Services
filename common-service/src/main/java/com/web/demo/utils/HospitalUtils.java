@@ -1,11 +1,11 @@
 package com.web.demo.utils;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class HospitalUtils {
 
@@ -74,5 +74,11 @@ public class HospitalUtils {
             n+=15;
         }
         return results;
+    }
+
+    public static Map<String,String> getHttpHeaders(HttpServletRequest httpServletRequest){
+        return Collections.list(httpServletRequest.getHeaderNames())
+                .stream()
+                .collect(Collectors.toMap(h -> h, httpServletRequest::getHeader));
     }
 }

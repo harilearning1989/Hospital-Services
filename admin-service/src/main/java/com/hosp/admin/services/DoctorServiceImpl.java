@@ -3,8 +3,12 @@ package com.hosp.admin.services;
 import com.hosp.admin.records.DoctorRec;
 import com.hosp.admin.records.DoctorResponse;
 import com.hosp.admin.services.client.DoctorClientService;
+import com.web.demo.utils.HospitalUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -16,6 +20,13 @@ public class DoctorServiceImpl implements DoctorService {
         this.doctorClientService = doctorClientService;
         return this;
     }
+    private HttpServletRequest httpServletRequest;
+
+    @Autowired
+    public DoctorServiceImpl setHttpServletRequest(HttpServletRequest httpServletRequest) {
+        this.httpServletRequest = httpServletRequest;
+        return this;
+    }
 
     @Override
     public DoctorResponse registerDoctor(DoctorRec rec) {
@@ -24,7 +35,8 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorResponse listAllDoctorDetails() {
-        return doctorClientService.listAllDoctorDetails();
+        Map<String, String> headersMap = HospitalUtils.getHttpHeaders(httpServletRequest);
+        return doctorClientService.listAllDoctorDetails(headersMap);
     }
 
     @Override

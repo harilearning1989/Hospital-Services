@@ -4,6 +4,7 @@ import com.hosp.admin.records.Patient;
 import com.hosp.admin.records.PatientResponse;
 
 import java.util.Date;
+import java.util.Map;
 
 public interface PatientService {
 

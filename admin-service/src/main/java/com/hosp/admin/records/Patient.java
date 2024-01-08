@@ -28,7 +28,7 @@ public record Patient(
         //@NotNull(message = "Invalid Phone number: Number is NULL")
         //@Pattern(regexp = "^\\d{10}$", message = "Invalid phone number")
         @JsonProperty("contact")
-        int contact,
+        long contact,
         @JsonProperty("age")
         int age,
         @Email(message = "Invalid email")

@@ -20,7 +20,9 @@ import reactor.core.publisher.Mono;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("admin/patient")
@@ -51,15 +53,26 @@ public class PatientRestController {
     }
 
     @GetMapping("list")
-    public PatientResponse listAllPatientDetails() {
+    public PatientResponse listAllPatientDetails(@RequestHeader Map<String, String> headers) {
+        /*Map<String, Object> returnValue = new HashMap<>();
+
+        Enumeration<String> hearderNames = request.getHeaderNames();
+        while(hearderNames.hasMoreElements()) {
+            String headerName = hearderNames.nextElement();
+            returnValue.put(headerName, request.getHeader(headerName));
+        }*/
+
+        headers.forEach((key, value) -> {
+            LOGGER.info(String.format("Header '%s' = %s", key, value));
+        });
         LOGGER.info("Inside listAllPatientDetails");
         return patientService.listAllPatientDetails();
     }
 
     @GetMapping("listTemp")
-    public PatientResponse listAllPatientDetailsTemp() {
+    public PatientResponse listAllPatientDetailsTemp(@RequestHeader Map<String, String> headers) {
         LOGGER.info("Inside listAllPatientDetailsTemp");
-        return patientClientService.listAllPatientDetails();
+        return patientClientService.listAllPatientDetails(headers);
     }
 
     @GetMapping("listWebClient")

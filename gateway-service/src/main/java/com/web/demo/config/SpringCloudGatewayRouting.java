@@ -1,7 +1,6 @@
 package com.web.demo.config;
 
 import com.web.demo.filter.AuthenticationFilter;
-import com.web.demo.filter.AuthenticationFilterBKP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -36,16 +35,34 @@ public class SpringCloudGatewayRouting {
                         r -> r.path("/patient/**")
                                 .filters(f -> f.filter(authenticationFilter))
                                 .uri("lb://PATIENT-SERVICE"))
-                .route("doctor", r -> r.path("/doctor/**").uri("lb://DOCTOR-SERVICE"))
-                .route("report", r -> r.path("/report/**").uri("lb://REPORT-SERVICE"))
-                .route("admin", r -> r.path("/admin/**").uri("lb://ADMIN-SERVICE"))
-                .route("dental", r -> r.path("/dental/**").uri("lb://DENTAL-SERVICE"))
-                .route("general", r -> r.path("/general/**").uri("lb://GENERAL-SERVICE"))
+                .route("doctor",
+                        r -> r.path("/doctor/**")
+                                .filters(f -> f.filter(authenticationFilter))
+                                .uri("lb://DOCTOR-SERVICE"))
+                .route("report",
+                        r -> r.path("/report/**")
+                                .filters(f -> f.filter(authenticationFilter))
+                                .uri("lb://REPORT-SERVICE"))
+                .route("admin",
+                        r -> r.path("/admin/**")
+                                .filters(f -> f.filter(authenticationFilter))
+                                .uri("lb://ADMIN-SERVICE"))
+                .route("dental",
+                        r -> r.path("/dental/**")
+                                .filters(f -> f.filter(authenticationFilter))
+                                .uri("lb://DENTAL-SERVICE"))
+                .route("general",
+                        r -> r.path("/general/**")
+                                .filters(f -> f.filter(authenticationFilter))
+                                .uri("lb://GENERAL-SERVICE"))
                 .route("billing",
                         r -> r.path("/billing/**")
                                 .filters(f -> f.filter(authenticationFilter))
                                 .uri("lb://BILLING-SERVICE"))
-                .route("paymentId", r -> r.path("/payment/**").uri("http://localhost:9009")) //static routing
+                .route("paymentId",
+                        r -> r.path("/payment/**")
+                                .filters(f -> f.filter(authenticationFilter))
+                                .uri("http://localhost:9009")) //static routing
                 .build();
     }
 

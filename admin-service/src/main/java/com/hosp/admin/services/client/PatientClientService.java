@@ -6,17 +6,20 @@ import com.web.demo.response.EmpResponseRec;
 import com.web.demo.response.EmpSingleResponseRec;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 @HttpExchange(url = "", accept = "application/json", contentType = "application/json")
 public interface PatientClientService {
 
     @GetExchange("patient/list")
-    PatientResponse listAllPatientDetails();
+    PatientResponse listAllPatientDetails(@RequestHeader Map<String, String> headers);
     @GetExchange("/patient/{id}")
     Patient getPatientById(@PathVariable("id") int id);
 
