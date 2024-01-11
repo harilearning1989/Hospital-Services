@@ -23,7 +23,7 @@ export class AppComponent {
     this.user_role = user && user.roles && user.roles[0];
     console.log('this.user_role::' + this.user_role);
 
-    const isLoggedIn = user && user.accessToken;
+    const isLoggedIn = user && user.token;
     if (isLoggedIn) {
       this.userName = user.username;
     }

@@ -4,6 +4,6 @@ export class User {
   password?: string;
   email?: string;
   roles?: string[];
-  accessToken?: string;
+  token?: string;
   tokenType?: string;
 }

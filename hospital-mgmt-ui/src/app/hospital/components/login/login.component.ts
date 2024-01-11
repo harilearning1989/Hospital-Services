@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
           this.sharedService.emitNavChangeEvent('Refresh');
 
           this.router.navigateByUrl('/home');
-
         },
         error: error => {
           this.router.navigateByUrl('/admin');

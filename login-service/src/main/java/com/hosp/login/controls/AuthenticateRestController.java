@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("auth")
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 public class AuthenticateRestController {
 
     AuthenticationManager authenticationManager;
@@ -66,7 +67,7 @@ public class AuthenticateRestController {
         return this;
     }
 
-    @PostMapping("/signing")
+    @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication =
                 authenticationManager.authenticate(

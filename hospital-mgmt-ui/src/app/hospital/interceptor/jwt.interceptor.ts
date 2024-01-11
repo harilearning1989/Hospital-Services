@@ -22,14 +22,14 @@ export class JwtInterceptor implements HttpInterceptor {
     const isApiUrl = req.url.startsWith(environment.apiUrl);
     if (this.loginService.isUserSignedin() && isApiUrl) {
       const user = this.loginService.userValue;
-      const isLoggedIn = user && user.accessToken;
+      const isLoggedIn = user && user.token;
       if (isLoggedIn) {
         //debugger
         const headers = new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Access-Control-Allow-Origin', '*')
           .set('Accept','application/json')
-          .set('Authorization', `Bearer ${user.accessToken}`);
+          .set('Authorization', `Bearer ${user.token}`);
         console.log(headers)
         const contentType =headers.get('Content-Type');
         const authorization =headers.get('Authorization');

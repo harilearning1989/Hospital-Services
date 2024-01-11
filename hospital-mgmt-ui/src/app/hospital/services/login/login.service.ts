@@ -26,7 +26,6 @@ export class LoginService {
   }
 
   login(username: string, password: string) {
-    debugger;
     return this.http.post<User>( this.httpLink.loginUrl, { username, password })
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
