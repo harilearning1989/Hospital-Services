@@ -1,0 +1,89 @@
+<form [formGroup]="patientForm"  style="padding-left: 20px" (ngSubmit)="onPatientSubmit()">
+  <div class="mb-3">
+    <label class="form-label">Patient Name</label>
+    <input type="text" formControlName="patientName" class="form-control"
+           placeholder="Enter Patient Name"
+           (keypress)="omitSpecialChars($event)"
+           [ngClass]="{ 'is-invalid': submitted && patientControls.patientName.errors }"/>
+    <div *ngIf="submitted && patientControls.patientName.errors" class="invalid-feedback">
+      <!--<div *ngIf="patientForm.get('patientName').touched">Patient Name is required</div>-->
+      <div *ngIf="patientControls.patientName.errors.required">Patient Name is required</div>
+      <div *ngIf="patientControls.patientName.errors.cannotContainSpace">Patient Name cannot contain spaces</div>
+      <div *ngIf="patientControls.patientName.errors.minlength">Patient Name must be at least 4 characters</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="text" formControlName="email" class="form-control"
+           placeholder="Enter Patient Email"
+           [ngClass]="{ 'is-invalid': submitted && patientControls.email.errors }"/>
+    <div *ngIf="submitted && patientControls.email.errors" class="invalid-feedback">
+      <div *ngIf="patientControls.email.errors.required">Email is required</div>
+      <div *ngIf="patientControls.email.errors.email">Email must be a valid email address</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Phone</label>
+    <input type="text" formControlName="phone" class="form-control"
+           placeholder="Enter Patient Phone"
+           (keypress)="allowOnlyNumbers($event)"
+           [ngClass]="{ 'is-invalid': submitted && patientControls.phone.errors }"/>
+    <div *ngIf="submitted && patientControls.phone.errors" class="invalid-feedback">
+      <div *ngIf="patientControls.phone.errors.required">Phone is required</div>
+      <div *ngIf="patientControls.phone.errors.minlength">Phone must be at least 10 characters</div>
+      <div *ngIf="patientControls.phone.errors.cannotContainSpace">Phone cannot contain spaces</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Gender</label>
+    <input type="text" formControlName="gender" class="form-control"
+           placeholder="Enter Patient Gender"
+           [ngClass]="{ 'is-invalid': submitted && patientControls.phone.errors }"/>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input type="text" formControlName="username" class="form-control"
+           placeholder="Enter User Name"
+           (keypress)="omitSpecialCharsAndNumbers($event)"
+           [ngClass]="{ 'is-invalid': submitted && patientControls.username.errors }"/>
+    <div *ngIf="submitted && patientControls.username.errors" class="invalid-feedback">
+      <div *ngIf="patientControls.username.errors.required">Username is required</div>
+      <div *ngIf="patientControls.username.errors.cannotContainSpace">First Name cannot contain spaces</div>
+      <div *ngIf="patientControls.username.errors.minlength">Username must be at least 4 characters</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input type="password" formControlName="password" class="form-control"
+           placeholder="Enter Password"
+           (keypress)="omitSpecialChars($event)"
+           [ngClass]="{ 'is-invalid': submitted && patientControls.password.errors }"/>
+    <div *ngIf="submitted && patientControls.password.errors" class="invalid-feedback">
+      <div *ngIf="patientControls.password.errors.required">Password is required</div>
+      <div *ngIf="patientControls.password.errors.minlength">Password must be at least 6 characters</div>
+      <div *ngIf="patientControls.password.errors.cannotContainSpace">Phone cannot contain spaces</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Address</label>
+    <textarea type="text" formControlName="address" class="form-control"
+              placeholder="Enter Address"
+              (keypress)="omitSpecialChars($event)"
+              [ngClass]="{ 'is-invalid': submitted && patientControls.address.errors }"></textarea>
+    <div *ngIf="submitted && patientControls.address.errors" class="invalid-feedback">
+      <div *ngIf="patientControls.address.errors.required">Address is required</div>
+      <div *ngIf="patientControls.address.errors.cannotContainSpace">Address cannot contain spaces</div>
+      <div *ngIf="patientControls.address.errors.minlength">Address must be at least 4 characters</div>
+    </div>
+  </div>
+
+  <div align="right">
+    <button [disabled]="loading" class="btn btn-primary">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+      Register
+    </button>
+    <a routerLink="/login" class="btn btn-link">Cancel</a>&nbsp;&nbsp;
+    <span class="text-danger" style="padding-left: 10px">{{errorMessage}}</span>
+  </div>
+  <br/>
+</form>

@@ -1,0 +1,154 @@
+[
+  {
+    "id": 1,
+    "specialist": "Allergists/Immunologists"
+  },
+  {
+    "id": 2,
+    "specialist": "Cardiologists"
+  },
+  {
+    "id": 3,
+    "specialist": "Dermatologists"
+  },
+  {
+    "id": 4,
+    "specialist": "Endocrinologists"
+  },
+  {
+    "id": 5,
+    "specialist": "Gastroenterologists"
+  },
+  {
+    "id": 6,
+    "specialist": "Geriatrician"
+  },
+  {
+    "id": 7,
+    "specialist": "Hematologist-oncologist"
+  },
+  {
+    "id": 8,
+    "specialist": "Infectious disease"
+  },
+  {
+    "id": 9,
+    "specialist": "Nephrologists"
+  },
+  {
+    "id": 10,
+    "specialist": "Neurologist"
+  },
+  {
+    "id": 11,
+    "specialist": "Oncologist"
+  },
+  {
+    "id": 12,
+    "specialist": "Palliative care doctor"
+  },
+  {
+    "id": 13,
+    "specialist": "Physiatrist"
+  },
+  {
+    "id": 14,
+    "specialist": "Psychiatrist"
+  },
+  {
+    "id": 15,
+    "specialist": "Pulmonologist"
+  },
+  {
+    "id": 16,
+    "specialist": "Rheumatologist"
+  },
+  {
+    "id": 17,
+    "specialist": "Pediatric subspecialists"
+  },
+  {
+    "id": 18,
+    "specialist": "Adolescent medicine"
+  },
+  {
+    "id": 19,
+    "specialist": "Child abuse pediatrician"
+  },
+  {
+    "id": 20,
+    "specialist": "Developmental and behavioral pediatrics"
+  },
+  {
+    "id": 21,
+    "specialist": "Neonatologist"
+  },
+  {
+    "id": 22,
+    "specialist": "General surgeon"
+  },
+  {
+    "id": 23,
+    "specialist": "Colorectal surgeon"
+  },
+  {
+    "id": 24,
+    "specialist": "Pediatric surgeon"
+  },
+  {
+    "id": 25,
+    "specialist": "Plastic surgeon"
+  },
+  {
+    "id": 26,
+    "specialist": "Orthopedic surgeon"
+  },
+  {
+    "id": 27,
+    "specialist": "Otolaryngologist"
+  },
+  {
+    "id": 28,
+    "specialist": "Oral and maxillofacial surgeon"
+  },
+  {
+    "id": 29,
+    "specialist": "Neurosurgeon"
+  },
+  {
+    "id": 30,
+    "specialist": "Thoracic surgeon"
+  },
+  {
+    "id": 31,
+    "specialist": "Vascular surgeon"
+  },
+  {
+    "id": 32,
+    "specialist": "Obstetrician-gynecologist"
+  },
+  {
+    "id": 33,
+    "specialist": "Urologist"
+  },
+  {
+    "id": 34,
+    "specialist": "Ophthalmologist"
+  },
+  {
+    "id": 35,
+    "specialist": "Emergency medicine physicians"
+  },
+  {
+    "id": 36,
+    "specialist": "Anesthesiologist"
+  },
+  {
+    "id": 37,
+    "specialist": "Radiologist"
+  },
+  {
+    "id": 38,
+    "specialist": "Pathologists"
+  }
+]

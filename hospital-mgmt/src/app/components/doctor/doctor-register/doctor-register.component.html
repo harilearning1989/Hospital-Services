@@ -1,0 +1,77 @@
+<form [formGroup]="doctorForm" style="padding-left: 20px" (ngSubmit)="onDoctorSubmit()">
+  <div class="mb-3">
+    <label class="form-label">Doctor Name</label>
+    <input type="text" formControlName="doctorName" class="form-control"
+           placeholder="Enter Doctor Name"
+           (keypress)="omitSpecialChars($event)"
+           [ngClass]="{ 'is-invalid': submitted && doctorControls.doctorName.errors }"/>
+    <div *ngIf="submitted && doctorControls.doctorName.errors" class="invalid-feedback">
+      <!--<div *ngIf="patientForm.get('doctorName').touched">Patient Name is required</div>-->
+      <div *ngIf="doctorControls.doctorName.errors.required">Doctor Name is required</div>
+      <div *ngIf="doctorControls.doctorName.errors.cannotContainSpace">Doctor Name cannot contain spaces</div>
+      <div *ngIf="doctorControls.doctorName.errors.minlength">Doctor Name must be at least 4 characters</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Specialists</label>
+    <select id="country" formControlName="specialist" class="form-control">
+      <option *ngFor="let special of specialists | sortSpecialist: 'specialist'"
+              [ngValue]="special.id">{{ special.specialist }}</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="text" formControlName="email" class="form-control"
+           placeholder="Enter Doctor Email"
+           [ngClass]="{ 'is-invalid': submitted && doctorControls.email.errors }"/>
+    <div *ngIf="submitted && doctorControls.email.errors" class="invalid-feedback">
+      <div *ngIf="doctorControls.email.errors.required">Email is required</div>
+      <div *ngIf="doctorControls.email.errors.email">Email must be a valid email address</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Phone</label>
+    <input type="text" formControlName="phone" class="form-control"
+           placeholder="Enter Doctor Phone"
+           (keypress)="omitSpecialChars($event)"
+           [ngClass]="{ 'is-invalid': submitted && doctorControls.phone.errors }"/>
+    <div *ngIf="submitted && doctorControls.phone.errors" class="invalid-feedback">
+      <div *ngIf="doctorControls.phone.errors.required">Phone is required</div>
+      <div *ngIf="doctorControls.phone.errors.minlength">Phone must be at least 10 characters</div>
+      <div *ngIf="doctorControls.phone.errors.cannotContainSpace">Phone cannot contain spaces</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input type="text" formControlName="username" class="form-control"
+           placeholder="Enter User Name"
+           (keypress)="omitSpecialCharsAndNumbers($event)"
+           [ngClass]="{ 'is-invalid': submitted && doctorControls.username.errors }"/>
+    <div *ngIf="submitted && doctorControls.username.errors" class="invalid-feedback">
+      <div *ngIf="doctorControls.username.errors.required">Username is required</div>
+      <div *ngIf="doctorControls.username.errors.cannotContainSpace">First Name cannot contain spaces</div>
+      <div *ngIf="doctorControls.username.errors.minlength">Username must be at least 4 characters</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input type="password" formControlName="password" class="form-control"
+           placeholder="Enter Password"
+           (keypress)="omitSpecialChars($event)"
+           [ngClass]="{ 'is-invalid': submitted && doctorControls.password.errors }"/>
+    <div *ngIf="submitted && doctorControls.password.errors" class="invalid-feedback">
+      <div *ngIf="doctorControls.password.errors.required">Password is required</div>
+      <div *ngIf="doctorControls.password.errors.minlength">Password must be at least 6 characters</div>
+      <div *ngIf="doctorControls.password.errors.cannotContainSpace">Phone cannot contain spaces</div>
+    </div>
+  </div>
+  <div align="right">
+    <button [disabled]="loading" class="btn btn-primary">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+      Register
+    </button>
+    <a routerLink="/login" class="btn btn-link">Cancel</a>&nbsp;&nbsp;
+    <span class="text-danger" style="padding-left: 10px">{{errorMessage}}</span>
+  </div>
+  <br/>
+</form>

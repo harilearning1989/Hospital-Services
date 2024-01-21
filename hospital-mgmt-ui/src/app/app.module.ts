@@ -7,6 +7,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {JwtInterceptor} from "./hospital/interceptor/jwt.interceptor";
 import {ErrorInterceptor} from "./hospital/interceptor/error.interceptor";
 import {AuthGuard} from "./hospital/guards/auth.guard";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {AuthGuard} from "./hospital/guards/auth.guard";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

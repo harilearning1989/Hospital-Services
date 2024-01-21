@@ -1,0 +1,82 @@
+<form [formGroup]="adminForm"  style="padding-left: 20px" (ngSubmit)="onAdminSubmit()">
+  <div class="mb-3">
+    <label class="form-label">Admin Name</label>
+    <input type="text" formControlName="adminName" class="form-control"
+           placeholder="Enter Admin Name"
+           (keypress)="omitSpecialChars($event)"
+           [ngClass]="{ 'is-invalid': submitted && adminControls.adminName.errors }"/>
+    <div *ngIf="submitted && adminControls.adminName.errors" class="invalid-feedback">
+      <div *ngIf="adminControls.adminName.errors.required">Admin Name is required</div>
+      <div *ngIf="adminControls.adminName.errors.cannotContainSpace">Admin Name cannot contain spaces</div>
+      <div *ngIf="adminControls.adminName.errors.minlength">Admin Name must be at least 4 characters</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="text" formControlName="email" class="form-control"
+           placeholder="Enter Admin Email"
+           [ngClass]="{ 'is-invalid': submitted && adminControls.email.errors }"/>
+    <div *ngIf="submitted && adminControls.email.errors" class="invalid-feedback">
+      <div *ngIf="adminControls.email.errors.required">Email is required</div>
+      <div *ngIf="adminControls.email.errors.email">Email must be a valid email address</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Phone</label>
+    <input type="text" formControlName="phone" class="form-control"
+           placeholder="Enter Admin Phone"
+           (keypress)="allowOnlyNumbers($event)"
+           [ngClass]="{ 'is-invalid': submitted && adminControls.phone.errors }"/>
+    <div *ngIf="submitted && adminControls.phone.errors" class="invalid-feedback">
+      <div *ngIf="adminControls.phone.errors.required">Phone is required</div>
+      <div *ngIf="adminControls.phone.errors.minlength">Phone must be at least 10 characters</div>
+      <div *ngIf="adminControls.phone.errors.cannotContainSpace">Phone cannot contain spaces</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input type="text" formControlName="username" class="form-control"
+           placeholder="Enter User Name"
+           (keypress)="omitSpecialCharsAndNumbers($event)"
+           [ngClass]="{ 'is-invalid': submitted && adminControls.username.errors }"/>
+    <div *ngIf="submitted && adminControls.username.errors" class="invalid-feedback">
+      <div *ngIf="adminControls.username.errors.required">Username is required</div>
+      <div *ngIf="adminControls.username.errors.cannotContainSpace">First Name cannot contain spaces</div>
+      <div *ngIf="adminControls.username.errors.minlength">Username must be at least 4 characters</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input type="password" formControlName="password" class="form-control"
+           placeholder="Enter Password"
+           (keypress)="omitSpecialChars($event)"
+           [ngClass]="{ 'is-invalid': submitted && adminControls.password.errors }"/>
+    <div *ngIf="submitted && adminControls.password.errors" class="invalid-feedback">
+      <div *ngIf="adminControls.password.errors.required">Password is required</div>
+      <div *ngIf="adminControls.password.errors.minlength">Password must be at least 6 characters</div>
+      <div *ngIf="adminControls.password.errors.cannotContainSpace">Phone cannot contain spaces</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Address</label>
+    <textarea type="text" formControlName="address" class="form-control"
+              placeholder="Enter Address"
+              (keypress)="omitSpecialChars($event)"
+              [ngClass]="{ 'is-invalid': submitted && adminControls.address.errors }"></textarea>
+    <div *ngIf="submitted && adminControls.address.errors" class="invalid-feedback">
+      <div *ngIf="adminControls.address.errors.required">Address is required</div>
+      <div *ngIf="adminControls.address.errors.cannotContainSpace">Address cannot contain spaces</div>
+      <div *ngIf="adminControls.address.errors.minlength">Address must be at least 4 characters</div>
+    </div>
+  </div>
+
+  <div align="right">
+    <button [disabled]="loading" class="btn btn-primary">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+      Register
+    </button>
+    <a routerLink="/login" class="btn btn-link">Cancel</a>&nbsp;&nbsp;
+    <span class="text-danger" style="padding-left: 10px">{{errorMessage}}</span>
+  </div>
+  <br/>
+</form>
