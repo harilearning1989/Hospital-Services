@@ -25,14 +25,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("patient")
-@CrossOrigin(origins = "*")
 public class PatientRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientRestController.class);
     private PatientService patientService;
 
-    @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    public PatientRestController setPatientRepository(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
+        return this;
+    }
 
     @Autowired
     public PatientRestController setPatientService(PatientService patientService) {

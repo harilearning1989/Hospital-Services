@@ -1,17 +1,18 @@
 package com.web.demo.config;
 
 import com.web.demo.filter.AuthenticationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
-@CrossOrigin(origins = "*")
 public class SpringCloudGatewayRouting {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringCloudGatewayRouting.class);
     private AuthenticationFilter authenticationFilter;
 
     @Autowired
@@ -29,13 +30,31 @@ public class SpringCloudGatewayRouting {
                 }));
             };
         }*/
+
+    /*@Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+            }
+        };
+    }*/
     @Bean
     public RouteLocator configureRoute(RouteLocatorBuilder builder) {
+        LOGGER.info("Enters configureRoute::"+builder);
         return builder.routes()
-                .route("login", r -> r.path("/auth/**").uri("lb://LOGIN-SERVICE"))
+                .route("login", r -> r.path("/auth/**")
+                        .filters(f ->
+                                f.setResponseHeader("Access-Control-Allow-Origin",
+                                        "*"))
+                        .uri("lb://LOGIN-SERVICE"))
                 .route("patient",
                         r -> r.path("/patient/**")
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                "*"))
+                                //.filters(f -> f.filter(authenticationFilter))
                                 .uri("lb://PATIENT-SERVICE"))
                 .route("doctor",
                         r -> r.path("/doctor/**")

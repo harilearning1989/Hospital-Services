@@ -4,7 +4,6 @@ import com.hosp.patient.models.Appointment;
 import com.hosp.patient.models.Patient;
 import com.hosp.patient.records.AppointmentRec;
 import com.hosp.patient.records.PatientRec;
-import com.web.demo.utils.HospitalUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +35,8 @@ public class DataMappersImpl implements DataMappers {
     @Override
     public PatientRec entityToRecord(Patient patient) {
         //Wed Aug 16 12:29:39 IST 2023
-        String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
-        String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
+        //String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
+        //String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
 
         PatientRec record = new PatientRec(
                 patient.getId(),
@@ -53,8 +52,11 @@ public class DataMappersImpl implements DataMappers {
                 patient.getAddress(),
                 patient.getCity(),
                 patient.getPincode(),
-                createdDateTmp,
-                updatedDateTmp);
+                null,
+                null
+                //createdDateTmp,
+                //updatedDateTmp
+        );
 
         return record;
     }
@@ -68,7 +70,7 @@ public class DataMappersImpl implements DataMappers {
             patient.setLastName(record.lastName());
         }
         if (record.contact() > 10
-                && HospitalUtils.validateNumber(String.valueOf(record.contact()))
+                //&& HospitalUtils.validateNumber(String.valueOf(record.contact()))
                 && record.contact() != patient.getContact()) {
             patient.setContact(record.contact());
         }
@@ -112,9 +114,9 @@ public class DataMappersImpl implements DataMappers {
     @Override
     public AppointmentRec entityToRecord(Appointment appointment) {
         //Wed Aug 16 12:29:39 IST 2023
-        String createdDateTmp = HospitalUtils.convertDateToString(appointment.getCreatedDate());
+        /*String createdDateTmp = HospitalUtils.convertDateToString(appointment.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(appointment.getUpdatedDate());
-        String appointmentDateTmp = HospitalUtils.convertDateToString(appointment.getAppointmentDate());
+        String appointmentDateTmp = HospitalUtils.convertDateToString(appointment.getAppointmentDate());*/
 
         AppointmentRec record = new AppointmentRec(
                 appointment.getId(),
@@ -125,9 +127,10 @@ public class DataMappersImpl implements DataMappers {
                 null,
                 appointment.getDescription(),
                 appointment.getConsultationFees(),
-                createdDateTmp,
+                null,null,null);
+                /*createdDateTmp,
                 updatedDateTmp,
-                appointmentDateTmp);
+                appointmentDateTmp);*/
         return record;
     }
 

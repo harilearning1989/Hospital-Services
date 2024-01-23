@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Patient} from "../../models/patient";
 import {PatientService} from "../../services/patient.service";
 
@@ -11,6 +11,7 @@ export class PatientComponent implements OnInit {
 
   patientList: Patient[];
   displayStyle = "none";
+
   constructor(private patientService: PatientService) {
 
   }
@@ -22,13 +23,13 @@ export class PatientComponent implements OnInit {
   showPatientHistoryOpenPopUp(p: Patient) {
     this.displayStyle = "block";
   }
+
   showPatientHistoryClosePopup() {
     this.displayStyle = "none";
   }
 
   private listAllPatients() {
-    this.patientService
-      .listAllPatients()
+    this.patientService.listAllPatients()
       .subscribe((response: any) => {
         this.patientList = response.data;
         setTimeout(() => {
@@ -44,6 +45,4 @@ export class PatientComponent implements OnInit {
         }, 1);
       }, error => console.error(error));
   }
-
-
 }

@@ -81,7 +81,7 @@
               "browserTarget": "hospital-mgmt:build:production"
             },
             "development": {
-              "browserTarget": "hospital-mgmt:build:development"
+              "browserTarget": "hospital-mgmt:build:development",
             }
           },
           "defaultConfiguration": "development"

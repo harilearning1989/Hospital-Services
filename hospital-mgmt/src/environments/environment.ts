@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8081/'
+  apiUrl: 'http://localhost:8081/',
+  loginUrl: 'http://localhost:8082/',
+  patientUrl: 'http://localhost:8084/',
+  doctorUrl: 'http://localhost:8085/'
 };
 
 /*

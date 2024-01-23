@@ -1,9 +1,9 @@
 package com.web.demo.filter;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.web.demo.constants.Constants;
 import com.web.demo.utils.JwtTokenUtils;
@@ -46,21 +46,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-
-        Map<String, List<String>> headersMap = Collections.list(request.getHeaderNames())
-                .stream()
-                .collect(Collectors.toMap(
-                        Function.identity(),
-                        h -> Collections.list(request.getHeaders(h))
-                ));
-        headersMap.forEach((k, v) -> {
-            v.forEach(f -> {
-                System.out.println("Key::" + k + "===Value::" + f);
-            });
-        });
+        LOGGER.info("JwtTokenFilter enters into doFilterInternal");
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String authHeaderTemp = request.getHeader("authorization");
-        LOGGER.info("JwtTokenFilter enters into doFilterInternal authHeaderTemp::" + authHeaderTemp);
+
         if (StringUtils.isEmpty(authHeader) || (!StringUtils.startsWith(authHeader, Constants.BEARER_PREFIX)
                 && !StringUtils.startsWith(authHeader, Constants.BASIC_PREFIX))) {
             LOGGER.info("JwtTokenFilter enters into authHeader condition");

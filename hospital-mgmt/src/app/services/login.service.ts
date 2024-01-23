@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {Router} from "@angular/router";
@@ -10,12 +10,13 @@ import {User} from "../models/user";
 })
 export class LoginService {
   private httpLink = {
-    loginUrl: environment.apiUrl + 'login',
+    loginUrl: environment.loginUrl + 'auth/signin',
     registerUrl: environment.apiUrl + 'register'
   }
 
   private userSubject: BehaviorSubject<User | null>;
   public user: Observable<User | null>;
+
   constructor(
     private router: Router,
     private http: HttpClient
@@ -25,7 +26,8 @@ export class LoginService {
   }
 
   login(username: string, password: string) {
-    return this.http.post<User>( this.httpLink.loginUrl, { username, password })
+    console.log("LoginService::" + username + "===Password::" + password);
+    return this.http.post<User>(this.httpLink.loginUrl, {username, password})
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         user.username = username;
@@ -39,12 +41,14 @@ export class LoginService {
     // remove user from local storage and set current user to null
     localStorage.removeItem('user');
     this.userSubject.next(null);
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 
-  isUserSignedin() {
+  isUserSignedIn() {
     return localStorage.getItem('user') !== null;
   }
+
   register(user: User) {
     return this.http.post(this.httpLink.registerUrl, user);
   }
@@ -53,12 +57,12 @@ export class LoginService {
     return this.userSubject.value;
   }
 
-  signout() {
+ /* signout() {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('token');
-
     this.router.navigateByUrl('login');
-  }
+  }*/
+
   getAll() {
     return this.http.get<User[]>(`${environment.apiUrl}/users`);
   }
@@ -78,7 +82,7 @@ export class LoginService {
         // update stored user if the logged in user updated their own record
         if (id == this.userValue?.id) {
           // update local storage
-          const user = { ...this.userValue, ...params };
+          const user = {...this.userValue, ...params};
           localStorage.setItem('user', JSON.stringify(user));
 
           // publish updated user to subscribers

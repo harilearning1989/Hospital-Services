@@ -2,11 +2,11 @@
 <a routerLink="/register">Register</a>-->
 
 <div class="card loginDiv">
-  <h4 class="card-header " align="center">Hospital Login</h4>
+  <h4 class="card-header text-danger" align="center" style="font-style: italic">Hospital Login</h4>
   <div class="card-body" style="background-color: #bce4f7">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="mb-3">
-        <label class="form-label">Username</label>
+        <label class="form-label" style="font-style: italic">Username</label>
         <input type="text" formControlName="username" class="form-control"
                placeholder="Enter User Name"
                (keypress)="omitSpecialCharsAndNumbers($event)"
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Password</label>
+        <label class="form-label" style="font-style: italic">Password</label>
         <input type="password" formControlName="password" class="form-control"
                placeholder="Enter Password"
                (keypress)="omitSpecialChars($event)"

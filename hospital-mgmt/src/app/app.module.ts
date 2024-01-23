@@ -5,8 +5,10 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthGuard} from "./guards/auth.guard";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
+import {JwtInterceptor} from "./interceptor/jwt.interceptor";
+import {ErrorInterceptor} from "./interceptor/error.interceptor";
 
 @NgModule({
   declarations: [
@@ -19,7 +21,10 @@ import {ReactiveFormsModule} from "@angular/forms";
     NgbModule,
     ReactiveFormsModule
   ],
-  providers: [AuthGuard],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    AuthGuard],
   exports: [],
   bootstrap: [AppComponent]
 })

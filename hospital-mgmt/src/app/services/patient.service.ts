@@ -13,7 +13,8 @@ export class PatientService {
   private httpLink = {
     loginUrl: environment.apiUrl + 'login',
     registerUrl: environment.apiUrl + 'register',
-    listAllPatientsUrl: environment.apiUrl + 'patient/list'
+    listAllPatientsUrl: environment.patientUrl + 'patient/list',
+    listAllDoctorsUrl: environment.doctorUrl + 'doctor/list'
   }
 
   private userSubject: BehaviorSubject<Patient | null>;
@@ -108,8 +109,8 @@ export class PatientService {
 
   listAllPatients(): Observable<Patient> {
     return this.http.get(this.httpLink.listAllPatientsUrl)
-      .pipe(map(x => {
-        return x;
+      .pipe(map(data => {
+        return data;
       }));
   }
 }

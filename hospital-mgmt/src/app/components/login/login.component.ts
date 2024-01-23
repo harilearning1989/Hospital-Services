@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.router.navigateByUrl('/home');
     this.submitted = true;
     if (this.form.invalid) {
       return;

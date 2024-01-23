@@ -1,1 +1,22 @@
-<p>doctor works!</p>
+<br/>
+
+<table class="table table-striped table-bordered table-sm row-border hover"
+       style="width: 600px"
+       id="patientDataTable">
+  <thead>
+  <tr>
+    <th>Doctor Name</th>
+    <th>Email</th>
+    <th>Gender</th>
+    <th>Contact</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let p of doctorsList">
+    <td>{{ p.doctorName }}</td>
+    <td>{{ p.email }}</td>
+    <td>{{ p.gender }}</td>
+    <td>{{ p.phone }}</td>
+  </tr>
+  </tbody>
+</table>
