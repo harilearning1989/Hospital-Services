@@ -51,10 +51,10 @@ public class SpringCloudGatewayRouting {
                         .uri("lb://LOGIN-SERVICE"))
                 .route("patient",
                         r -> r.path("/patient/**")
-                                .filters(f ->
-                                        f.setResponseHeader("Access-Control-Allow-Origin",
-                                                "*"))
-                                //.filters(f -> f.filter(authenticationFilter))
+                                //.filters(f ->
+                                  //      f.setResponseHeader("Access-Control-Allow-Origin",
+                                    //            "*"))
+                                .filters(f -> f.filter(authenticationFilter))
                                 .uri("lb://PATIENT-SERVICE"))
                 .route("doctor",
                         r -> r.path("/doctor/**")

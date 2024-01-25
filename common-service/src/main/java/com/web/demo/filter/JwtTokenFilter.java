@@ -47,7 +47,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
-        Map<String, List<String>> headersMap = Collections.list(request.getHeaderNames())
+        /*Map<String, List<String>> headersMap = Collections.list(request.getHeaderNames())
                 .stream()
                 .collect(Collectors.toMap(
                         Function.identity(),
@@ -82,7 +82,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             LOGGER.info(Constants.BEARER_PREFIX_NOT_FOUND);
             jwtTokenUtils.generateErrorMesage(response, Constants.BEARER_PREFIX_NOT_FOUND, HttpStatus.FORBIDDEN.value());
             return;
-        }
+        }*/
         filterChain.doFilter(request, response);
     }
 

@@ -19,7 +19,6 @@ export class JwtInterceptor implements HttpInterceptor {
     const isApiUrl = req.url.startsWith(environment.apiUrl);
     console.log("HTTP Request ::"+req);
     console.log("Logged In User::" + isApiUrl);
-    debugger;
     if (this.loginService.isUserSignedIn()) {//} && isApiUrl) {
       const user = this.loginService.userValue;
       const isLoggedIn = user && user.token;
