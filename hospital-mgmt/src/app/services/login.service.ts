@@ -10,7 +10,7 @@ import {User} from "../models/user";
 })
 export class LoginService {
   private httpLink = {
-    loginUrl: environment.loginUrl + 'auth/signin',
+    loginUrl: environment.apiUrl + 'auth/signin',
     registerUrl: environment.apiUrl + 'register'
   }
 

@@ -9,7 +9,7 @@ import {environment} from "../../environments/environment";
 export class DoctorService {
 
   private httpLink = {
-    listAllDoctorsUrl: environment.doctorUrl + 'doctor/list'
+    listAllDoctorsUrl: environment.apiUrl + 'doctor/list'
   }
 
   constructor(private http: HttpClient) {

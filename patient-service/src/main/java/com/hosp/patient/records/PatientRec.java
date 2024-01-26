@@ -7,10 +7,8 @@ import jakarta.validation.constraints.Size;
 
 public record PatientRec(
         int id,
-        @Size(min = 2, message = "user name should have at least 2 characters")
-        String firstName,
-        @NotBlank(message = "lastName is not be null and blank")
-        String lastName,
+        @Size(min = 2, message = "Patient name should have at least 2 characters")
+        String patientName,
         @NotBlank(message = "username is not be null and blank")
         String username,
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -19,7 +17,7 @@ public record PatientRec(
         //@NotBlank(message = "Invalid Phone number: Empty number")
         //@NotNull(message = "Invalid Phone number: Number is NULL")
         //@Pattern(regexp = "^\\d{10}$", message = "Invalid phone number")
-        long contact,
+        long phone,
         int age,
         @Email(message = "Invalid email")
         String email,

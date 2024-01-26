@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8081/',
-  loginUrl: 'http://localhost:8082/',
-  patientUrl: 'http://localhost:8081/',
-  doctorUrl: 'http://localhost:8085/'
+  //loginUrl: 'http://localhost:8082/',
+  //patientUrl: 'http://localhost:8081/',
+  //doctorUrl: 'http://localhost:8085/'
 };
 
 /*

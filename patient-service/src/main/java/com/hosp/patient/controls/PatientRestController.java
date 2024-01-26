@@ -52,7 +52,7 @@ public class PatientRestController {
         dto = patientService.registerPatient(dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT, dto.firstName() + " " + dto.lastName()), HttpStatus.CREATED, dto);
+                        CommonConstants.PATIENT, dto.patientName()), HttpStatus.CREATED, dto);
     }
 
     @PostMapping("register")
@@ -72,7 +72,7 @@ public class PatientRestController {
         dto = patientService.registerPatient(dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.PATIENT, dto.firstName() + " " + dto.lastName()), HttpStatus.OK, dto);
+                        CommonConstants.PATIENT, dto.patientName()), HttpStatus.OK, dto);
     }
 
     @GetMapping("list")
@@ -101,8 +101,7 @@ public class PatientRestController {
         dto = patientService.updatePatient(id, dto);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.UPDATED_SUCCESS,
-                        CommonConstants.PATIENT, dto.firstName() + CommonConstants.SINGLE_SPACE
-                                + dto.lastName()), HttpStatus.OK, dto);
+                        CommonConstants.PATIENT, dto.patientName()), HttpStatus.OK, dto);
     }
 
     @DeleteMapping("/delete/{id}")

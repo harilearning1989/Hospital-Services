@@ -24,7 +24,7 @@ export class DoctorComponent implements OnInit {
       .subscribe((response: any) => {
         this.doctorsList = response.data;
         setTimeout(() => {
-          $('#patientDataTable').DataTable({
+          $('#doctorDataTable').DataTable({
             responsive: true,
             pagingType: 'full_numbers',
             pageLength: 20,

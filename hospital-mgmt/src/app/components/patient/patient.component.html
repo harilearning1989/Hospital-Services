@@ -1,28 +1,30 @@
 <br/>
+<div style="width: 700px;height: 300px">
+  <table class="table table-striped table-bordered table-md row-border hover"
+         style="height: 100%;width: 100%"
+         id="patientDataTable">
+    <thead>
+    <tr>
+      <th>Patient Name</th>
+      <th>Patient Email</th>
+      <th>Gender</th>
+      <th>Contact</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of patientList" (click)="showPatientHistoryOpenPopUp(p)">
+      <td>{{ p.patientName }}</td>
+      <td>{{ p.email }}</td>
+      <td>{{ p.gender }}</td>
+      <td>{{ p.phone }}</td>
+      <td>{{ p.phone }}</td>
+      <!--<button class="btn btn-primary" type="button" (click)="openPopup(p)">Update</button>-->
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-<table class="table table-striped table-bordered table-sm row-border hover"
-       style="width: 600px"
-       id="patientDataTable">
-  <thead>
-  <tr>
-    <th>Patient Name</th>
-    <th>Patient Email</th>
-    <th>Gender</th>
-    <th>Contact</th>
-    <th>Address</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let p of patientList" (click)="showPatientHistoryOpenPopUp(p)">
-    <td>{{ p.patientName }}</td>
-    <td>{{ p.email }}</td>
-    <td>{{ p.gender }}</td>
-    <td>{{ p.phone }}</td>
-    <td> {{ p.address }}</td>
-    <!--<button class="btn btn-primary" type="button" (click)="openPopup(p)">Update</button>-->
-  </tr>
-  </tbody>
-</table>
 
 <!--<table class="table table-striped table-bordered table-sm row-border hover"
        id="patientDataTable">
@@ -60,7 +62,7 @@
 
 <div class="modal" tabindex="-1" role="dialog"
      [ngStyle]="{'display':displayStyle}">
-  <div class="modal-dialog" style="max-width: 80%;" role="document">
+  <div class="modal-dialog" style="max-width: 70%;" role="document">
     <div class="modal-content">
       <div class="modal-header align-content-center" style="height: 35px">
         <h6 class="modal-title text-danger" style="padding-left: 500px">Patient History Recent To Old</h6>

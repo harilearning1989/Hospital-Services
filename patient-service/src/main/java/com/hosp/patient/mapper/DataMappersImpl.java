@@ -14,11 +14,10 @@ public class DataMappersImpl implements DataMappers {
     @Override
     public Patient recordToEntity(PatientRec record) {
         Patient patient = Patient.builder()
-                .firstName(record.firstName())
-                .lastName(record.lastName())
+                .patientName(record.patientName())
                 .username(record.username())
                 .password(record.password())
-                .contact(record.contact())
+                .phone(record.phone())
                 .age(record.age())
                 .email(record.email())
                 .gender(record.gender())
@@ -40,11 +39,10 @@ public class DataMappersImpl implements DataMappers {
 
         PatientRec record = new PatientRec(
                 patient.getId(),
-                patient.getFirstName(),
-                patient.getLastName(),
+                patient.getPatientName(),
                 patient.getUsername(),
                 patient.getPassword(),
-                patient.getContact(),
+                patient.getPhone(),
                 patient.getAge(),
                 patient.getEmail(),
                 patient.getGender(),
@@ -63,16 +61,13 @@ public class DataMappersImpl implements DataMappers {
 
     @Override
     public void updatePatientDetails(Patient patient, PatientRec record) {
-        if (StringUtils.isNotBlank(record.firstName())) {
-            patient.setFirstName(record.firstName());
+        if (StringUtils.isNotBlank(record.patientName())) {
+            patient.setPatientName(record.patientName());
         }
-        if (StringUtils.isNotBlank(record.lastName())) {
-            patient.setLastName(record.lastName());
-        }
-        if (record.contact() > 10
+        if (record.phone() > 10
                 //&& HospitalUtils.validateNumber(String.valueOf(record.contact()))
-                && record.contact() != patient.getContact()) {
-            patient.setContact(record.contact());
+                && record.phone() != patient.getPhone()) {
+            patient.setPhone(record.phone());
         }
         if (record.age() != patient.getAge()) {
             patient.setAge(record.age());

@@ -46,19 +46,19 @@ public class PatientServiceImpl implements PatientService {
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .filter(Objects::nonNull)
-                .map(m -> dataMappers.entityToRecord(m) )
+                .map(m -> dataMappers.entityToRecord(m))
                 .toList();
     }
 
     @Override
-    public PatientRec updatePatient(int id,PatientRec dto) {
+    public PatientRec updatePatient(int id, PatientRec dto) {
         Optional<Patient> patientOpt = patientRepository.findById(id);
         if (patientOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format(CommonConstants.NOT_FOUND_WITH_ID, CommonConstants.PATIENT, id));
         }
         Patient patient = patientOpt.get();
-        dataMappers.updatePatientDetails(patient,dto);
+        dataMappers.updatePatientDetails(patient, dto);
         patient = patientRepository.save(patient);
         return dataMappers.entityToRecord(patient);
     }
@@ -68,20 +68,20 @@ public class PatientServiceImpl implements PatientService {
         Optional<Patient> patientOpt = patientRepository.findById(id);
         if (patientOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format(CommonConstants.NOT_FOUND_WITH_ID, CommonConstants.PATIENT,id));
+                    String.format(CommonConstants.NOT_FOUND_WITH_ID, CommonConstants.PATIENT, id));
         }
         patientRepository.deleteById(id);
         Patient patient = patientOpt.get();
-        return patient.getFirstName()+CommonConstants.SINGLE_SPACE+patient.getLastName();
+        return patient.getPatientName();
     }
 
     @Override
     public int countByCreatedDateBetween(Date startDate, Date endDate) {
-        return patientRepository.countByCreatedDateBetween(startDate,endDate);
+        return patientRepository.countByCreatedDateBetween(startDate, endDate);
     }
 
     @Override
-    public Page<Patient> findAll(PageRequest pageRequest){
+    public Page<Patient> findAll(PageRequest pageRequest) {
         Page<Patient> recordsPage = patientRepository.findAll(pageRequest);
         return recordsPage;
     }

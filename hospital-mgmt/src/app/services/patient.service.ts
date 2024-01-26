@@ -13,8 +13,8 @@ export class PatientService {
   private httpLink = {
     loginUrl: environment.apiUrl + 'login',
     registerUrl: environment.apiUrl + 'register',
-    listAllPatientsUrl: environment.patientUrl + 'patient/list',
-    listAllDoctorsUrl: environment.doctorUrl + 'doctor/list'
+    listAllPatientsUrl: environment.apiUrl + 'patient/list',
+    listAllDoctorsUrl: environment.apiUrl + 'doctor/list'
   }
 
   private userSubject: BehaviorSubject<Patient | null>;

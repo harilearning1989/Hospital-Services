@@ -42,47 +42,77 @@ public class SpringCloudGatewayRouting {
     }*/
     @Bean
     public RouteLocator configureRoute(RouteLocatorBuilder builder) {
-        LOGGER.info("Enters configureRoute::"+builder);
+        LOGGER.info("Enters configureRoute::" + builder);
         return builder.routes()
                 .route("login", r -> r.path("/auth/**")
                         .filters(f ->
                                 f.setResponseHeader("Access-Control-Allow-Origin",
                                         "*"))
                         .uri("lb://LOGIN-SERVICE"))
+                //.uri("http://localhost:8081")) //static routing
                 .route("patient",
                         r -> r.path("/patient/**")
-                                //.filters(f ->
-                                  //      f.setResponseHeader("Access-Control-Allow-Origin",
-                                    //            "*"))
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "PATIENT-SERVICE")
+                                                .filter(authenticationFilter))
                                 .uri("lb://PATIENT-SERVICE"))
                 .route("doctor",
                         r -> r.path("/doctor/**")
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "DOCTOR-SERVICE")
+                                                .filter(authenticationFilter))
                                 .uri("lb://DOCTOR-SERVICE"))
                 .route("report",
                         r -> r.path("/report/**")
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "REPORT-SERVICE")
+                                                .filter(authenticationFilter))
                                 .uri("lb://REPORT-SERVICE"))
                 .route("admin",
                         r -> r.path("/admin/**")
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "ADMIN-SERVICE")
+                                                .filter(authenticationFilter))
                                 .uri("lb://ADMIN-SERVICE"))
                 .route("dental",
                         r -> r.path("/dental/**")
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "DENTAL-SERVICE")
+                                                .filter(authenticationFilter))
                                 .uri("lb://DENTAL-SERVICE"))
                 .route("general",
                         r -> r.path("/general/**")
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "GENERAL-SERVICE")
+                                                .filter(authenticationFilter))
                                 .uri("lb://GENERAL-SERVICE"))
                 .route("billing",
                         r -> r.path("/billing/**")
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "BILLING-SERVICE")
+                                                .filter(authenticationFilter))
                                 .uri("lb://BILLING-SERVICE"))
                 .route("paymentId",
                         r -> r.path("/payment/**")
-                                .filters(f -> f.filter(authenticationFilter))
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "PAYMENT-SERVICE")
+                                                .filter(authenticationFilter))
                                 .uri("http://localhost:9009")) //static routing
                 .build();
     }
