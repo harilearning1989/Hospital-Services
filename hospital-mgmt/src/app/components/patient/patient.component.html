@@ -1,5 +1,5 @@
 <br/>
-<div style="width: 700px;height: 300px">
+<div style="width: 700px;height: 300px;padding-left: 10px">
   <table class="table table-striped table-bordered table-md row-border hover"
          style="height: 100%;width: 100%"
          id="patientDataTable">
@@ -13,51 +13,55 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let p of patientList" (click)="showPatientHistoryOpenPopUp(p)">
+    <tr *ngFor="let p of patientList">
       <td>{{ p.patientName }}</td>
       <td>{{ p.email }}</td>
       <td>{{ p.gender }}</td>
       <td>{{ p.phone }}</td>
-      <td>{{ p.phone }}</td>
+      <td>
+        <i class="bi bi-trash3-fill" style="padding-left: 10px"
+           (click)="deletePatientById(p)"></i>
+        <i class="bi bi-pencil-square" style="padding-left: 10px"
+           (click)="showPatientHistoryOpenPopUp(p)"></i>
+      </td>
       <!--<button class="btn btn-primary" type="button" (click)="openPopup(p)">Update</button>-->
     </tr>
     </tbody>
   </table>
 </div>
 
-
-<!--<table class="table table-striped table-bordered table-sm row-border hover"
-       id="patientDataTable">
-  <thead>
-  <tr>
-    <th>Patient Name</th>
-    <th>Patient Contact</th>
-    <th>Problem</th>
-    <th>Doctor Name</th>
-    <th>Prescription</th>
-    <th>Appointment Take Date</th>
-    <th>Appointment Date</th>
-    <th>Appointment Status</th>
-    <th>Appointment Price</th>
-    <th>Action</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let p of patientList" (click)="showPatientHistoryOpenPopUp(p)">
-    <td>{{ p.firstName }}</td>
-    <td>{{ p.contact }}</td>
-    <td>{{ p.pname }}</td>
-    <td>{{ p.email }}</td>
-    <td>{{ p.phone }}</td>
-    <td>{{ p.address.street }}</td>
-    <td> {{ p.address.city }}</td>
-    <td>{{ p.address.street }}</td>
-    <td> {{ p.address.city }}</td>
-    <td> {{ p.address.city }}
-    </td>
-  </tr>
-  </tbody>
-</table>-->
+  <!--<table class="table table-striped table-bordered table-sm row-border hover"
+         id="patientDataTable">
+    <thead>
+    <tr>
+      <th>Patient Name</th>
+      <th>Patient Contact</th>
+      <th>Problem</th>
+      <th>Doctor Name</th>
+      <th>Prescription</th>
+      <th>Appointment Take Date</th>
+      <th>Appointment Date</th>
+      <th>Appointment Status</th>
+      <th>Appointment Price</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of patientList" (click)="showPatientHistoryOpenPopUp(p)">
+      <td>{{ p.firstName }}</td>
+      <td>{{ p.contact }}</td>
+      <td>{{ p.pname }}</td>
+      <td>{{ p.email }}</td>
+      <td>{{ p.phone }}</td>
+      <td>{{ p.address.street }}</td>
+      <td> {{ p.address.city }}</td>
+      <td>{{ p.address.street }}</td>
+      <td> {{ p.address.city }}</td>
+      <td> {{ p.address.city }}
+      </td>
+    </tr>
+    </tbody>
+  </table>-->
 
 
 <div class="modal" tabindex="-1" role="dialog"

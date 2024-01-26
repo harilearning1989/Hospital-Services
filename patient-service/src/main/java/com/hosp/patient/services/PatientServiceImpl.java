@@ -64,7 +64,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public String deleteById(int id) {
+    public String deletePatientById(int id) {
         Optional<Patient> patientOpt = patientRepository.findById(id);
         if (patientOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,

@@ -28,7 +28,7 @@ public class Patient {
     private String username;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "CONTACT")
+    @Column(name = "PHONE")
     private long phone;
     @Column(name = "AGE")
     private int age;

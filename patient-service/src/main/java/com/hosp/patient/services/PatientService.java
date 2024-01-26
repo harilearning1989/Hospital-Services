@@ -15,7 +15,7 @@ public interface PatientService {
 
     PatientRec updatePatient(int id,PatientRec dto);
 
-    String deleteById(int id);
+    String deletePatientById(int id);
 
     int countByCreatedDateBetween(Date sellDate, Date expiryDate);
 

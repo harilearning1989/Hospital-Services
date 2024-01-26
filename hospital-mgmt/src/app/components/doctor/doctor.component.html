@@ -1,22 +1,54 @@
 <br/>
+<div style="width: 700px;height: 300px;padding-left: 10px">
 
-<table class="table table-striped table-bordered table-sm row-border hover"
-       style="width: 600px"
-       id="doctorDataTable">
-  <thead>
-  <tr>
-    <th>Doctor Name</th>
-    <th>Email</th>
-    <th>Gender</th>
-    <th>Contact</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let p of doctorsList">
-    <td>{{ p.doctorName }}</td>
-    <td>{{ p.email }}</td>
-    <td>{{ p.gender }}</td>
-    <td>{{ p.phone }}</td>
-  </tr>
-  </tbody>
-</table>
+  <table class="table table-striped table-bordered table-sm row-border hover"
+         style="width: 600px"
+         id="doctorDataTable">
+    <thead>
+    <tr>
+      <th>Doctor Name</th>
+      <th>Email</th>
+      <th>Gender</th>
+      <th>Contact</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let d of doctorsList">
+      <td>{{ d.doctorName }}</td>
+      <td>{{ d.email }}</td>
+      <td>{{ d.gender }}</td>
+      <td>{{ d.phone }}</td>
+      <td>
+        <i class="bi bi-trash3-fill" style="padding-left: 10px"
+           (click)="deleteRow()" ></i>
+        <i class="bi bi-pencil-square" style="padding-left: 10px"
+           (click)="showPatientHistoryOpenPopUp(d)"></i>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"
+     [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" style="max-width: 70%;" role="document">
+    <div class="modal-content">
+      <div class="modal-header align-content-center" style="height: 35px">
+        <h6 class="modal-title text-danger" style="padding-left: 500px">Doctor History Recent To Old</h6>
+        <button type="button" class="close btn btn-danger" (click)="showPatientHistoryClosePopup()"
+                data-dismiss="modal">
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--<app-history></app-history>-->
+      </div>
+      <div class="modal-footer align-content-center" style="height: 40px">
+        <button type="button" class="btn btn-danger" (click)="showPatientHistoryClosePopup()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

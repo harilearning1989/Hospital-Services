@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {Patient} from "../models/patient";
@@ -14,6 +14,7 @@ export class PatientService {
     loginUrl: environment.apiUrl + 'login',
     registerUrl: environment.apiUrl + 'register',
     listAllPatientsUrl: environment.apiUrl + 'patient/list',
+    deletePatientById: environment.apiUrl + 'patient/delete',
     listAllDoctorsUrl: environment.apiUrl + 'doctor/list'
   }
 
@@ -22,14 +23,57 @@ export class PatientService {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private httpClient: HttpClient
   ) {
     this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();
   }
 
+  register(user: Patient) {
+    return this.httpClient.post(this.httpLink.registerUrl, user);
+  }
+
+  deletePatientById(id: number | undefined) {
+    console.log("Delete Patient By Id in Service::"+`${this.httpLink.deletePatientById}/${id}`);
+    return this.httpClient.delete(`${this.httpLink.deletePatientById}/${id}`)
+    //return this.http.delete(this.httpLink.deletePatientById + id)
+      .pipe(map(x => {
+        debugger;
+        return x;
+      }));
+  }
+
+/*  deleteExpense(id: number): Observable<any> {
+    return this.httpClient.delete(`${this.getUrl}/${id}`, {responseType: 'text'});
+  }*/
+
+  listAllPatients(): Observable<Patient> {
+    return this.httpClient.get(this.httpLink.listAllPatientsUrl)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+
+
+
+  deleteById(id: number | undefined) {
+    return this.httpClient.delete(`${environment.apiUrl}/users/${id}`)
+      .pipe(map(x => {
+        // auto logout if the logged in user deleted their own record
+        //if (id == this.userValue?.id) {
+        //this.logout();
+        //}
+        return x;
+      }));
+  }
+
+  users(): Observable<any> {
+    return this.httpClient.get('https://jsonplaceholder.typicode.com/users');
+  }
+
   login(username: string, password: string) {
-    return this.http.post<Patient>(this.httpLink.loginUrl, {username, password})
+    return this.httpClient.post<Patient>(this.httpLink.loginUrl, {username, password})
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         this.userSubject.next(user);
@@ -48,9 +92,6 @@ export class PatientService {
     return localStorage.getItem('user') !== null;
   }
 
-  register(user: Patient) {
-    return this.http.post(this.httpLink.registerUrl, user);
-  }
 
   public get userValue() {
     return this.userSubject.value;
@@ -64,7 +105,7 @@ export class PatientService {
   }
 
   getAll() {
-    return this.http.get<Patient[]>(`${environment.apiUrl}/users`);
+    return this.httpClient.get<Patient[]>(`${environment.apiUrl}/users`);
   }
 
   getToken() {
@@ -73,44 +114,22 @@ export class PatientService {
   }
 
   getById(id: string) {
-    return this.http.get<Patient>(`${environment.apiUrl}/users/${id}`);
+    return this.httpClient.get<Patient>(`${environment.apiUrl}/users/${id}`);
   }
 
   update(id: string, params: any) {
-    return this.http.put(`${environment.apiUrl}/users/${id}`, params)
+    return this.httpClient.put(`${environment.apiUrl}/users/${id}`, params)
       .pipe(map(x => {
         // update stored user if the logged in user updated their own record
-        if (id == this.userValue?.id) {
-          // update local storage
-          const user = {...this.userValue, ...params};
-          localStorage.setItem('user', JSON.stringify(user));
+        //if (id == this.userValue?.id) {
+        // update local storage
+        const user = {...this.userValue, ...params};
+        localStorage.setItem('user', JSON.stringify(user));
 
-          // publish updated user to subscribers
-          this.userSubject.next(user);
-        }
+        // publish updated user to subscribers
+        this.userSubject.next(user);
+        //}
         return x;
-      }));
-  }
-
-  delete(id: string) {
-    return this.http.delete(`${environment.apiUrl}/users/${id}`)
-      .pipe(map(x => {
-        // auto logout if the logged in user deleted their own record
-        if (id == this.userValue?.id) {
-          this.logout();
-        }
-        return x;
-      }));
-  }
-
-  users(): Observable<any> {
-    return this.http.get('https://jsonplaceholder.typicode.com/users');
-  }
-
-  listAllPatients(): Observable<Patient> {
-    return this.http.get(this.httpLink.listAllPatientsUrl)
-      .pipe(map(data => {
-        return data;
       }));
   }
 }

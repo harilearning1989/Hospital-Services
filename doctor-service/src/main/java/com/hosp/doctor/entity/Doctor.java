@@ -23,15 +23,13 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "FIRST_NAME")
-    private String firstName;
-    @Column(name = "LAST_NAME")
-    private String lastName;
+    private String doctorName;
     @Column(name = "USERNAME")
     private String username;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "CONTACT")
-    private int contact;
+    @Column(name = "PHONE")
+    private long phone;
     @Column(name = "SPECIALIST")
     private String specialist;
     @Column(name = "EXPERIENCE")

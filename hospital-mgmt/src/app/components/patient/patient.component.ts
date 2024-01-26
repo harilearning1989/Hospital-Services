@@ -11,6 +11,7 @@ export class PatientComponent implements OnInit {
 
   patientList: Patient[];
   displayStyle = "none";
+  deleteMessage=false;
 
   constructor(private patientService: PatientService) {
 
@@ -44,5 +45,18 @@ export class PatientComponent implements OnInit {
           });
         }, 1);
       }, error => console.error(error));
+  }
+
+  deletePatientById1(p: Patient) {
+    this.patientService.deletePatientById(p.id);
+  }
+
+  deletePatientById(p: Patient) {
+    this.patientService.deletePatientById(p.id).subscribe(
+      data => {
+        console.log('deleted response', data);
+        this.listAllPatients();
+      }
+    )
   }
 }

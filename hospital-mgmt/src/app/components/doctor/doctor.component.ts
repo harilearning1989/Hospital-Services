@@ -14,6 +14,7 @@ export class DoctorComponent implements OnInit {
   }
 
   doctorsList: Doctor[];
+  displayStyle = "none";
 
   ngOnInit(): void {
     this.listAllDoctors();
@@ -35,5 +36,21 @@ export class DoctorComponent implements OnInit {
           });
         }, 1);
       }, error => console.error(error));
+  }
+
+  deleteRow() {
+    console.log("Delete Row");
+  }
+
+  modifyUser() {
+    console.log("Modify User")
+  }
+
+  showPatientHistoryOpenPopUp(doctor: Doctor) {
+    this.displayStyle = "block";
+  }
+
+  showPatientHistoryClosePopup() {
+    this.displayStyle = "none";
   }
 }

@@ -4,14 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record DoctorRec(
         int id,
-        String firstName,
-        String lastName,
+        String doctorName,
         String username,
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         String password,
         String specialist,
         String experience,
-        int contact,
+        long phone,
         int age,
         String email,
         String gender,//enum

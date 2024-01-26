@@ -105,9 +105,9 @@ public class PatientRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public GlobalResponse deleteTutorial(@PathVariable("id") int id) {
-        LOGGER.info("deleteTutorial");
-        String patientName = patientService.deleteById(id);
+    public GlobalResponse deletePatientById(@PathVariable("id") int id) {
+        LOGGER.info("deletePatientById");
+        String patientName = patientService.deletePatientById(id);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.DELETED_SUCCESS,
                         CommonConstants.PATIENT, patientName), HttpStatus.OK, null);

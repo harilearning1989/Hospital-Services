@@ -30,8 +30,7 @@ public class DoctorRestController {
 
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.REGISTER_SUCCESS,
-                        CommonConstants.DOCTOR,doctor.firstName()+
-                                CommonConstants.SINGLE_SPACE+doctor.lastName()), HttpStatus.OK, doctor);
+                        CommonConstants.DOCTOR,doctor.doctorName()), HttpStatus.OK, doctor);
     }
 
     @GetMapping("list")
@@ -51,8 +50,7 @@ public class DoctorRestController {
         doctor = doctorService.updateDoctor(id,doctor);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.UPDATED_SUCCESS,
-                        CommonConstants.DOCTOR,doctor.firstName()+
-                                CommonConstants.SINGLE_SPACE+doctor.firstName()), HttpStatus.OK, doctor);
+                        CommonConstants.DOCTOR,doctor.doctorName()), HttpStatus.OK, doctor);
     }
 
     @DeleteMapping("/delete/{id}")

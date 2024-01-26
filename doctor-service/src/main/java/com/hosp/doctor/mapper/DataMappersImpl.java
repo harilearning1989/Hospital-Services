@@ -14,11 +14,10 @@ public class DataMappersImpl implements DataMappers {
     @Override
     public Doctor doctorDtoToEntity(DoctorRec dto) {
         Doctor doctor = Doctor.builder()
-                .firstName(dto.firstName())
-                .lastName(dto.lastName())
+                .doctorName(dto.doctorName())
                 .username(dto.username())
                 .password(dto.password())
-                .contact(dto.contact())
+                .phone(dto.phone())
                 .specialist(dto.specialist())
                 .experience(dto.experience())
                 .age(dto.age())
@@ -40,13 +39,12 @@ public class DataMappersImpl implements DataMappers {
         String updatedDateTmp = HospitalUtils.convertDateToString(entity.getUpdatedDate());
         DoctorRec rec = new DoctorRec(
                 entity.getId(),
-                entity.getFirstName(),
-                entity.getLastName(),
+                entity.getDoctorName(),
                 entity.getUsername(),
                 entity.getPassword(),
                 entity.getSpecialist(),
                 entity.getExperience(),
-                entity.getContact(),
+                entity.getPhone(),
                 entity.getAge(),
                 entity.getEmail(),
                 entity.getGender(),
@@ -62,16 +60,13 @@ public class DataMappersImpl implements DataMappers {
 
     @Override
     public void updateDoctorDetails(Doctor entity, DoctorRec dto) {
-        if (StringUtils.isNotBlank(dto.firstName())) {
-            entity.setFirstName(dto.firstName());
+        if (StringUtils.isNotBlank(dto.doctorName())) {
+            entity.setDoctorName(dto.doctorName());
         }
-        if (StringUtils.isNotBlank(dto.lastName())) {
-            entity.setLastName(dto.lastName());
-        }
-        if (dto.contact() > 10
-                && HospitalUtils.validateNumber(String.valueOf(dto.contact()))
-                && dto.contact() != entity.getContact()) {
-            entity.setContact(dto.contact());
+        if (dto.phone() > 10
+                && HospitalUtils.validateNumber(String.valueOf(dto.phone()))
+                && dto.phone() != entity.getPhone()) {
+            entity.setPhone(dto.phone());
         }
         if (dto.age() != entity.getAge()) {
             entity.setAge(dto.age());

@@ -74,6 +74,6 @@ public class DoctorServiceImpl implements DoctorService {
         }
         doctorRepository.deleteById(id);
         Doctor doctor = doctorOpt.get();
-        return doctor.getFirstName() + CommonConstants.SINGLE_SPACE + doctor.getLastName();
+        return doctor.getDoctorName();
     }
 }
