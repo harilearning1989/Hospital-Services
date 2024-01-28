@@ -3,6 +3,72 @@ sqlplus sys as sysdba
 
 grant all privileges to HOSPITAL_MGMT ;
 
+
+CREATE TABLE `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(30) NOT NULL,
+  `user_pass` varchar(255) NOT NULL,
+  `EMAIL` varchar(30) NOT NULL,
+  `PHONE` varchar(30) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`)
+);
+
+CREATE TABLE `user_roles` (
+  `user_id` int NOT NULL,
+  `role_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `fk_user_roles_role_id` (`role_id`),
+  CONSTRAINT `fk_user_roles_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`),
+  CONSTRAINT `fk_user_roles_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+);
+
+CREATE TABLE `roles` (
+  `role_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `user_roles_name_unique` (`name`)
+);
+
+CREATE TABLE `PATIENT_DETAILS` (
+  `PATIENT_ID` int NOT NULL AUTO_INCREMENT,
+  `PATIENT_NAME` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `age` int DEFAULT NULL,
+  `email` varchar(40) DEFAULT NULL,
+  `gender` varchar(6) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `CREATED_DATE` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_DATE` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `USER_ID` int DEFAULT NULL,
+  PRIMARY KEY (`PATIENT_ID`),
+  KEY `FK_PATIENT_USER_ID` (`USER_ID`),
+  CONSTRAINT `FK_PATIENT_USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `USERS` (`user_id`)
+);
+
+CREATE TABLE `DOCTOR_DETAILS` (
+  `DOCTOR_ID` int NOT NULL AUTO_INCREMENT,
+  `DOCTOR_NAME` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `specialist` varchar(20) DEFAULT NULL,
+  `experience` varchar(20) DEFAULT NULL,
+  `age` int DEFAULT NULL,
+  `gender` varchar(6) DEFAULT NULL,
+  `BLOOD_GROUP` varchar(6) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `city` varchar(20) DEFAULT NULL,
+  `pincode` int DEFAULT NULL,
+  `CREATED_DATE` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_DATE` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `USER_ID` int DEFAULT NULL,
+  PRIMARY KEY (`DOCTOR_ID`),
+  KEY `FK_DOCTOR_USER_ID` (`USER_ID`),
+  CONSTRAINT `FK_DOCTOR_USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `USERS` (`user_id`)
+);
+
 CREATE TABLE HOSP_MGMT.PATIENT_DETAILS(
     id int NOT NULL AUTO_INCREMENT,
     first_Name VARCHAR(20) NOT NULL,

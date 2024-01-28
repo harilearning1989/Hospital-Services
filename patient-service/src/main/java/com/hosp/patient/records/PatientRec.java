@@ -25,6 +25,7 @@ public record PatientRec(
         //String bloodGroup,//enum
         String address,
         String createdDate,
-        String updatedDate
+        String updatedDate,
+        int userId
 ) {
 }

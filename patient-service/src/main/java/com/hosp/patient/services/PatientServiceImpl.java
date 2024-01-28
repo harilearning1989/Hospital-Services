@@ -55,6 +55,7 @@ public class PatientServiceImpl implements PatientService {
             throw new UserAlreadyExistsException(signupResponse.message());
         }
         Patient patient = dataMappers.recordToEntity(rec);
+        patient.setUserId(signupResponse.data().get(0).userId());
         patient = patientRepository.save(patient);
         return dataMappers.entityToUserRecord(patient,signupRequest);
     }

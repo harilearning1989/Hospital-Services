@@ -10,15 +10,15 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
-        "id",
+        "userId",
         "username",
         "email",
         "phone",
         "roles"
 })
 public record UserResponse(
-        @JsonProperty("id")
-        Integer id,
+        @JsonProperty("userId")
+        Integer userId,
         @JsonProperty("username")
         String username,
         @JsonProperty("email")

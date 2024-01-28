@@ -44,7 +44,8 @@ public class DataMappersImpl implements DataMappers {
                 patient.getGender(),
                 patient.getAddress(),
                 createdDateTmp,
-                updatedDateTmp
+                updatedDateTmp,
+                patient.getUserId()
         );
 
         return record;
@@ -67,7 +68,8 @@ public class DataMappersImpl implements DataMappers {
                 patient.getGender(),
                 patient.getAddress(),
                 createdDateTmp,
-                updatedDateTmp
+                updatedDateTmp,
+                patient.getUserId()
         );
     }
 
