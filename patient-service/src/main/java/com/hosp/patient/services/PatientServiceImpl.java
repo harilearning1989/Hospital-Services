@@ -4,7 +4,11 @@ import com.hosp.patient.mapper.DataMappers;
 import com.hosp.patient.models.Patient;
 import com.hosp.patient.records.PatientRec;
 import com.hosp.patient.repos.PatientRepository;
+import com.hosp.patient.services.client.CreateUserClientService;
 import com.web.demo.constants.CommonConstants;
+import com.web.demo.exception.UserAlreadyExistsException;
+import com.web.demo.records.SignupRequest;
+import com.web.demo.response.SignupResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +23,7 @@ public class PatientServiceImpl implements PatientService {
 
     private PatientRepository patientRepository;
     private DataMappers dataMappers;
+    private CreateUserClientService createUserClientService;
 
     @Autowired
     public PatientServiceImpl setPatientRepository(PatientRepository patientRepository) {
@@ -32,11 +37,26 @@ public class PatientServiceImpl implements PatientService {
         return this;
     }
 
+    @Autowired
+    public PatientServiceImpl setCreateUserClientService(CreateUserClientService createUserClientService) {
+        this.createUserClientService = createUserClientService;
+        return this;
+    }
+
     @Override
-    public PatientRec registerPatient(PatientRec dto) {
-        Patient patient = dataMappers.recordToEntity(dto);
+    public PatientRec registerPatient(PatientRec rec) {
+        Set<String> role = new HashSet<>();
+        role.add("patient");
+        SignupRequest signupRequest =
+                new SignupRequest(0, rec.username(), rec.email(), role, rec.password(), rec.phone());
+        SignupResponse signupResponse = createUserClientService.createUser(signupRequest);
+        if (signupResponse != null
+                && signupResponse.status() != 200) {
+            throw new UserAlreadyExistsException(signupResponse.message());
+        }
+        Patient patient = dataMappers.recordToEntity(rec);
         patient = patientRepository.save(patient);
-        return dataMappers.entityToRecord(patient);
+        return dataMappers.entityToUserRecord(patient,signupRequest);
     }
 
     @Override

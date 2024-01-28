@@ -17,33 +17,23 @@ import java.util.Date;
 public class Patient {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "PATIENT_ID")
     //@SequenceGenerator(name = "PATIENT_DETAILS_ID_SEQ", sequenceName = "PATIENT_DETAILS_ID_SEQ", allocationSize = 1)
     //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PATIENT_DETAILS_ID_SEQ")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "FIRST_NAME")
+    private int patientId;
+    @Column(name = "PATIENT_NAME")
     private String patientName;
-    @Column(name = "USERNAME")
-    private String username;
-    @Column(name = "PASSWORD")
-    private String password;
-    @Column(name = "PHONE")
-    private long phone;
     @Column(name = "AGE")
     private int age;
     @Column(name = "EMAIL")
     private String email;
     @Column(name = "GENDER")
     private String gender;//enum
-    @Column(name = "BLOOD_GROUP")
-    private String bloodGroup;//enum
+    //@Column(name = "BLOOD_GROUP")
+    //private String bloodGroup;//enum
     @Column(name = "ADDRESS")
     private String address;
-    @Column(name = "CITY")
-    private String city;
-    @Column(name = "PINCODE")
-    private int pincode;
     @Column(name = "CREATED_DATE")
     private Date createdDate;
     @Column(name = "UPDATED_DATE")

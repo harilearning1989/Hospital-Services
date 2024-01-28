@@ -4,21 +4,24 @@ import com.hosp.doctor.entity.Doctor;
 import com.hosp.doctor.mapper.DataMappers;
 import com.hosp.doctor.records.DoctorRec;
 import com.hosp.doctor.repos.DoctorRepository;
+import com.hosp.doctor.services.client.CreateUserClientService;
 import com.web.demo.constants.CommonConstants;
+import com.web.demo.exception.UserAlreadyExistsException;
+import com.web.demo.records.SignupRequest;
+import com.web.demo.response.SignupResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
 
     private DoctorRepository doctorRepository;
+    private CreateUserClientService createUserClientService;
+    private DataMappers dataMappers;
 
     @Autowired
     public DoctorServiceImpl setDoctorRepository(DoctorRepository doctorRepository) {
@@ -26,19 +29,31 @@ public class DoctorServiceImpl implements DoctorService {
         return this;
     }
 
-    private DataMappers dataMappers;
-
     @Autowired
     public DoctorServiceImpl setDataMappers(DataMappers dataMappers) {
         this.dataMappers = dataMappers;
         return this;
     }
+    @Autowired
+    public DoctorServiceImpl setCreateUserClientService(CreateUserClientService createUserClientService) {
+        this.createUserClientService = createUserClientService;
+        return this;
+    }
 
     @Override
     public DoctorRec registerDoctor(DoctorRec rec) {
+        Set<String> role = new HashSet<>();
+        role.add("doctor");
+        SignupRequest signupRequest =
+                new SignupRequest(0, rec.username(), rec.email(), role, rec.password(), rec.phone());
+        SignupResponse signupResponse = createUserClientService.createUser(signupRequest);
+        if (signupResponse != null
+                && signupResponse.status() != 200) {
+            throw new UserAlreadyExistsException(signupResponse.message());
+        }
         Doctor doctor = dataMappers.doctorDtoToEntity(rec);
         doctor = doctorRepository.save(doctor);
-        return dataMappers.doctorEntityToDto(doctor);
+        return dataMappers.entityToUserRecord(doctor,signupRequest);
     }
 
     @Override

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record PatientRec(
-        int id,
+        int patientId,
         @Size(min = 2, message = "Patient name should have at least 2 characters")
         String patientName,
         @NotBlank(message = "username is not be null and blank")
@@ -22,10 +22,8 @@ public record PatientRec(
         @Email(message = "Invalid email")
         String email,
         String gender,//enum
-        String bloodGroup,//enum
+        //String bloodGroup,//enum
         String address,
-        String city,
-        int pincode,
         String createdDate,
         String updatedDate
 ) {

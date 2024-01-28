@@ -38,7 +38,12 @@
     <label class="form-label">Gender</label>
     <input type="text" formControlName="gender" class="form-control"
            placeholder="Enter Patient Gender"
-           [ngClass]="{ 'is-invalid': submitted && patientControls.phone.errors }"/>
+           [ngClass]="{ 'is-invalid': submitted && patientControls.gender.errors }"/>
+    <div *ngIf="submitted && patientControls.gender.errors" class="invalid-feedback">
+      <div *ngIf="patientControls.gender.errors.required">Gender is required</div>
+      <div *ngIf="patientControls.gender.errors.minlength">Gender must be at least 10 characters</div>
+      <div *ngIf="patientControls.gender.errors.cannotContainSpace">Gender cannot contain spaces</div>
+    </div>
   </div>
   <div class="mb-3">
     <label class="form-label">Username</label>

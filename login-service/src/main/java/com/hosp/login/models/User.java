@@ -50,7 +50,7 @@ public class User {
     private String password;
 
     @Column(name = "PHONE")
-    private String phone;
+    private long phone;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLES",

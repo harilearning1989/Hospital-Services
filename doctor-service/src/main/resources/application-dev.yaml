@@ -7,4 +7,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 login:
-  url: http://localhost:8085
+  rest:
+    url: http://LOGIN-SERVICE/
+    localUrl: http://localhost:8082

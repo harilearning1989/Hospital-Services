@@ -1,10 +1,10 @@
 package com.hosp.patient.controls;
 
 import com.hosp.patient.records.AppointmentRec;
-import com.hosp.patient.response.GlobalResponse;
-import com.hosp.patient.response.ResponseHandler;
 import com.hosp.patient.services.AppointmentService;
 import com.web.demo.constants.CommonConstants;
+import com.web.demo.response.GlobalResponse;
+import com.web.demo.response.ResponseHandler;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

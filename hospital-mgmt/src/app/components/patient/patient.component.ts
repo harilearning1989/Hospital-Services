@@ -11,7 +11,6 @@ export class PatientComponent implements OnInit {
 
   patientList: Patient[];
   displayStyle = "none";
-  deleteMessage=false;
 
   constructor(private patientService: PatientService) {
 
@@ -37,7 +36,7 @@ export class PatientComponent implements OnInit {
           $('#patientDataTable').DataTable({
             responsive: true,
             pagingType: 'full_numbers',
-            pageLength: 20,
+            pageLength: 10,
             processing: true,
             scrollCollapse: true,
             scrollY: '550px',
@@ -45,10 +44,6 @@ export class PatientComponent implements OnInit {
           });
         }, 1);
       }, error => console.error(error));
-  }
-
-  deletePatientById1(p: Patient) {
-    this.patientService.deletePatientById(p.id);
   }
 
   deletePatientById(p: Patient) {

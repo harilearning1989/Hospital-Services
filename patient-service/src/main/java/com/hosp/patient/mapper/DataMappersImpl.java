@@ -4,6 +4,8 @@ import com.hosp.patient.models.Appointment;
 import com.hosp.patient.models.Patient;
 import com.hosp.patient.records.AppointmentRec;
 import com.hosp.patient.records.PatientRec;
+import com.web.demo.records.SignupRequest;
+import com.web.demo.utils.HospitalUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -15,16 +17,10 @@ public class DataMappersImpl implements DataMappers {
     public Patient recordToEntity(PatientRec record) {
         Patient patient = Patient.builder()
                 .patientName(record.patientName())
-                .username(record.username())
-                .password(record.password())
-                .phone(record.phone())
                 .age(record.age())
                 .email(record.email())
                 .gender(record.gender())
-                .bloodGroup(record.bloodGroup())
                 .address(record.address())
-                .city(record.city())
-                .pincode(record.pincode())
                 .createdDate(new Date())
                 .updatedDate(new Date())
                 .build();
@@ -34,29 +30,45 @@ public class DataMappersImpl implements DataMappers {
     @Override
     public PatientRec entityToRecord(Patient patient) {
         //Wed Aug 16 12:29:39 IST 2023
-        //String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
-        //String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
+        String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
+        String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
 
         PatientRec record = new PatientRec(
-                patient.getId(),
+                patient.getPatientId(),
                 patient.getPatientName(),
-                patient.getUsername(),
-                patient.getPassword(),
-                patient.getPhone(),
-                patient.getAge(),
-                patient.getEmail(),
-                patient.getGender(),
-                patient.getBloodGroup(),
-                patient.getAddress(),
-                patient.getCity(),
-                patient.getPincode(),
                 null,
-                null
-                //createdDateTmp,
-                //updatedDateTmp
+                null,
+                0,
+                patient.getAge(),
+                null,
+                patient.getGender(),
+                patient.getAddress(),
+                createdDateTmp,
+                updatedDateTmp
         );
 
         return record;
+    }
+
+    @Override
+    public PatientRec entityToUserRecord(Patient patient, SignupRequest signupRequest) {
+        //Wed Aug 16 12:29:39 IST 2023
+        String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
+        String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
+
+        return new PatientRec(
+                patient.getPatientId(),
+                patient.getPatientName(),
+                signupRequest.username(),
+                null,
+                signupRequest.phone(),
+                patient.getAge(),
+                signupRequest.email(),
+                patient.getGender(),
+                patient.getAddress(),
+                createdDateTmp,
+                updatedDateTmp
+        );
     }
 
     @Override
@@ -64,11 +76,11 @@ public class DataMappersImpl implements DataMappers {
         if (StringUtils.isNotBlank(record.patientName())) {
             patient.setPatientName(record.patientName());
         }
-        if (record.phone() > 10
+        /*if (record.phone() > 10
                 //&& HospitalUtils.validateNumber(String.valueOf(record.contact()))
                 && record.phone() != patient.getPhone()) {
             patient.setPhone(record.phone());
-        }
+        }*/
         if (record.age() != patient.getAge()) {
             patient.setAge(record.age());
         }
@@ -80,14 +92,14 @@ public class DataMappersImpl implements DataMappers {
                 && !record.address().equalsIgnoreCase(patient.getAddress())) {
             patient.setAddress(record.address());
         }
-        if (StringUtils.isNotBlank(record.city())
+        /*if (StringUtils.isNotBlank(record.city())
                 && !record.city().equalsIgnoreCase(patient.getCity())) {
             patient.setCity(record.city());
         }
         if (record.pincode() > 10
                 && record.pincode() != patient.getPincode()) {
             patient.setPincode(record.pincode());
-        }
+        }*/
         patient.setUpdatedDate(new Date());
     }
 
@@ -122,7 +134,7 @@ public class DataMappersImpl implements DataMappers {
                 null,
                 appointment.getDescription(),
                 appointment.getConsultationFees(),
-                null,null,null);
+                null, null, null);
                 /*createdDateTmp,
                 updatedDateTmp,
                 appointmentDateTmp);*/

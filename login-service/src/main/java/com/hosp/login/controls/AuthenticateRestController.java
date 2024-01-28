@@ -6,13 +6,17 @@ import com.hosp.login.models.User;
 import com.hosp.login.models.UserDetailsImpl;
 import com.hosp.login.records.LoginRequest;
 import com.hosp.login.records.MessageResponse;
-import com.hosp.login.records.SignupRequest;
 import com.hosp.login.records.response.JwtResponse;
 import com.hosp.login.repos.RoleRepository;
 import com.hosp.login.repos.UserRepository;
+import com.web.demo.constants.CommonConstants;
+import com.web.demo.records.SignupRequest;
+import com.web.demo.response.GlobalResponse;
+import com.web.demo.response.ResponseHandler;
 import com.web.demo.utils.JwtTokenUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -97,7 +101,71 @@ public class AuthenticateRestController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public GlobalResponse registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.username())) {
+            return ResponseHandler.generateResponse(
+                    String.format(CommonConstants.USER_NAME_ALREADY_EXISTS,
+                            signUpRequest.username()), HttpStatus.BAD_REQUEST, null);
+        }
+        if (userRepository.existsByEmail(signUpRequest.email())) {
+            return ResponseHandler.generateResponse(
+                    String.format(CommonConstants.USER_EMAIL_ALREADY_EXISTS,
+                            signUpRequest.username()), HttpStatus.BAD_REQUEST, null);
+        }
+        User user = User.builder()
+                .username(signUpRequest.username())
+                .email(signUpRequest.email())
+                .password(encoder.encode(signUpRequest.password()))
+                .phone(signUpRequest.phone())
+                .build();
+
+        Set<String> strRoles = signUpRequest.role();
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles.isEmpty()) {
+            Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    case "patient":
+                        Role patientRole = roleRepository.findByName(RoleName.ROLE_PATIENT)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(patientRole);
+
+                        break;
+                    case "doctor":
+                        Role doctorRole = roleRepository.findByName(RoleName.ROLE_DOCTOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(doctorRole);
+
+                        break;
+                    default:
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                }
+            });
+        }
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return ResponseHandler.generateResponse(
+                String.format(CommonConstants.REGISTER_SUCCESS,
+                        CommonConstants.PATIENT, signUpRequest.username()), HttpStatus.OK, user);
+    }
+/*
+
+    @PostMapping("/signupTmp")
+    public ResponseEntity<?> registerUserTemp(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.username())) {
             return ResponseEntity
                     .badRequest()
@@ -158,6 +226,7 @@ public class AuthenticateRestController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+*/
 
 
 }

@@ -1,4 +1,4 @@
-package com.hosp.patient.response;
+package com.web.demo.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Data
 @Builder
-@JsonPropertyOrder({"status","message","size","data"})
+@JsonPropertyOrder({"status", "message", "size", "data"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor

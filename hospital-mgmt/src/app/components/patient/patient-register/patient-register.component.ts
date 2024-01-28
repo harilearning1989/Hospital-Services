@@ -38,6 +38,7 @@ export class PatientRegisterComponent implements OnInit {
   }
 
   onPatientSubmit() {
+    debugger;
     this.submitted = true;
     // reset alerts on submit
     // stop here if form is invalid
@@ -99,7 +100,7 @@ export class PatientRegisterComponent implements OnInit {
         Validators.minLength(10), Validators.maxLength(10),
         InputValidation.cannotContainSpace]],
       gender: ['', [Validators.required,
-        Validators.minLength(10), Validators.maxLength(10),
+        Validators.minLength(4), Validators.maxLength(6),
         InputValidation.cannotContainSpace]],
       username: ['', [Validators.required, Validators.minLength(4),
         Validators.maxLength(20), InputValidation.cannotContainSpace]],

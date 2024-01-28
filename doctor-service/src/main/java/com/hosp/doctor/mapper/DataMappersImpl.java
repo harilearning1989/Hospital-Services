@@ -1,7 +1,9 @@
 package com.hosp.doctor.mapper;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hosp.doctor.entity.Doctor;
 import com.hosp.doctor.records.DoctorRec;
+import com.web.demo.records.SignupRequest;
 import com.web.demo.utils.HospitalUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -15,18 +17,12 @@ public class DataMappersImpl implements DataMappers {
     public Doctor doctorDtoToEntity(DoctorRec dto) {
         Doctor doctor = Doctor.builder()
                 .doctorName(dto.doctorName())
-                .username(dto.username())
-                .password(dto.password())
-                .phone(dto.phone())
                 .specialist(dto.specialist())
                 .experience(dto.experience())
                 .age(dto.age())
-                .email(dto.email())
                 .gender(dto.gender())
                 .bloodGroup(dto.bloodGroup())
                 .address(dto.address())
-                .city(dto.city())
-                .pincode(dto.pincode())
                 .createdDate(new Date())
                 .updatedDate(new Date())
                 .build();
@@ -38,20 +34,20 @@ public class DataMappersImpl implements DataMappers {
         String createdDateTmp = HospitalUtils.convertDateToString(entity.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(entity.getUpdatedDate());
         DoctorRec rec = new DoctorRec(
-                entity.getId(),
+                entity.getDoctorId(),
                 entity.getDoctorName(),
-                entity.getUsername(),
-                entity.getPassword(),
+                null,
+                null,
                 entity.getSpecialist(),
                 entity.getExperience(),
-                entity.getPhone(),
+                0,
                 entity.getAge(),
-                entity.getEmail(),
+                null,
                 entity.getGender(),
                 entity.getBloodGroup(),
                 entity.getAddress(),
-                entity.getCity(),
-                entity.getPincode(),
+                null,
+                0,
                 createdDateTmp,
                 updatedDateTmp
         );
@@ -63,30 +59,30 @@ public class DataMappersImpl implements DataMappers {
         if (StringUtils.isNotBlank(dto.doctorName())) {
             entity.setDoctorName(dto.doctorName());
         }
-        if (dto.phone() > 10
+        /*if (dto.phone() > 10
                 && HospitalUtils.validateNumber(String.valueOf(dto.phone()))
                 && dto.phone() != entity.getPhone()) {
             entity.setPhone(dto.phone());
-        }
+        }*/
         if (dto.age() != entity.getAge()) {
             entity.setAge(dto.age());
         }
-        if (StringUtils.isNotBlank(dto.email())
+        /*if (StringUtils.isNotBlank(dto.email())
                 && !dto.email().equalsIgnoreCase(entity.getEmail())) {
             entity.setEmail(dto.email());
-        }
+        }*/
         if (StringUtils.isNotBlank(dto.address())
                 && !dto.address().equalsIgnoreCase(entity.getAddress())) {
             entity.setAddress(dto.address());
         }
-        if (StringUtils.isNotBlank(dto.city())
+        /*if (StringUtils.isNotBlank(dto.city())
                 && !dto.city().equalsIgnoreCase(entity.getCity())) {
             entity.setCity(dto.city());
-        }
-        if (dto.pincode() > 10
+        }*/
+        /*if (dto.pincode() > 10
                 && dto.pincode() != entity.getPincode()) {
             entity.setPincode(dto.pincode());
-        }
+        }*/
         entity.setUpdatedDate(new Date());
         if (StringUtils.isNotBlank(dto.specialist())
                 && !dto.specialist().equalsIgnoreCase(entity.getSpecialist())) {
@@ -96,6 +92,32 @@ public class DataMappersImpl implements DataMappers {
                 && !dto.experience().equalsIgnoreCase(entity.getExperience())) {
             entity.setExperience(dto.experience());
         }
+    }
+
+    @Override
+    public DoctorRec entityToUserRecord(Doctor doctor, SignupRequest signupRequest) {
+        //Wed Aug 16 12:29:39 IST 2023
+        String createdDateTmp = HospitalUtils.convertDateToString(doctor.getCreatedDate());
+        String updatedDateTmp = HospitalUtils.convertDateToString(doctor.getUpdatedDate());
+
+        return new DoctorRec(
+                doctor.getDoctorId(),
+                doctor.getDoctorName(),
+                signupRequest.username(),
+                null,
+                doctor.getSpecialist(),
+                doctor.getExperience(),
+                signupRequest.phone(),
+                doctor.getAge(),
+                signupRequest.email(),
+                doctor.getGender(),
+                doctor.getBloodGroup(),
+                doctor.getAddress(),
+                null,
+                0,
+                createdDateTmp,
+                updatedDateTmp
+        );
     }
 
 }

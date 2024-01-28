@@ -1,4 +1,4 @@
-package com.hosp.patient.response;
+package com.web.demo.response;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,18 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ResponseHandler {
-    public static ResponseEntity<GlobalResponse> generateResponseTmp(String message, HttpStatus status, Object data) {
-        GlobalResponse globalResponse = GlobalResponse.builder()
-                .message(message)
-                .status(status.value())
-                .build();
-
-        if (data != null) {
-            globalResponse.setData(Arrays.asList(data));
-            globalResponse.setSize(globalResponse.getData().size());
-        }
-        return new ResponseEntity<>(globalResponse, status);
-    }
 
     public static GlobalResponse generateResponse(String message, HttpStatus status, Object data) {
         GlobalResponse globalResponse = GlobalResponse.builder()
@@ -33,6 +21,19 @@ public class ResponseHandler {
             globalResponse.setSize(globalResponse.getData().size());
         }
         return globalResponse;
+    }
+
+    public static ResponseEntity<GlobalResponse> generateResponseTmp(String message, HttpStatus status, Object data) {
+        GlobalResponse globalResponse = GlobalResponse.builder()
+                .message(message)
+                .status(status.value())
+                .build();
+
+        if (data != null) {
+            globalResponse.setData(Arrays.asList(data));
+            globalResponse.setSize(globalResponse.getData().size());
+        }
+        return new ResponseEntity<>(globalResponse, status);
     }
 
     public static ResponseEntity<GlobalResponse> generateResponseListTmp(String message, HttpStatus status, List<?> data) {
