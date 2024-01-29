@@ -40,5 +40,6 @@ public class Doctor {
     private Date createdDate;
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;
-
+    @Column(name = "USER_ID")
+    private int userId;
 }

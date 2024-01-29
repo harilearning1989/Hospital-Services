@@ -52,6 +52,7 @@ public class DoctorServiceImpl implements DoctorService {
             throw new UserAlreadyExistsException(signupResponse.message());
         }
         Doctor doctor = dataMappers.doctorDtoToEntity(rec);
+        doctor.setUserId(signupResponse.data().get(0).userId());
         doctor = doctorRepository.save(doctor);
         return dataMappers.entityToUserRecord(doctor,signupRequest);
     }

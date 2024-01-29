@@ -49,7 +49,8 @@ public class DataMappersImpl implements DataMappers {
                 null,
                 0,
                 createdDateTmp,
-                updatedDateTmp
+                updatedDateTmp,
+                0
         );
         return rec;
     }
@@ -116,7 +117,8 @@ public class DataMappersImpl implements DataMappers {
                 null,
                 0,
                 createdDateTmp,
-                updatedDateTmp
+                updatedDateTmp,
+                doctor.getUserId()
         );
     }
 

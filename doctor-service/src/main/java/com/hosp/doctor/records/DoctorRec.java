@@ -19,6 +19,7 @@ public record DoctorRec(
         String city,
         int pincode,
         String createdDate,
-        String updatedDate
+        String updatedDate,
+        int userId
 ) {
 }

@@ -1,10 +1,10 @@
 package com.hosp.doctor.controls;
 
 import com.hosp.doctor.records.DoctorRec;
-import com.hosp.doctor.response.GlobalResponse;
-import com.hosp.doctor.response.ResponseHandler;
 import com.hosp.doctor.services.DoctorService;
 import com.web.demo.constants.CommonConstants;
+import com.web.demo.response.GlobalResponse;
+import com.web.demo.response.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
