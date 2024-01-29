@@ -16,7 +16,7 @@ import java.util.List;
 @Configuration
 public class OpenAPIConfig {
 
-    @Value("${login.url}")
+    @Value("${login.rest.url}")
     private String loginUrl;
 
     @Bean

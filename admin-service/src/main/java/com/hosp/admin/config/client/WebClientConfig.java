@@ -1,8 +1,7 @@
 package com.hosp.admin.config.client;
 
-import com.hosp.admin.services.client.DoctorClientService;
+import com.hosp.admin.services.client.CreateUserClientService;
 import com.hosp.admin.services.client.EmployeeClientService;
-import com.hosp.admin.services.client.PatientClientService;
 import com.web.demo.config.client.HospitalWebClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.core.publisher.Mono;
-import reactor.util.retry.Retry;
-import reactor.util.retry.RetryBackoffSpec;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,14 +17,10 @@ import java.util.Map;
 public class WebClientConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebClientConfig.class);
 
-    @Value("${patient.rest.url}")
-    private String patientUrl;
-    @Value("${patient.rest.urlLocal}")
-    private String patientUrlLocal;
-    @Value("${doctor.rest.url}")
-    private String doctorUrl;
-    @Value("${doctor.rest.urlLocal}")
-    private String doctorUrlLocal;
+    @Value("${login.rest.url}")
+    private String loginUrl;
+    @Value("${login.rest.localUrl}")
+    private String loginLocalUrl;
     @Value("${patient.header.key}")
     private String headerKey;
     @Value("${patient.header.value}")
@@ -43,32 +30,11 @@ public class WebClientConfig {
 
     @Bean
     @LoadBalanced
-    public DoctorClientService doctorClientService(){
-        Map<String,String> headersMap = new HashMap<>();
-        headersMap.put(headerKey,headerValue);
+    public CreateUserClientService adminClientService() {
+        Map<String, String> headersMap = new HashMap<>();
+        //headersMap.put(headerKey,headerValue);
         return new HospitalWebClient()
-                .createClient(DoctorClientService.class,doctorUrlLocal,headersMap);
-    }
-
-    @Bean
-    @LoadBalanced
-    public PatientClientService patientClientService(){
-        Map<String,String> headersMap = new HashMap<>();
-        headersMap.put(headerKey,headerValue);
-        return new HospitalWebClient()
-                .createClient(PatientClientService.class,patientUrlLocal,headersMap);
-    }
-
-    @Bean
-    @LoadBalanced
-    public WebClient.Builder loadBalancedWebClientBuilder() {
-        return WebClient.builder();
-    }
-
-    @Bean
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+                .createClient(CreateUserClientService.class, loginLocalUrl, headersMap);
     }
 
     @Bean
@@ -80,6 +46,26 @@ public class WebClientConfig {
         return new HospitalWebClient()
                 .createClient(EmployeeClientService.class, empUrl, headersMap);
     }
+
+    /*@Value("${patient.rest.url}")
+    private String patientUrl;
+    @Value("${patient.rest.urlLocal}")
+    private String patientUrlLocal;
+    @Value("${doctor.rest.url}")
+    private String doctorUrl;
+    @Value("${doctor.rest.urlLocal}")
+    private String doctorUrlLocal;*/
+    /*@Bean
+    @LoadBalanced
+    public WebClient.Builder loadBalancedWebClientBuilder() {
+        return WebClient.builder();
+    }
+
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }*/
 
     /*@Bean
     @LoadBalanced
@@ -127,6 +113,5 @@ public class WebClientConfig {
                                 retrySignal.failure().getLocalizedMessage()))
                 .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> retrySignal.failure());
     }*/
-
 
 }
