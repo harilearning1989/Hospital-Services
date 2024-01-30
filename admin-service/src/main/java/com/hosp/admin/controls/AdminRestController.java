@@ -29,6 +29,13 @@ public class AdminRestController {
         this.adminRepository = adminRepository;
         return this;
     }
+
+    @Autowired
+    public AdminRestController setAdminService(AdminService adminService) {
+        this.adminService = adminService;
+        return this;
+    }
+
     @PostMapping("register")
     public GlobalResponse registerPatientTemp(
             @Valid @RequestBody AdminRec rec) {

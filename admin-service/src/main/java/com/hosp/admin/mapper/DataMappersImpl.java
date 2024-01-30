@@ -20,6 +20,7 @@ public class DataMappersImpl implements DataMappers {
                 .address(record.address())
                 .createdDate(new Date())
                 .updatedDate(new Date())
+                .experience(record.experience())
                 .build();
         return patient;
     }
@@ -40,6 +41,7 @@ public class DataMappersImpl implements DataMappers {
                 null,
                 admin.getGender(),
                 admin.getAddress(),
+                admin.getExperience(),
                 createdDateTmp,
                 updatedDateTmp,
                 admin.getUserId()
@@ -64,6 +66,7 @@ public class DataMappersImpl implements DataMappers {
                 signupRequest.email(),
                 admin.getGender(),
                 admin.getAddress(),
+                admin.getExperience(),
                 createdDateTmp,
                 updatedDateTmp,
                 admin.getUserId()

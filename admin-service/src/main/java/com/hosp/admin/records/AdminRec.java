@@ -24,6 +24,8 @@ public record AdminRec(
         String gender,//enum
         //String bloodGroup,//enum
         String address,
+        @NotBlank(message = "experience is not be null and blank")
+        String experience,
         String createdDate,
         String updatedDate,
         int userId
