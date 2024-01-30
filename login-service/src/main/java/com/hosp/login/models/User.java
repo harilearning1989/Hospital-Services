@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,6 +52,11 @@ public class User {
 
     @Column(name = "PHONE")
     private long phone;
+
+    @Column(name = "CREATED_DATE")
+    private Date createdDate;
+    @Column(name = "UPDATED_DATE")
+    private Date updatedDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLES",

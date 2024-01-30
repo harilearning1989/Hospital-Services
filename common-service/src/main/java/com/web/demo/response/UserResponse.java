@@ -18,7 +18,7 @@ import java.util.List;
 })
 public record UserResponse(
         @JsonProperty("userId")
-        Integer userId,
+        long userId,
         @JsonProperty("username")
         String username,
         @JsonProperty("email")

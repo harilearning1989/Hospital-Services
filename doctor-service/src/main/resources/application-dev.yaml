@@ -10,3 +10,6 @@ login:
   rest:
     url: http://LOGIN-SERVICE/
     localUrl: http://localhost:8082
+
+jwt:
+  enabled: true
