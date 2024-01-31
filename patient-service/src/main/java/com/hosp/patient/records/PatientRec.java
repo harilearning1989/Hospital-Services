@@ -26,6 +26,6 @@ public record PatientRec(
         String address,
         String createdDate,
         String updatedDate,
-        int userId
+        long userId
 ) {
 }

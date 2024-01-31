@@ -12,4 +12,4 @@ login:
 
 
 jwt:
-  enabled: false
+  enabled: true

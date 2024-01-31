@@ -5,6 +5,7 @@ import com.hosp.patient.models.Patient;
 import com.hosp.patient.records.AppointmentRec;
 import com.hosp.patient.records.PatientRec;
 import com.web.demo.records.SignupRequest;
+import com.web.demo.response.UserResponse;
 import com.web.demo.utils.HospitalUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class DataMappersImpl implements DataMappers {
     }
 
     @Override
-    public PatientRec entityToRecord(Patient patient) {
+    public PatientRec entityToRecord(Patient patient, UserResponse userResponse) {
         //Wed Aug 16 12:29:39 IST 2023
         String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
@@ -36,11 +37,11 @@ public class DataMappersImpl implements DataMappers {
         PatientRec record = new PatientRec(
                 patient.getPatientId(),
                 patient.getPatientName(),
+                userResponse.username(),
                 null,
-                null,
-                0,
+                userResponse.phone(),
                 patient.getAge(),
-                null,
+                userResponse.email(),
                 patient.getGender(),
                 patient.getAddress(),
                 createdDateTmp,

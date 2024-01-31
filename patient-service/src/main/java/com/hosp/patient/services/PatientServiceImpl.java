@@ -9,6 +9,9 @@ import com.web.demo.constants.CommonConstants;
 import com.web.demo.exception.UserAlreadyExistsException;
 import com.web.demo.records.SignupRequest;
 import com.web.demo.response.SignupResponse;
+import com.web.demo.response.UserResponse;
+import com.web.demo.utils.HospitalUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +20,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.maxBy;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -24,6 +33,14 @@ public class PatientServiceImpl implements PatientService {
     private PatientRepository patientRepository;
     private DataMappers dataMappers;
     private CreateUserClientService createUserClientService;
+
+    private HttpServletRequest httpServletRequest;
+
+    @Autowired
+    public PatientServiceImpl setHttpServletRequest(HttpServletRequest httpServletRequest) {
+        this.httpServletRequest = httpServletRequest;
+        return this;
+    }
 
     @Autowired
     public PatientServiceImpl setPatientRepository(PatientRepository patientRepository) {
@@ -57,17 +74,44 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = dataMappers.recordToEntity(rec);
         patient.setUserId(signupResponse.data().get(0).userId());
         patient = patientRepository.save(patient);
-        return dataMappers.entityToUserRecord(patient,signupRequest);
+        return dataMappers.entityToUserRecord(patient, signupRequest);
     }
 
     @Override
     public List<PatientRec> listAllPatients() {
         List<Patient> patientList = patientRepository.findAll();
+
+        Set<Long> userIds = Optional.ofNullable(patientList)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(Patient::getUserId)
+                .collect(Collectors.toSet());
+
+        Map<String, String> headersMap = HospitalUtils.getHttpHeaders(httpServletRequest);
+        SignupResponse signupResponse = createUserClientService.getAllUsers(userIds,headersMap);
+
+        /*Map<Long,UserResponse> userMap = Optional.ofNullable(signupResponse.data())
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .collect(groupingBy(UserResponse::userId));*/
+
+        Map<Long, Optional<UserResponse>> userMap =
+                Optional.ofNullable(signupResponse.data())
+                        .orElseGet(Collections::emptyList)
+                        .stream()
+                .collect(groupingBy(UserResponse::userId,
+                        maxBy(comparingLong(UserResponse::userId))));
+
+
         return Optional.ofNullable(patientList)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .filter(Objects::nonNull)
-                .map(m -> dataMappers.entityToRecord(m))
+                .map(m -> {
+                    Optional<UserResponse> userOpt = userMap.get(m.getUserId());
+                    UserResponse userResponse= userOpt.get();
+                   return dataMappers.entityToRecord(m,userResponse);
+                })
                 .toList();
     }
 
@@ -81,7 +125,7 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientOpt.get();
         dataMappers.updatePatientDetails(patient, dto);
         patient = patientRepository.save(patient);
-        return dataMappers.entityToRecord(patient);
+        return dataMappers.entityToRecord(patient,null);
     }
 
     @Override

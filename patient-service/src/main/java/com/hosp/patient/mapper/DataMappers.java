@@ -5,11 +5,12 @@ import com.hosp.patient.models.Patient;
 import com.hosp.patient.records.AppointmentRec;
 import com.hosp.patient.records.PatientRec;
 import com.web.demo.records.SignupRequest;
+import com.web.demo.response.UserResponse;
 
 public interface DataMappers {
     Patient recordToEntity(PatientRec record);
 
-    PatientRec entityToRecord(Patient patient);
+    PatientRec entityToRecord(Patient patient, UserResponse userResponse);
 
     void updatePatientDetails(Patient patient, PatientRec record);
 
