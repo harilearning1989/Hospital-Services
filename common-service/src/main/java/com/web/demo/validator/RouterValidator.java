@@ -1,6 +1,6 @@
 package com.web.demo.validator;
 
-import org.springframework.http.server.reactive.ServerHttpRequest;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,9 +17,9 @@ public class RouterValidator {
             "/admin/register"
     );
 
-    public Predicate<ServerHttpRequest> isSecured =
-            request -> openApiEndpoints
+    public Predicate<String> isSecured =
+            path -> openApiEndpoints
                     .stream()
-                    .noneMatch(uri -> request.getURI().getPath().contains(uri));
+                    .noneMatch(uri -> path.contains(uri));
 
 }

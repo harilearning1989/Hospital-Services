@@ -2,6 +2,7 @@ package com.web.demo.filter;
 
 import com.web.demo.constants.Constants;
 import com.web.demo.utils.JwtTokenUtils;
+import com.web.demo.validator.RouterValidator;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +38,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private Environment environment;
 
     private JwtTokenUtils jwtTokenUtils;
+    private final RouterValidator routerValidator;
+
+    public JwtTokenFilter(RouterValidator routerValidator) {
+        this.routerValidator = routerValidator;
+    }
 
     @Autowired
     public JwtTokenFilter setJwtTokenUtils(JwtTokenUtils jwtTokenUtils) {
@@ -50,46 +56,48 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
         String path = request.getServletPath();
-        LOGGER.info("Path::" + path
-                + "===Environment jwt enabled::" + environment.getProperty("jwt.enabled"));
-        String jwtEnabled = environment.getProperty("jwt.enabled");
-        if (StringUtils.isNotBlank(jwtEnabled)
-                && StringUtils.equalsAnyIgnoreCase(jwtEnabled, "true")) {
-            Map<String, List<String>> headersMap = Collections.list(request.getHeaderNames())
-                    .stream()
-                    .collect(Collectors.toMap(
-                            Function.identity(),
-                            h -> Collections.list(request.getHeaders(h))
-                    ));
-            headersMap.forEach((k, v) -> {
-                v.forEach(f -> {
-                    System.out.println("Key::" + k + "===Value::" + f);
+        System.out.println("Path:::::::" + path);
+        if (routerValidator.isSecured.test(path)) {
+            LOGGER.info("Path::" + path
+                    + "===Environment jwt enabled::" + environment.getProperty("jwt.enabled"));
+            String jwtEnabled = environment.getProperty("jwt.enabled");
+            if (StringUtils.isNotBlank(jwtEnabled)
+                    && StringUtils.equalsAnyIgnoreCase(jwtEnabled, "true")) {
+                Map<String, List<String>> headersMap = Collections.list(request.getHeaderNames())
+                        .stream()
+                        .collect(Collectors.toMap(
+                                Function.identity(),
+                                h -> Collections.list(request.getHeaders(h))
+                        ));
+                headersMap.forEach((k, v) -> {
+                    v.forEach(f -> {
+                        System.out.println("Key::" + k + "===Value::" + f);
+                    });
                 });
-            });
-            final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-            String authHeaderTemp = request.getHeader("authorization");
-            LOGGER.info("JwtTokenFilter enters into doFilterInternal authHeaderTemp::" + authHeaderTemp);
-            if (StringUtils.isEmpty(authHeader) || (!StringUtils.startsWith(authHeader, Constants.BEARER_PREFIX)
-                    && !StringUtils.startsWith(authHeader, Constants.BASIC_PREFIX))) {
-                LOGGER.info("JwtTokenFilter enters into authHeader condition");
-                jwtTokenUtils.generateErrorMesage(response, Constants.TOKEN_NOT_FOUND, HttpStatus.FORBIDDEN.value());
-                return;
-            }
-
-            if (StringUtils.startsWith(authHeader, Constants.BEARER_PREFIX)) {
-                final String jwtToken = authHeader.split(" ")[1].trim();
-                LOGGER.info("JwtTokenFilter enters into BEARER_PREFIX condition jwtToken::" + jwtToken);
-                try {
-                    jwtTokenUtils.validateJwtToken(jwtToken);
-                } catch (Exception e) {
-                    LOGGER.info("Exception message::" + e.getMessage());
-                    jwtTokenUtils.generateErrorMesage(response, Constants.TOKEN_VALIDATION_FAILED, HttpStatus.UNAUTHORIZED.value());
+                final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+                String authHeaderTemp = request.getHeader("authorization");
+                LOGGER.info("JwtTokenFilter enters into doFilterInternal authHeaderTemp::" + authHeaderTemp);
+                if (StringUtils.isEmpty(authHeader) || (!StringUtils.startsWith(authHeader, Constants.BEARER_PREFIX)
+                        && !StringUtils.startsWith(authHeader, Constants.BASIC_PREFIX))) {
+                    LOGGER.info("JwtTokenFilter enters into authHeader condition");
+                    jwtTokenUtils.generateErrorMesage(response, Constants.TOKEN_NOT_FOUND, HttpStatus.FORBIDDEN.value());
                     return;
                 }
-            } else {
-                LOGGER.info(Constants.BEARER_PREFIX_NOT_FOUND);
-                jwtTokenUtils.generateErrorMesage(response, Constants.BEARER_PREFIX_NOT_FOUND, HttpStatus.FORBIDDEN.value());
-                return;
+                if (StringUtils.startsWith(authHeader, Constants.BEARER_PREFIX)) {
+                    final String jwtToken = authHeader.split(" ")[1].trim();
+                    LOGGER.info("JwtTokenFilter enters into BEARER_PREFIX condition jwtToken::" + jwtToken);
+                    try {
+                        jwtTokenUtils.validateJwtToken(jwtToken);
+                    } catch (Exception e) {
+                        LOGGER.info("Exception message::" + e.getMessage());
+                        jwtTokenUtils.generateErrorMesage(response, Constants.TOKEN_VALIDATION_FAILED, HttpStatus.UNAUTHORIZED.value());
+                        return;
+                    }
+                } else {
+                    LOGGER.info(Constants.BEARER_PREFIX_NOT_FOUND);
+                    jwtTokenUtils.generateErrorMesage(response, Constants.BEARER_PREFIX_NOT_FOUND, HttpStatus.FORBIDDEN.value());
+                    return;
+                }
             }
         }
         filterChain.doFilter(request, response);

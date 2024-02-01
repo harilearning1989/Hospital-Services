@@ -47,7 +47,7 @@ export class PatientComponent implements OnInit {
   }
 
   deletePatientById(p: Patient) {
-    this.patientService.deletePatientById(p.id).subscribe(
+    this.patientService.deletePatientById(p.patientId).subscribe(
       data => {
         console.log('deleted response', data);
         this.listAllPatients();

@@ -26,8 +26,6 @@ public class Patient {
     private String patientName;
     @Column(name = "AGE")
     private int age;
-    @Column(name = "EMAIL")
-    private String email;
     @Column(name = "GENDER")
     private String gender;//enum
     //@Column(name = "BLOOD_GROUP")

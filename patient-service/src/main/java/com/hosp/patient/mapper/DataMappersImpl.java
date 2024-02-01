@@ -19,7 +19,6 @@ public class DataMappersImpl implements DataMappers {
         Patient patient = Patient.builder()
                 .patientName(record.patientName())
                 .age(record.age())
-                .email(record.email())
                 .gender(record.gender())
                 .address(record.address())
                 .createdDate(new Date())
@@ -86,10 +85,6 @@ public class DataMappersImpl implements DataMappers {
         }*/
         if (record.age() != patient.getAge()) {
             patient.setAge(record.age());
-        }
-        if (StringUtils.isNotBlank(record.email())
-                && !record.email().equalsIgnoreCase(patient.getEmail())) {
-            patient.setEmail(record.email());
         }
         if (StringUtils.isNotBlank(record.address())
                 && !record.address().equalsIgnoreCase(patient.getAddress())) {

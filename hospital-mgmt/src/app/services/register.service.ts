@@ -12,7 +12,7 @@ import {Admin} from "../models/admin";
 export class RegisterService {
   private httpLink = {
     loginUrl: environment.apiUrl + 'login',
-    registerUrl: environment.apiUrl + 'register'
+    registerUrl: environment.apiUrl + 'patient/register'
   }
 
   constructor(private router: Router,
@@ -20,6 +20,7 @@ export class RegisterService {
   }
 
   registerPatient(patient: Patient) {
+    console.log("URL::"+this.httpLink.registerUrl);
     return this.http.post(this.httpLink.registerUrl, patient);
   }
 
