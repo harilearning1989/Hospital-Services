@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparingInt;
 import static java.util.Comparator.comparingLong;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.maxBy;
+import static java.util.stream.Collectors.*;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -88,7 +87,7 @@ public class PatientServiceImpl implements PatientService {
                 .collect(Collectors.toSet());
 
         Map<String, String> headersMap = HospitalUtils.getHttpHeaders(httpServletRequest);
-        SignupResponse signupResponse = createUserClientService.getAllUsers(userIds,headersMap);
+        SignupResponse signupResponse = createUserClientService.getAllUsers(userIds, headersMap);
 
         /*Map<Long,UserResponse> userMap = Optional.ofNullable(signupResponse.data())
                 .orElseGet(Collections::emptyList)
@@ -99,8 +98,32 @@ public class PatientServiceImpl implements PatientService {
                 Optional.ofNullable(signupResponse.data())
                         .orElseGet(Collections::emptyList)
                         .stream()
-                .collect(groupingBy(UserResponse::userId,
-                        maxBy(comparingLong(UserResponse::userId))));
+                        .collect(groupingBy(UserResponse::userId,
+                                maxBy(comparingLong(UserResponse::userId))));
+
+        /*Map<Long,List<UserResponse>> userMapTmp = Optional.ofNullable(signupResponse.data())
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .collect(groupingBy(UserResponse::userId));
+        Map<Long, UserResponse> userMapTmp1 = Optional.ofNullable(signupResponse.data())
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .collect(Collectors.groupingBy(p -> p.userId())).values().stream()
+                .map(plans -> plans.stream().findFirst().get())
+                .collect(toList());*/
+
+        /*Map<Long, List<UserResponse>> userMapList = Optional.ofNullable(signupResponse.data())
+                .orElseGet(Collections::emptyList)
+                .stream().collect(Collectors.groupingBy(UserResponse::userId));*/
+
+        /*Map<String, UserResponse> map =
+                Optional.ofNullable(signupResponse.data())
+                        .orElseGet(Collections::emptyList)
+                        .stream()
+                        .collect(Collectors.groupingBy(UserResponse::userId,
+                                Collectors.collectingAndThen(
+                                        Collectors.toList(),
+                                        values -> values.get(0))));*/
 
 
         return Optional.ofNullable(patientList)
@@ -109,8 +132,8 @@ public class PatientServiceImpl implements PatientService {
                 .filter(Objects::nonNull)
                 .map(m -> {
                     Optional<UserResponse> userOpt = userMap.get(m.getUserId());
-                    UserResponse userResponse= userOpt.get();
-                   return dataMappers.entityToRecord(m,userResponse);
+                    UserResponse userResponse = userOpt.get();
+                    return dataMappers.entityToRecord(m, userResponse);
                 })
                 .toList();
     }
@@ -125,7 +148,7 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientOpt.get();
         dataMappers.updatePatientDetails(patient, dto);
         patient = patientRepository.save(patient);
-        return dataMappers.entityToRecord(patient,null);
+        return dataMappers.entityToRecord(patient, null);
     }
 
     @Override

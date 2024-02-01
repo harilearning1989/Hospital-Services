@@ -117,6 +117,8 @@ public class AuthenticateRestController {
                 .email(signUpRequest.email())
                 .password(encoder.encode(signUpRequest.password()))
                 .phone(signUpRequest.phone())
+                .createdDate(new Date())
+                .updatedDate(new Date())
                 .build();
 
         Set<String> strRoles = signUpRequest.role();
