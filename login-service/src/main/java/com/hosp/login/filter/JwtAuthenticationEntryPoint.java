@@ -12,6 +12,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,20 +31,26 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
     }*/
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
+                         AuthenticationException authException)
             throws IOException, ServletException {
         logger.error("Unauthorized error: {}", authException.getMessage());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        final Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "Unauthorized");
-        body.put("message", authException.getMessage());
-        body.put("path", request.getServletPath());
+        final Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+        responseMap.put("error", "Unauthorized");
+        responseMap.put("message", authException.getMessage());
+        responseMap.put("path", request.getServletPath());
+
+        OutputStream out = response.getOutputStream();
 
         final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), body);
+        //mapper.writeValue(response.getOutputStream(), body);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(out, responseMap);
     }
+
 }

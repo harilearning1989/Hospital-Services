@@ -30,16 +30,10 @@ public class Doctor {
     private String experience;
     @Column(name = "AGE")
     private int age;
-    @Column(name = "GENDER")
-    private String gender;//enum
-    @Column(name = "BLOOD_GROUP")
-    private String bloodGroup;//enum
-    @Column(name = "ADDRESS")
-    private String address;
     @Column(name = "CREATED_DATE")
     private Date createdDate;
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;
     @Column(name = "USER_ID")
-    private int userId;
+    private long userId;
 }

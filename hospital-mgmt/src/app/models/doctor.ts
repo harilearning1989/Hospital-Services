@@ -1,9 +1,11 @@
 export class Doctor {
-  id?: string;
+  doctorId?: string;
   doctorName?: string;
   gender?: string;
   username?: string;
   password?: string;
   email?: string;
   phone?: string;
+  specialist: number;
+  experience?: string;
 }

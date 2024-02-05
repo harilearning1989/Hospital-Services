@@ -28,6 +28,6 @@ public record AdminRec(
         String experience,
         String createdDate,
         String updatedDate,
-        int userId
+        long userId
 ) {
 }

@@ -13,14 +13,13 @@ export class PatientComponent implements OnInit {
   displayStyle = "none";
 
   constructor(private patientService: PatientService) {
-
   }
 
   ngOnInit(): void {
     this.listAllPatients();
   }
 
-  showPatientHistoryOpenPopUp(p: Patient) {
+  updatePatientPopUp(p: Patient) {
     this.displayStyle = "block";
   }
 
@@ -47,7 +46,7 @@ export class PatientComponent implements OnInit {
   }
 
   deletePatientById(p: Patient) {
-    this.patientService.deletePatientById(p.patientId).subscribe(
+    this.patientService.deletePatientById(p.patientId,p.userId).subscribe(
       data => {
         console.log('deleted response', data);
         this.listAllPatients();

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface HospUserDetailsService {
     List<UserResponse> listAllUsers();
+
+    String deleteUserById(long userId);
 }

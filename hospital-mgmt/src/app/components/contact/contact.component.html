@@ -1,1 +1,69 @@
-<p>contact works!</p>
+<div class="card registerDiv">
+  <h6 class="card-header text-danger text-center" style="font-style: italic">Contact Page</h6>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" formControlName="name" class="form-control"
+               placeholder="Enter Name"
+               (keypress)="omitSpecialCharsAndNumbers($event)"
+               [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name is required</div>
+          <div *ngIf="f.name.errors.cannotContainSpace">Name cannot contain spaces</div>
+          <div *ngIf="f.name.errors.minlength">Name must be at least 4 characters</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label class="form-label">Mobile</label>
+          <input type="text" formControlName="mobile" class="form-control"
+                 placeholder="Enter Mobile"
+                 (keypress)="allowOnlyNumbers($event)"
+                 [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }"/>
+          <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+            <div *ngIf="f.mobile.errors.required">Mobile is required</div>
+            <div *ngIf="f.mobile.errors.cannotContainSpace">Mobile cannot contain spaces</div>
+            <div *ngIf="f.mobile.errors.minlength">Mobile must be at least 10 characters</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="text" formControlName="email" class="form-control"
+                 placeholder="Enter Email Id"
+                 (keypress)="omitSpaces($event)"
+                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">Email Id is required</div>
+            <div *ngIf="f.email.errors.cannotContainSpace">Email Id cannot contain spaces</div>
+            <div *ngIf="f.email.errors.minlength">Email Id must be at least 4 characters</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Message</label>
+        <textarea formControlName="message" class="form-control"
+                  placeholder="Enter Message"
+                  (keypress)="omitSpecialChars($event)"
+                  [ngClass]="{ 'is-invalid': submitted && f.message.errors }" ></textarea>
+        <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
+          <div *ngIf="f.message.errors.required">Message is required</div>
+          <div *ngIf="f.message.errors.cannotContainSpace">Message cannot contain spaces</div>
+          <div *ngIf="f.message.errors.minlength">Message must be at least 4 characters</div>
+        </div>
+      </div>
+
+      <div>
+        <button [disabled]="loading" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+          Submit
+        </button>&nbsp;&nbsp;
+        <button class="btn btn-primary" (click)="clearFields()">Clear</button>
+        <span class="text-danger" style="padding-left: 50px">{{errorMessage}}</span>
+      </div>
+    </form>
+  </div>
+</div>

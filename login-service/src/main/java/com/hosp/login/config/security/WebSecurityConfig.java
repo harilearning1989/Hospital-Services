@@ -17,10 +17,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
+
+    private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
+            new AntPathRequestMatcher("/v1/**"), new AntPathRequestMatcher("/admin/**")
+    );
     UserDetailsService userDetailsService;
 
     private JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -37,10 +44,10 @@ public class WebSecurityConfig {
         return this;
     }
 
-    @Bean
-    public AuthenticationFilter authenticationJwtTokenFilter() {
-        return new AuthenticationFilter();
-    }
+     @Bean
+     public AuthenticationFilter authenticationJwtTokenFilter() {
+         return new AuthenticationFilter();
+     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

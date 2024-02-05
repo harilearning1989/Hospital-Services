@@ -5,6 +5,7 @@ import {LoginService} from "../../services/login.service";
 import {first} from "rxjs";
 import {Utils} from "../../utils/utils";
 import {InputValidation} from "../../validations/input-validation";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -51,9 +52,9 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/home');
         },
         error: error => {
-          console.log("Submission Failed ::" + error);
-          this.errorMessage = error;
           this.loading = false;
+          this.errorMessage = error.split(",")[1];
+          this.errorMessage = this.errorMessage.split(":")[1];
         }
       });
   }

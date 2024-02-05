@@ -3,6 +3,7 @@ package com.hosp.login.services;
 import com.hosp.login.models.User;
 import com.hosp.login.models.UserDetailsImpl;
 import com.hosp.login.repos.UserRepository;
+import com.web.demo.exception.UserNotExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,8 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-
+                .orElseThrow(() -> new UserNotExistsException("User Not Found with Username=" + username));
         return UserDetailsImpl.build(user);
     }
 

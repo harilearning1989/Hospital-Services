@@ -24,6 +24,7 @@ export class DoctorComponent implements OnInit {
     this.doctorService.listAllDoctors()
       .subscribe((response: any) => {
         this.doctorsList = response.data;
+        console.log("DoctorList::"+response);
         setTimeout(() => {
           $('#doctorDataTable').DataTable({
             responsive: true,

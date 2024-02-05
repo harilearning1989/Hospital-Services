@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoginService} from "../../../services/login.service";
@@ -21,7 +21,7 @@ export class PatientRegisterComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
+    //private route: ActivatedRoute,
     private router: Router,
     private loginService: LoginService,
     private registerService: RegisterService
@@ -38,7 +38,6 @@ export class PatientRegisterComponent implements OnInit {
   }
 
   onPatientSubmit() {
-    debugger;
     this.submitted = true;
     // reset alerts on submit
     // stop here if form is invalid
@@ -46,7 +45,6 @@ export class PatientRegisterComponent implements OnInit {
       return;
     }
     //this.patientForm.value.roles = this.selectedRoles;
-    console.log(this.patientForm.value);
     this.loading = true;
     /*this.loginService.register(this.form.value)
       .subscribe({
@@ -64,12 +62,15 @@ export class PatientRegisterComponent implements OnInit {
 
     this.registerService.registerPatient(this.patientForm.value)
       .subscribe((data: any) => {
-          console.log("Submitted Successfully");
-          this.errorMessage = data.status + ' ' + data.message;
           this.loading = false;
           this.submitted = false;
-          this.patientFormFields();
-          //this.router.navigate(['../login'], {relativeTo: this.route});
+
+          if (data.status == 400) {
+            this.errorMessage = data.status + ' ' + data.message;
+          }else{
+            this.patientFormFields();
+            this.router.navigate(['/login']);
+          }
         },
         (error: any) => {
           console.log("Submission Failed ::" + error);
@@ -85,6 +86,7 @@ export class PatientRegisterComponent implements OnInit {
   omitSpecialCharsAndNumbers(event: KeyboardEvent) {
     return Utils.omitSpecialCharsAndNumbers(event);
   }
+
   allowOnlyNumbers(event: KeyboardEvent) {
     return Utils.allowOnlyNumbers(event);
   }

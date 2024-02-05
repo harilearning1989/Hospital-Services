@@ -33,12 +33,11 @@ export class PatientService {
     return this.httpClient.post(this.httpLink.registerUrl, user);
   }
 
-  deletePatientById(id: number | undefined) {
-    console.log("Delete Patient By Id in Service::"+`${this.httpLink.deletePatientById}/${id}`);
-    return this.httpClient.delete(`${this.httpLink.deletePatientById}/${id}`)
+  deletePatientById(patientId: number | undefined,userId:number | undefined) {
+    console.log("Delete Patient By Id in Service::"+`${this.httpLink.deletePatientById}/${patientId}/${userId}`);
+    return this.httpClient.delete(`${this.httpLink.deletePatientById}/${patientId}/${userId}`)
     //return this.http.delete(this.httpLink.deletePatientById + id)
       .pipe(map(x => {
-        debugger;
         return x;
       }));
   }

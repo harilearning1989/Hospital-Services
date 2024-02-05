@@ -13,13 +13,8 @@ public record DoctorRec(
         long phone,
         int age,
         String email,
-        String gender,//enum
-        String bloodGroup,//enum
-        String address,
-        String city,
-        int pincode,
         String createdDate,
         String updatedDate,
-        int userId
+        long userId
 ) {
 }

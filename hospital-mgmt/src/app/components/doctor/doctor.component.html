@@ -8,7 +8,8 @@
     <tr>
       <th>Doctor Name</th>
       <th>Email</th>
-      <th>Gender</th>
+      <th>Specialist</th>
+      <th>Experience</th>
       <th>Contact</th>
       <th>Action</th>
     </tr>
@@ -17,7 +18,8 @@
     <tr *ngFor="let d of doctorsList">
       <td>{{ d.doctorName }}</td>
       <td>{{ d.email }}</td>
-      <td>{{ d.gender }}</td>
+      <td>{{ d.specialist }}</td>
+      <td>{{ d.experience }}</td>
       <td>{{ d.phone }}</td>
       <td>
         <i class="bi bi-trash3-fill" style="padding-left: 10px"

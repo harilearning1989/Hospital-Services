@@ -12,6 +12,8 @@ import com.web.demo.response.SignupResponse;
 import com.web.demo.response.UserResponse;
 import com.web.demo.utils.HospitalUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,13 +24,14 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Comparator.comparingInt;
 import static java.util.Comparator.comparingLong;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.maxBy;
 
 @Service
 public class PatientServiceImpl implements PatientService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientServiceImpl.class);
     private PatientRepository patientRepository;
     private DataMappers dataMappers;
     private CreateUserClientService createUserClientService;
@@ -86,20 +89,25 @@ public class PatientServiceImpl implements PatientService {
                 .map(Patient::getUserId)
                 .collect(Collectors.toSet());
 
-        Map<String, String> headersMap = HospitalUtils.getHttpHeaders(httpServletRequest);
-        SignupResponse signupResponse = createUserClientService.getAllUsers(userIds, headersMap);
+        Map<Long, Optional<UserResponse>> userMap;
+        if (!userIds.isEmpty()) {
+            Map<String, String> headersMap = HospitalUtils.getHttpHeaders(httpServletRequest);
+            SignupResponse signupResponse = createUserClientService.getAllUsers(userIds, headersMap);
 
         /*Map<Long,UserResponse> userMap = Optional.ofNullable(signupResponse.data())
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .collect(groupingBy(UserResponse::userId));*/
 
-        Map<Long, Optional<UserResponse>> userMap =
-                Optional.ofNullable(signupResponse.data())
-                        .orElseGet(Collections::emptyList)
-                        .stream()
-                        .collect(groupingBy(UserResponse::userId,
-                                maxBy(comparingLong(UserResponse::userId))));
+            userMap =
+                    Optional.ofNullable(signupResponse.data())
+                            .orElseGet(Collections::emptyList)
+                            .stream()
+                            .collect(groupingBy(UserResponse::userId,
+                                    maxBy(comparingLong(UserResponse::userId))));
+        } else {
+            userMap = new HashMap<>();
+        }
 
         /*Map<Long,List<UserResponse>> userMapTmp = Optional.ofNullable(signupResponse.data())
                 .orElseGet(Collections::emptyList)
@@ -152,14 +160,17 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public String deletePatientById(int id) {
-        Optional<Patient> patientOpt = patientRepository.findById(id);
+    public String deletePatientById(int patientId, long userId) {
+        Optional<Patient> patientOpt = patientRepository.findById(patientId);
         if (patientOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format(CommonConstants.NOT_FOUND_WITH_ID, CommonConstants.PATIENT, id));
+                    String.format(CommonConstants.NOT_FOUND_WITH_ID, CommonConstants.PATIENT, patientId));
         }
-        patientRepository.deleteById(id);
+        patientRepository.deleteById(patientId);
         Patient patient = patientOpt.get();
+        Map<String, String> headersMap = HospitalUtils.getHttpHeaders(httpServletRequest);
+        String response = createUserClientService.deleteUserById(userId, headersMap);
+        LOGGER.info("deletePatientById::" + response);
         return patient.getPatientName();
     }
 

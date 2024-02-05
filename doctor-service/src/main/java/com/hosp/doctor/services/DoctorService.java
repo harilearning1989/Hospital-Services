@@ -11,5 +11,5 @@ public interface DoctorService {
 
     DoctorRec updateDoctor(int id, DoctorRec dto);
 
-    String deleteById(int id);
+    String deleteDoctorById(int doctorId,long userId);
 }

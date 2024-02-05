@@ -32,22 +32,37 @@ public class DataMappersImpl implements DataMappers {
         //Wed Aug 16 12:29:39 IST 2023
         String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
-
-        PatientRec record = new PatientRec(
-                patient.getPatientId(),
-                patient.getPatientName(),
-                userResponse.username(),
-                null,
-                userResponse.phone(),
-                patient.getAge(),
-                userResponse.email(),
-                patient.getGender(),
-                patient.getAddress(),
-                createdDateTmp,
-                updatedDateTmp,
-                patient.getUserId()
-        );
-
+        PatientRec record = null;
+        if (userResponse != null) {
+            record = new PatientRec(
+                    patient.getPatientId(),
+                    patient.getPatientName(),
+                    userResponse.username(),
+                    null,
+                    userResponse.phone(),
+                    patient.getAge(),
+                    userResponse.email(),
+                    patient.getGender(),
+                    patient.getAddress(),
+                    createdDateTmp,
+                    updatedDateTmp,
+                    patient.getUserId()
+            );
+        } else {
+            record = new PatientRec(
+                    patient.getPatientId(),
+                    patient.getPatientName(),
+                    null,
+                    null,
+                    0,
+                    patient.getAge(),
+                    null,
+                    patient.getGender(),
+                    patient.getAddress(),
+                    createdDateTmp,
+                    updatedDateTmp,
+                    patient.getUserId());
+        }
         return record;
     }
 

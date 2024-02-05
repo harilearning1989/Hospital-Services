@@ -103,10 +103,11 @@ public class PatientRestController {
                         CommonConstants.PATIENT, dto.patientName()), HttpStatus.OK, dto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public GlobalResponse deletePatientById(@PathVariable("id") int id) {
+    @DeleteMapping("/delete/{patientId}/{userId}")
+    public GlobalResponse deletePatientById(@PathVariable("patientId") int patientId,
+                                            @PathVariable("userId") long userId) {
         LOGGER.info("deletePatientById");
-        String patientName = patientService.deletePatientById(id);
+        String patientName = patientService.deletePatientById(patientId,userId);
         return ResponseHandler.generateResponse(
                 String.format(CommonConstants.DELETED_SUCCESS,
                         CommonConstants.PATIENT, patientName), HttpStatus.OK, null);
@@ -148,7 +149,6 @@ public class PatientRestController {
         Pageable pageable = new PageRequest(sourcePage.getNumber(), sourcePage.getSize(), sourcePage.getSort());
         Page<Target> targetPage = new PageImpl(targets, pageable, sourcePage.getTotalElements());
         return targetPage;*/
-
 
         return allEmployees;
     }

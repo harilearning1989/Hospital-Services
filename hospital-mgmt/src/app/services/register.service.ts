@@ -12,7 +12,9 @@ import {Admin} from "../models/admin";
 export class RegisterService {
   private httpLink = {
     loginUrl: environment.apiUrl + 'login',
-    registerUrl: environment.apiUrl + 'patient/register'
+    registerPatientUrl: environment.apiUrl + 'patient/register',
+    registerDoctorUrl: environment.apiUrl + 'doctor/register',
+    registerAdminUrl: environment.apiUrl + 'admin/register'
   }
 
   constructor(private router: Router,
@@ -20,15 +22,17 @@ export class RegisterService {
   }
 
   registerPatient(patient: Patient) {
-    console.log("URL::"+this.httpLink.registerUrl);
-    return this.http.post(this.httpLink.registerUrl, patient);
+    console.log("URL::" + this.httpLink.registerPatientUrl);
+    return this.http.post(this.httpLink.registerPatientUrl, patient);
   }
 
   registerDoctor(doctor: Doctor) {
-    return this.http.post(this.httpLink.registerUrl, doctor);
+    console.log("doctor::" + doctor);
+    debugger;
+    return this.http.post(this.httpLink.registerDoctorUrl, doctor);
   }
 
   registerAdmin(admin: Admin) {
-    return this.http.post(this.httpLink.registerUrl, admin);
+    return this.http.post(this.httpLink.registerAdminUrl, admin);
   }
 }

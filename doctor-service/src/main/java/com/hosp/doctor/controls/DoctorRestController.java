@@ -5,6 +5,8 @@ import com.hosp.doctor.services.DoctorService;
 import com.web.demo.constants.CommonConstants;
 import com.web.demo.response.GlobalResponse;
 import com.web.demo.response.ResponseHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequestMapping("doctor")
 public class DoctorRestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DoctorRestController.class);
     private DoctorService doctorService;
 
     @Autowired
@@ -52,10 +55,13 @@ public class DoctorRestController {
                         CommonConstants.DOCTOR,doctor.doctorName()), HttpStatus.OK, doctor);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public GlobalResponse deleteTutorial(@PathVariable("id") int id) {
-        String doctorName = doctorService.deleteById(id);
+    @DeleteMapping("/delete/{doctorId}/{userId}")
+    public GlobalResponse deleteDoctorById(@PathVariable("doctorId") int doctorId,
+                                            @PathVariable("userId") long userId) {
+        LOGGER.info("deleteDoctorById");
+        String doctorName = doctorService.deleteDoctorById(doctorId,userId);
         return ResponseHandler.generateResponse(
-                String.format(CommonConstants.DELETED_SUCCESS, CommonConstants.DOCTOR, doctorName), HttpStatus.OK, null);
+                String.format(CommonConstants.DELETED_SUCCESS,
+                        CommonConstants.DOCTOR, doctorName), HttpStatus.OK, null);
     }
 }

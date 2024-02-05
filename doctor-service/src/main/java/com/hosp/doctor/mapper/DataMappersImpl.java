@@ -1,9 +1,9 @@
 package com.hosp.doctor.mapper;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hosp.doctor.entity.Doctor;
 import com.hosp.doctor.records.DoctorRec;
 import com.web.demo.records.SignupRequest;
+import com.web.demo.response.UserResponse;
 import com.web.demo.utils.HospitalUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -14,15 +14,12 @@ import java.util.Date;
 public class DataMappersImpl implements DataMappers {
 
     @Override
-    public Doctor doctorDtoToEntity(DoctorRec dto) {
+    public Doctor doctorRecToEntity(DoctorRec rec) {
         Doctor doctor = Doctor.builder()
-                .doctorName(dto.doctorName())
-                .specialist(dto.specialist())
-                .experience(dto.experience())
-                .age(dto.age())
-                .gender(dto.gender())
-                .bloodGroup(dto.bloodGroup())
-                .address(dto.address())
+                .doctorName(rec.doctorName())
+                .specialist(rec.specialist())
+                .experience(rec.experience())
+                .age(rec.age())
                 .createdDate(new Date())
                 .updatedDate(new Date())
                 .build();
@@ -30,28 +27,42 @@ public class DataMappersImpl implements DataMappers {
     }
 
     @Override
-    public DoctorRec doctorEntityToDto(Doctor entity) {
+    public DoctorRec doctorEntityToDto(Doctor entity, UserResponse userResponse) {
         String createdDateTmp = HospitalUtils.convertDateToString(entity.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(entity.getUpdatedDate());
-        DoctorRec rec = new DoctorRec(
-                entity.getDoctorId(),
-                entity.getDoctorName(),
-                null,
-                null,
-                entity.getSpecialist(),
-                entity.getExperience(),
-                0,
-                entity.getAge(),
-                null,
-                entity.getGender(),
-                entity.getBloodGroup(),
-                entity.getAddress(),
-                null,
-                0,
-                createdDateTmp,
-                updatedDateTmp,
-                0
-        );
+        DoctorRec rec = null;
+        if (userResponse != null) {
+            rec = new DoctorRec(
+                    entity.getDoctorId(),
+                    entity.getDoctorName(),
+                    userResponse.username(),
+                    null,
+                    entity.getSpecialist(),
+                    entity.getExperience(),
+                    userResponse.phone(),
+                    entity.getAge(),
+                    userResponse.email(),
+                    createdDateTmp,
+                    updatedDateTmp,
+                    userResponse.userId());
+
+        } else {
+            rec = new DoctorRec(
+                    entity.getDoctorId(),
+                    entity.getDoctorName(),
+                    null,
+                    null,
+                    entity.getSpecialist(),
+                    entity.getExperience(),
+                    0,
+                    entity.getAge(),
+                    null,
+                    createdDateTmp,
+                    updatedDateTmp,
+                    0
+            );
+        }
+
         return rec;
     }
 
@@ -72,10 +83,6 @@ public class DataMappersImpl implements DataMappers {
                 && !dto.email().equalsIgnoreCase(entity.getEmail())) {
             entity.setEmail(dto.email());
         }*/
-        if (StringUtils.isNotBlank(dto.address())
-                && !dto.address().equalsIgnoreCase(entity.getAddress())) {
-            entity.setAddress(dto.address());
-        }
         /*if (StringUtils.isNotBlank(dto.city())
                 && !dto.city().equalsIgnoreCase(entity.getCity())) {
             entity.setCity(dto.city());
@@ -111,11 +118,6 @@ public class DataMappersImpl implements DataMappers {
                 signupRequest.phone(),
                 doctor.getAge(),
                 signupRequest.email(),
-                doctor.getGender(),
-                doctor.getBloodGroup(),
-                doctor.getAddress(),
-                null,
-                0,
                 createdDateTmp,
                 updatedDateTmp,
                 doctor.getUserId()

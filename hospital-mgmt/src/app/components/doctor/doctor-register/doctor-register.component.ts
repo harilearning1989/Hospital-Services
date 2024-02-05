@@ -51,15 +51,16 @@ export class DoctorRegisterComponent implements OnInit {
     this.loading = true;
     this.registerService.registerDoctor(this.doctorForm.value)
       .subscribe((data: any) => {
-          console.log("Submitted Successfully");
-          this.errorMessage = data.status + ' ' + data.message;
           this.loading = false;
           this.submitted = false;
-          this.doctorFormFields();
-          //this.router.navigate(['../login'], {relativeTo: this.route});
+          if (data.status == 400) {
+            this.errorMessage = data.status + ' ' + data.message;
+          }else{
+            this.doctorFormFields();
+            this.router.navigate(['/login']);
+          }
         },
         (error: any) => {
-          console.log("Submission Failed ::" + error);
           this.errorMessage = error;
           this.loading = false;
         });
@@ -78,6 +79,8 @@ export class DoctorRegisterComponent implements OnInit {
       doctorName: ['', [Validators.required, Validators.minLength(4),
         Validators.maxLength(20), InputValidation.cannotContainSpace]],
       specialist: ['', [Validators.required, Validators.minLength(4),
+        Validators.maxLength(20), InputValidation.cannotContainSpace]],
+      experience: ['', [Validators.required, Validators.minLength(4),
         Validators.maxLength(20), InputValidation.cannotContainSpace]],
       email: ['', [Validators.required, Validators.email,
         Validators.maxLength(20),

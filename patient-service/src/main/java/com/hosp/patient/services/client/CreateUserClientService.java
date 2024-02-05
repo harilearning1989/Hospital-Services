@@ -6,6 +6,7 @@ import com.web.demo.response.SignupResponse;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
@@ -25,5 +26,9 @@ public interface CreateUserClientService {
     @GetExchange("/user/list")
     SignupResponse getAllUsers(@RequestParam Set<Long> userIds,
                                @RequestHeader Map<String, String> headers);
+
+    @DeleteExchange("user/deleteUserById")
+    String deleteUserById(@RequestParam(name = "userId") long userId,
+                          @RequestHeader Map<String, String> headers);
 
 }
