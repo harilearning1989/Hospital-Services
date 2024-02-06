@@ -1,5 +1,5 @@
 export class Doctor {
-  doctorId?: string;
+  doctorId?: number;
   doctorName?: string;
   gender?: string;
   username?: string;
@@ -8,4 +8,5 @@ export class Doctor {
   phone?: string;
   specialist: number;
   experience?: string;
+  userId?: number;
 }

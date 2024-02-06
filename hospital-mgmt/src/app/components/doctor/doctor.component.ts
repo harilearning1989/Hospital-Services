@@ -39,8 +39,14 @@ export class DoctorComponent implements OnInit {
       }, error => console.error(error));
   }
 
-  deleteRow() {
+  deleteDoctorById(doctor: Doctor) {
     console.log("Delete Row");
+    this.doctorService.deleteDoctorById(doctor.doctorId,doctor.userId).subscribe(
+      data => {
+        console.log('deleted response', data);
+        this.listAllDoctors();
+      }
+    )
   }
 
   modifyUser() {

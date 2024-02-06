@@ -9,7 +9,8 @@ import {environment} from "../../environments/environment";
 export class DoctorService {
 
   private httpLink = {
-    listAllDoctorsUrl: environment.apiUrl + 'doctor/list'
+    listAllDoctorsUrl: environment.apiUrl + 'doctor/list',
+    deleteDoctorById: environment.apiUrl + 'doctor/delete',
   }
 
   constructor(private http: HttpClient) {
@@ -17,6 +18,15 @@ export class DoctorService {
 
   listAllDoctors() {
     return this.http.get(this.httpLink.listAllDoctorsUrl)
+      .pipe(map(x => {
+        return x;
+      }));
+  }
+
+  deleteDoctorById(doctorId: number | undefined,userId:number | undefined) {
+    console.log("Delete Doctor By Id in Service::"+`${this.httpLink.deleteDoctorById}/${doctorId}/${userId}`);
+    return this.http.delete(`${this.httpLink.deleteDoctorById}/${doctorId}/${userId}`)
+      //return this.http.delete(this.httpLink.deletePatientById + id)
       .pipe(map(x => {
         return x;
       }));
