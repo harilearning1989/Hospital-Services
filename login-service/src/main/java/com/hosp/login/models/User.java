@@ -51,7 +51,7 @@ public class User {
     private String password;
 
     @Column(name = "PHONE")
-    private long phone;
+    private String phone;
 
     @Column(name = "CREATED_DATE")
     private Date createdDate;

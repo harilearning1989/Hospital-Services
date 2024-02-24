@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "PATIENT_DETAILS")
@@ -30,12 +32,16 @@ public class Patient {
     private String gender;//enum
     //@Column(name = "BLOOD_GROUP")
     //private String bloodGroup;//enum
-    @Column(name = "ADDRESS")
-    private String address;
+    @Column(name = "DOB")
+    private Date dob;
     @Column(name = "CREATED_DATE")
     private Date createdDate;
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;
     @Column(name = "USER_ID")
     private long userId;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true)
+    @JoinColumn(name = "ADDR_PATIENT_ID", referencedColumnName = "PATIENT_ID")
+    private Set<AddressDetails> address = new HashSet<>();
 }

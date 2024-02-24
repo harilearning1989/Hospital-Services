@@ -106,6 +106,14 @@ public class SpringCloudGatewayRouting {
                                                 .setRequestHeader("Service", "BILLING-SERVICE")
                                                 .filter(authenticationFilter))
                                 .uri("lb://BILLING-SERVICE"))
+                .route("appointment",
+                        r -> r.path("/appointment/**")
+                                .filters(f ->
+                                        f.setResponseHeader("Access-Control-Allow-Origin",
+                                                        "*")
+                                                .setRequestHeader("Service", "APPOINTMENT-SERVICE")
+                                                .filter(authenticationFilter))
+                                .uri("lb://APPOINTMENT-SERVICE"))
                 .route("paymentId",
                         r -> r.path("/payment/**")
                                 .filters(f ->

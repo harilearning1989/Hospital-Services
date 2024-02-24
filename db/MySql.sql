@@ -15,6 +15,15 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`)
 );
 
+CREATE TABLE `roles` (
+  `role_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `user_roles_name_unique` (`name`)
+);
+
 CREATE TABLE `user_roles` (
   `user_id` int NOT NULL,
   `role_id` int NOT NULL,
@@ -26,14 +35,6 @@ CREATE TABLE `user_roles` (
   CONSTRAINT `fk_user_roles_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 
-CREATE TABLE `roles` (
-  `role_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`role_id`),
-  UNIQUE KEY `user_roles_name_unique` (`name`)
-);
 
 CREATE TABLE `PATIENT_DETAILS` (
   `PATIENT_ID` int NOT NULL AUTO_INCREMENT,
@@ -142,6 +143,23 @@ CREATE TABLE HOSPITAL_MGMT.ADMIN_DETAILS(
     CREATED_DATE TIMESTAMP DEFAULT NOW(),
     UPDATED_DATE TIMESTAMP DEFAULT NOW(),
     CONSTRAINT ADMIN_DETAILS_id_PK PRIMARY KEY(id)
+);
+
+CREATE TABLE `address` (
+  `ADDR_ID` int NOT NULL,
+  STREET varchar(30) NOT NULL,
+  CITY varchar(30) NOT NULL,
+  STATE varchar(30) NOT NULL,
+  ZIP varchar(30) NOT NULL,
+  PATIENT_ID INT,
+  DOCTOR_ID INT,
+  ADMIN_ID INT,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ADDR_ID`),
+  CONSTRAINT `FK_ADDR_PATIENT_ID` FOREIGN KEY (`PATIENT_ID`) REFERENCES `PATIENT_DETAILS` (`PATIENT_ID`),
+  CONSTRAINT `FK_ADDR_DOCTOR_ID` FOREIGN KEY (`DOCTOR_ID`) REFERENCES `DOCTOR_DETAILS` (`DOCTOR_ID`),
+  CONSTRAINT `FK_ADDR_ADMIN_ID` FOREIGN KEY (`ADMIN_ID`) REFERENCES `ADMIN_DETAILS` (`ADMIN_ID`)
 );
 
 CREATE TABLE HOSP_MGMT.APPOINTMENT_DETAILS(

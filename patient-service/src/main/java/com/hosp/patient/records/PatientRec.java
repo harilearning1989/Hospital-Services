@@ -17,13 +17,14 @@ public record PatientRec(
         //@NotBlank(message = "Invalid Phone number: Empty number")
         //@NotNull(message = "Invalid Phone number: Number is NULL")
         //@Pattern(regexp = "^\\d{10}$", message = "Invalid phone number")
-        long phone,
+        String phone,
         int age,
         @Email(message = "Invalid email")
         String email,
         String gender,//enum
         //String bloodGroup,//enum
-        String address,
+        @JsonProperty(value = "address")
+        AddressRecord addressRecord,
         String createdDate,
         String updatedDate,
         long userId

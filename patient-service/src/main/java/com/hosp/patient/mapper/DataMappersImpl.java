@@ -1,7 +1,9 @@
 package com.hosp.patient.mapper;
 
+import com.hosp.patient.models.AddressDetails;
 import com.hosp.patient.models.Appointment;
 import com.hosp.patient.models.Patient;
+import com.hosp.patient.records.AddressRecord;
 import com.hosp.patient.records.AppointmentRec;
 import com.hosp.patient.records.PatientRec;
 import com.web.demo.records.SignupRequest;
@@ -11,16 +13,28 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class DataMappersImpl implements DataMappers {
     @Override
     public Patient recordToEntity(PatientRec record) {
+        AddressDetails addressDetails = AddressDetails.builder()
+                .street(record.addressRecord().street())
+                .city(record.addressRecord().city())
+                .state(record.addressRecord().state())
+                .zip(record.addressRecord().zip())
+                .build();
+        Set<AddressDetails> addressDetailsSet = new HashSet<>();
+        addressDetailsSet.add(addressDetails);
+
         Patient patient = Patient.builder()
                 .patientName(record.patientName())
                 .age(record.age())
                 .gender(record.gender())
-                .address(record.address())
+                .address(addressDetailsSet)
                 .createdDate(new Date())
                 .updatedDate(new Date())
                 .build();
@@ -33,6 +47,21 @@ public class DataMappersImpl implements DataMappers {
         String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
         PatientRec record = null;
+
+        Optional<AddressDetails> addrOpt =
+                patient.getAddress().stream().findFirst();
+        AddressRecord addressRecord = null;
+        if(addrOpt.isPresent()){
+            AddressDetails address = addrOpt.get();
+            addressRecord = new AddressRecord(
+                    address.getAddrId(),
+                    address.getStreet(),
+                    address.getCity(),
+                    address.getState(),
+                    address.getZip()
+            );
+        }
+
         if (userResponse != null) {
             record = new PatientRec(
                     patient.getPatientId(),
@@ -43,7 +72,7 @@ public class DataMappersImpl implements DataMappers {
                     patient.getAge(),
                     userResponse.email(),
                     patient.getGender(),
-                    patient.getAddress(),
+                    addressRecord,
                     createdDateTmp,
                     updatedDateTmp,
                     patient.getUserId()
@@ -54,11 +83,11 @@ public class DataMappersImpl implements DataMappers {
                     patient.getPatientName(),
                     null,
                     null,
-                    0,
+                    null,
                     patient.getAge(),
                     null,
                     patient.getGender(),
-                    patient.getAddress(),
+                    addressRecord,
                     createdDateTmp,
                     updatedDateTmp,
                     patient.getUserId());
@@ -72,6 +101,16 @@ public class DataMappersImpl implements DataMappers {
         String createdDateTmp = HospitalUtils.convertDateToString(patient.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(patient.getUpdatedDate());
 
+        AddressDetails addrOpt =
+                patient.getAddress().stream().findFirst().get();
+        AddressRecord addressRecord = new AddressRecord(
+                addrOpt.getAddrId(),
+                addrOpt.getStreet(),
+                addrOpt.getCity(),
+                addrOpt.getState(),
+                addrOpt.getZip()
+        );
+
         return new PatientRec(
                 patient.getPatientId(),
                 patient.getPatientName(),
@@ -81,7 +120,7 @@ public class DataMappersImpl implements DataMappers {
                 patient.getAge(),
                 signupRequest.email(),
                 patient.getGender(),
-                patient.getAddress(),
+                addressRecord,
                 createdDateTmp,
                 updatedDateTmp,
                 patient.getUserId()
@@ -101,10 +140,10 @@ public class DataMappersImpl implements DataMappers {
         if (record.age() != patient.getAge()) {
             patient.setAge(record.age());
         }
-        if (StringUtils.isNotBlank(record.address())
+        /*if (StringUtils.isNotBlank(record.address())
                 && !record.address().equalsIgnoreCase(patient.getAddress())) {
             patient.setAddress(record.address());
-        }
+        }*/
         /*if (StringUtils.isNotBlank(record.city())
                 && !record.city().equalsIgnoreCase(patient.getCity())) {
             patient.setCity(record.city());
@@ -127,7 +166,6 @@ public class DataMappersImpl implements DataMappers {
                 .updatedDate(new Date())
                 .appointmentDate(new Date())
                 .build();
-
         return appointment;
     }
 

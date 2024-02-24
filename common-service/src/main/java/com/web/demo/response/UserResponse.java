@@ -25,7 +25,7 @@ public record UserResponse(
         @JsonProperty("email")
         String email,
         @JsonProperty("phone")
-        Long phone,
+        String phone,
         @JsonProperty("roles")
         List<RoleResponse> roles,
         String createdDate,
