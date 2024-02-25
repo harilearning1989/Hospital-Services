@@ -1,52 +1,96 @@
 package com.hosp.admin.mapper;
 
+import com.hosp.admin.models.AddressDetails;
 import com.hosp.admin.models.Admin;
+import com.hosp.admin.records.AddressRecord;
 import com.hosp.admin.records.AdminRec;
 import com.web.demo.records.SignupRequest;
+import com.web.demo.response.UserResponse;
 import com.web.demo.utils.HospitalUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class DataMappersImpl implements DataMappers {
     @Override
     public Admin recordToEntity(AdminRec record) {
-        Admin patient = Admin.builder()
+        AddressDetails addressDetails = AddressDetails.builder()
+                .street(record.addressRecord().street())
+                .city(record.addressRecord().city())
+                .state(record.addressRecord().state())
+                .zip(record.addressRecord().zip())
+                .build();
+        Set<AddressDetails> addressDetailsSet = new HashSet<>();
+        addressDetailsSet.add(addressDetails);
+        Admin admin = Admin.builder()
                 .adminName(record.adminName())
                 .age(record.age())
                 .gender(record.gender())
-                .address(record.address())
+                .address(addressDetailsSet)
                 .createdDate(new Date())
                 .updatedDate(new Date())
-                .experience(record.experience())
                 .build();
-        return patient;
+        return admin;
     }
 
     @Override
-    public AdminRec entityToRecord(Admin admin) {
+    public AdminRec entityToRecord(Admin admin, UserResponse userResponse) {
         //Wed Aug 16 12:29:39 IST 2023
         String createdDateTmp = HospitalUtils.convertDateToString(admin.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(admin.getUpdatedDate());
 
-        AdminRec record = new AdminRec(
-                admin.getAdminId(),
-                admin.getAdminName(),
-                null,
-                null,
-                0,
-                admin.getAge(),
-                null,
-                admin.getGender(),
-                admin.getAddress(),
-                admin.getExperience(),
-                createdDateTmp,
-                updatedDateTmp,
-                admin.getUserId()
-        );
+        AdminRec record = null;
 
+        Optional<AddressDetails> addrOpt =
+                admin.getAddress().stream().findFirst();
+        AddressRecord addressRecord = null;
+        if (addrOpt.isPresent()) {
+            AddressDetails address = addrOpt.get();
+            addressRecord = new AddressRecord(
+                    address.getAddrId(),
+                    address.getStreet(),
+                    address.getCity(),
+                    address.getState(),
+                    address.getZip()
+            );
+        }
+
+        if (userResponse != null) {
+            record = new AdminRec(
+                    admin.getAdminId(),
+                    admin.getAdminName(),
+                    userResponse.username(),
+                    null,
+                    userResponse.phone(),
+                    admin.getAge(),
+                    userResponse.email(),
+                    admin.getGender(),
+                    addressRecord,
+                    createdDateTmp,
+                    updatedDateTmp,
+                    admin.getUserId()
+            );
+        } else {
+            record = new AdminRec(
+                    admin.getAdminId(),
+                    admin.getAdminName(),
+                    null,
+                    null,
+                    "No Phone",
+                    admin.getAge(),
+                    null,
+                    admin.getGender(),
+                    addressRecord,
+                    createdDateTmp,
+                    updatedDateTmp,
+                    admin.getUserId()
+            );
+        }
         return record;
     }
 
@@ -55,6 +99,20 @@ public class DataMappersImpl implements DataMappers {
         //Wed Aug 16 12:29:39 IST 2023
         String createdDateTmp = HospitalUtils.convertDateToString(admin.getCreatedDate());
         String updatedDateTmp = HospitalUtils.convertDateToString(admin.getUpdatedDate());
+
+        Optional<AddressDetails> addrOpt =
+                admin.getAddress().stream().findFirst();
+        AddressRecord addressRecord = null;
+        if (addrOpt.isPresent()) {
+            AddressDetails address = addrOpt.get();
+            addressRecord = new AddressRecord(
+                    address.getAddrId(),
+                    address.getStreet(),
+                    address.getCity(),
+                    address.getState(),
+                    address.getZip()
+            );
+        }
 
         return new AdminRec(
                 admin.getAdminId(),
@@ -65,8 +123,7 @@ public class DataMappersImpl implements DataMappers {
                 admin.getAge(),
                 signupRequest.email(),
                 admin.getGender(),
-                admin.getAddress(),
-                admin.getExperience(),
+                addressRecord,
                 createdDateTmp,
                 updatedDateTmp,
                 admin.getUserId()
@@ -80,10 +137,6 @@ public class DataMappersImpl implements DataMappers {
         }
         if (record.age() != admin.getAge()) {
             admin.setAge(record.age());
-        }
-        if (StringUtils.isNotBlank(record.address())
-                && !record.address().equalsIgnoreCase(admin.getAddress())) {
-            admin.setAddress(record.address());
         }
         admin.setUpdatedDate(new Date());
     }

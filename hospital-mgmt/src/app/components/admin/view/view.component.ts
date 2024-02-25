@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import {DoctorService} from "../../services/doctor.service";
-import {Doctor} from "../../models/doctor";
+import {DoctorService} from "../../../services/doctor.service";
+import {Doctor} from "../../../models/doctor";
+import {AdminService} from "../../../services/admin.service";
+import {Admin} from "../../../models/admin";
 
 @Component({
-  selector: 'app-appointment',
-  templateUrl: './appointment.component.html',
-  styleUrls: ['./appointment.component.scss']
+  selector: 'app-view',
+  templateUrl: './view.component.html',
+  styleUrls: ['./view.component.scss']
 })
-export class AppointmentComponent implements OnInit {
+export class ViewComponent implements OnInit {
 
-
-  constructor(private doctorService: DoctorService) {
+  constructor(private adminService: AdminService) {
   }
 
-  doctorsList: Doctor[];
+  adminList: Admin[];
   displayStyle = "none";
 
   ngOnInit(): void {
-    this.listAllDoctors();
+    this.listAllAdmins();
   }
 
-  private listAllDoctors() {
-    this.doctorService.listAllDoctors()
+  private listAllAdmins() {
+    this.adminService.listAllAdmins()
       .subscribe((response: any) => {
-        this.doctorsList = response.data;
+        this.adminList = response.data;
         console.log("DoctorList::"+response);
         setTimeout(() => {
           $('#doctorDataTable').DataTable({
@@ -39,12 +40,12 @@ export class AppointmentComponent implements OnInit {
       }, error => console.error(error));
   }
 
-  deleteDoctorById(doctor: Doctor) {
+  deleteDoctorById(admin: Admin) {
     console.log("Delete Row");
-    this.doctorService.deleteDoctorById(doctor.doctorId,doctor.userId).subscribe(
+    this.adminService.deleteAdminById(admin.adminId,admin.userId).subscribe(
       data => {
         console.log('deleted response', data);
-        this.listAllDoctors();
+        this.listAllAdmins();
       }
     )
   }
@@ -53,7 +54,7 @@ export class AppointmentComponent implements OnInit {
     console.log("Modify User")
   }
 
-  showPatientHistoryOpenPopUp(doctor: Doctor) {
+  showPatientHistoryOpenPopUp(admin: Admin) {
     this.displayStyle = "block";
   }
 

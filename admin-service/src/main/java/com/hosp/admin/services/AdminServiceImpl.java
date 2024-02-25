@@ -9,12 +9,20 @@ import com.web.demo.constants.CommonConstants;
 import com.web.demo.exception.UserAlreadyExistsException;
 import com.web.demo.records.SignupRequest;
 import com.web.demo.response.SignupResponse;
+import com.web.demo.response.UserResponse;
+import com.web.demo.utils.HospitalUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.maxBy;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -22,6 +30,14 @@ public class AdminServiceImpl implements AdminService {
     private AdminRepository adminRepository;
     private DataMappers dataMappers;
     private CreateUserClientService createUserClientService;
+
+    private HttpServletRequest httpServletRequest;
+
+    @Autowired
+    public AdminServiceImpl setHttpServletRequest(HttpServletRequest httpServletRequest) {
+        this.httpServletRequest = httpServletRequest;
+        return this;
+    }
 
     @Autowired
     public AdminServiceImpl setPatientRepository(AdminRepository adminRepository) {
@@ -61,11 +77,36 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<AdminRec> listAllPatients() {
         List<Admin> patientList = adminRepository.findAll();
+
+        Set<Long> userIds = Optional.ofNullable(patientList)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(Admin::getUserId)
+                .collect(Collectors.toSet());
+
+        Map<Long, Optional<UserResponse>> userMap;
+        if (!userIds.isEmpty()) {
+            Map<String, String> headersMap = HospitalUtils.getHttpHeaders(httpServletRequest);
+            SignupResponse signupResponse = createUserClientService.getAllUsers(userIds, headersMap);
+            userMap =
+                    Optional.ofNullable(signupResponse.data())
+                            .orElseGet(Collections::emptyList)
+                            .stream()
+                            .collect(groupingBy(UserResponse::userId,
+                                    maxBy(comparingLong(UserResponse::userId))));
+        } else {
+            userMap = new HashMap<>();
+        }
+
         return Optional.ofNullable(patientList)
                 .orElseGet(Collections::emptyList)
                 .stream()
                 .filter(Objects::nonNull)
-                .map(m -> dataMappers.entityToRecord(m))
+                .map(m -> {
+                    Optional<UserResponse> userOpt = userMap.get(m.getUserId());
+                    UserResponse userResponse = userOpt.get();
+                    return dataMappers.entityToRecord(m, userResponse);
+                })
                 .toList();
     }
 
@@ -79,7 +120,7 @@ public class AdminServiceImpl implements AdminService {
         Admin patient = patientOpt.get();
         dataMappers.updatePatientDetails(patient, dto);
         patient = adminRepository.save(patient);
-        return dataMappers.entityToRecord(patient);
+        return dataMappers.entityToRecord(patient, null);
     }
 
     @Override

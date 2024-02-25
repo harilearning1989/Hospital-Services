@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "ADMIN_DETAILS")
@@ -24,18 +26,18 @@ public class Admin {
     private int adminId;
     @Column(name = "ADMIN_NAME")
     private String adminName;
-    @Column(name = "EXPERIENCE")
-    private String experience;
     @Column(name = "AGE")
     private int age;
     @Column(name = "GENDER")
     private String gender;
-    @Column(name = "ADDRESS")
-    private String address;
     @Column(name = "CREATED_DATE")
     private Date createdDate;
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;
     @Column(name = "USER_ID")
     private long userId;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true)
+    @JoinColumn(name = "ADDR_ADMIN_ID", referencedColumnName = "ADMIN_ID")
+    private Set<AddressDetails> address = new HashSet<>();
 }

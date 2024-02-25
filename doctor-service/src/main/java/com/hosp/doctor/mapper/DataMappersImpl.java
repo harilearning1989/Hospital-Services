@@ -54,7 +54,7 @@ public class DataMappersImpl implements DataMappers {
                     null,
                     entity.getSpecialist(),
                     entity.getExperience(),
-                    0,
+                    "No Phone",
                     entity.getAge(),
                     null,
                     createdDateTmp,

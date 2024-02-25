@@ -26,6 +26,10 @@ const routes: Routes = [
         loadChildren: () => import('../appointment/appointment.module').then(m => m.AppointmentModule)
       },
       {
+        path: 'admin',
+        loadChildren: () => import('../admin/view/view.module').then(m => m.ViewModule)
+      },
+      {
         path: 'contact',
         loadChildren: () => import('../contact/contact.module').then(m => m.ContactModule)
       },

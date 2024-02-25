@@ -10,7 +10,7 @@ public record DoctorRec(
         String password,
         String specialist,
         String experience,
-        long phone,
+        String phone,
         int age,
         String email,
         String createdDate,
