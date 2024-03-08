@@ -15,13 +15,13 @@ import java.util.List;
 @Configuration
 public class OpenAPIConfig {
 
-    @Value("${login.rest.url}")
-    private String loginUrl;
+    @Value("${patient.service.url}")
+    private String patientUrl;
 
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();
-        devServer.setUrl(loginUrl);
+        devServer.setUrl(patientUrl);
         devServer.setDescription("Server URL in Development environment");
 
         /*Server prodServer = new Server();
