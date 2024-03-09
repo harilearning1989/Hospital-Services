@@ -130,6 +130,7 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>login-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

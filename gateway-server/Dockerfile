@@ -1,6 +1,6 @@
 FROM openjdk:20
 MAINTAINER Hari Duddukunta <hari.learning1989@gmail.com>
-ARG WAR_FILE=/build/libs/gateway-server.jar
+ARG WAR_FILE=/target/gateway-server.jar
 
 WORKDIR /opt/app
 COPY ${WAR_FILE}  /app/

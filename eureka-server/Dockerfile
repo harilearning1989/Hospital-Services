@@ -11,3 +11,5 @@ ENTRYPOINT ["java", "-Xmx200m", "-jar", "/app/eureka-server.jar"]
 #docker build -t eureka-server:1.0.0 .
 #docker network create my-network
 #docker run --name eureka-server --network eureka-network -p 8761:8761 -d eureka-server:1.0.0
+#docker run --name gateway-server --network eureka-network -p 8081:8081 -d gateway-server:1.0.0
+#docker run --name login-service --network eureka-network -p 8082:8082 -d login-service:1.0.0
