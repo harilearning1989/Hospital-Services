@@ -10,36 +10,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SpringCloudGatewayRouting {
+public class GatewayConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCloudGatewayRouting.class);
     private AuthenticationFilter authenticationFilter;
 
     @Autowired
-    public SpringCloudGatewayRouting setAuthenticationFilter(AuthenticationFilter authenticationFilter) {
+    public GatewayConfig setAuthenticationFilter(AuthenticationFilter authenticationFilter) {
         this.authenticationFilter = authenticationFilter;
         return this;
     }
 
-    /*@Bean
-        public GlobalFilter globalFilter() {
-            return (exchange, chain) -> {
-                System.out.println("First Global filter");
-                return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                    System.out.println("Second Global filter");
-                }));
-            };
-        }*/
-
-    /*@Bean
-    public WebMvcConfigurer webMvcConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
-            }
-        };
-    }*/
     @Bean
     public RouteLocator configureRoute(RouteLocatorBuilder builder) {
         LOGGER.info("Enters configureRoute::" + builder);
@@ -49,7 +30,6 @@ public class SpringCloudGatewayRouting {
                                 f.setResponseHeader("Access-Control-Allow-Origin",
                                         "*"))
                         .uri("lb://LOGIN-SERVICE"))
-                //.uri("http://localhost:8081")) //static routing
                 .route("patient",
                         r -> r.path("/patient/**")
                                 .filters(f ->
@@ -124,23 +104,4 @@ public class SpringCloudGatewayRouting {
                                 .uri("http://localhost:9009")) //static routing
                 .build();
     }
-
-   /* @Bean
-    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
-        return builder.routes()
-                .route("employeeModule", r -> r.path("/employee/**")
-                        //Pre and Post Filters provided by Spring Cloud Gateway
-                        .filters(f -> f.addRequestHeader("first-request", "first-request-header")
-                                .addResponseHeader("first-response", "first-response-header"))
-                        .uri("http://localhost:8081/")
-                )
-
-                .route("consumerModule", r -> r.path("/consumer/**")
-                        //Pre and Post Filters provided by Spring Cloud Gateway
-                        .filters(f -> f.addRequestHeader("second-request", "second-request-header")
-                                .addResponseHeader("second-response", "second-response-header"))
-                        .uri("http://localhost:8082/")
-                )
-                .build();
-    }*/
 }
