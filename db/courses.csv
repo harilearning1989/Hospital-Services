@@ -1,0 +1,15 @@
+"C_ID","C_NAME","C_DESCRIPTION"
+1,Java,Programming language
+2,Angular,UI
+3,JavaScript,UI
+4,HTML,UI
+5,Bootstrap,Style
+6,TypeScript,UI
+7,Flex,UI
+8,Oracle,Relational Databases
+9,MySQL,Relational Databases
+10,Postgres,Relational Databases
+11,SQLite,Relational Databases
+12,Mongo,NoSQL
+13,Cassandra,NoSQL
+14,Redis,Key-value stores
