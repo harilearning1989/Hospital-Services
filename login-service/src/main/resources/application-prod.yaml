@@ -1,0 +1,26 @@
+jwt:
+  app:
+    secret: AvHGRK8C0ia4uOuxxqPD5DTbWC9F9TWvPStp3pb7ARo0oK2mJ3pd3YG4lxA9i8bj6OTbadweheufHNyG
+    expirationMs: 86400000
+
+eureka:
+  instance:
+  #instanceId: ${spring.application.name}
+  #hostname: ${spring.application.name}
+  #preferIpAddress: false
+  #lease-renewal-interval-in-seconds: 10
+  #lease-expiration-duration-in-seconds: 20
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+
+login:
+  url: http://localhost:8085
+
+emp:
+  url: https://dummy.restapiexample.com/api/v1/
+  header:
+    key: DevKey
+    value: DevValue

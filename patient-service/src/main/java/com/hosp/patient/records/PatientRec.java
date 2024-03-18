@@ -23,7 +23,7 @@ public record PatientRec(
         String email,
         String gender,//enum
         //String bloodGroup,//enum
-        @JsonProperty(value = "address")
+        @JsonProperty(value = "addressRecord")
         AddressRecord addressRecord,
         String createdDate,
         String updatedDate,

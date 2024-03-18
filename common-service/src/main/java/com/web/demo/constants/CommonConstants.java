@@ -12,5 +12,6 @@ public class CommonConstants {
     public static final String DELETED_SUCCESS = "Successfully deleted %s with the Name: %s ";
     public static final String USER_NAME_ALREADY_EXISTS = "User Already Exists with the Name: %s ";
     public static final String USER_EMAIL_ALREADY_EXISTS = "Email Already Exists with the Name: %s ";
+    public static final String USER_ROLE_NOT_FOUND = "User Role Not Found, please provide valid Role: %s ";
     public static final String SINGLE_SPACE = " ";
 }

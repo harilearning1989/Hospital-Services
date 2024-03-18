@@ -37,4 +37,8 @@ export class AppointmentService {
   updateAppointment(id: number, value: any): Observable<Object> {
     return this.httpClient.post(`${this.httpLink.updateAppointmentUrl}/${id}`, value);
   }
+
+  helloWorld() {
+    return 'Hello world!';
+  }
 }

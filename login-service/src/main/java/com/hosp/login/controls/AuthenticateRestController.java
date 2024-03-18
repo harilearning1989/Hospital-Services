@@ -112,6 +112,11 @@ public class AuthenticateRestController {
                     String.format(CommonConstants.USER_EMAIL_ALREADY_EXISTS,
                             signUpRequest.username()), HttpStatus.BAD_REQUEST, null);
         }
+        if(signUpRequest.role() == null || signUpRequest.role().isEmpty()){
+            return ResponseHandler.generateResponse(
+                    String.format(CommonConstants.USER_ROLE_NOT_FOUND,
+                            signUpRequest.username()), HttpStatus.BAD_REQUEST, null);
+        }
         User user = User.builder()
                 .username(signUpRequest.username())
                 .email(signUpRequest.email())
